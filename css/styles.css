@@ -612,13 +612,6 @@ section { position: relative; }
   position: relative;
   overflow: hidden;
 }
-/* Photo-backed CTA — breaks the section away from the dark footer */
-.cta--photo {
-  background:
-    linear-gradient(180deg, rgba(9,16,12,0.9) 0%, rgba(9,16,12,0.78) 48%, rgba(9,16,12,0.95) 100%),
-    url("../assets/images/pages/cta-altar.webp") center / cover no-repeat;
-}
-.cta--photo::after { opacity: 0.04; }
 .cta::before {
   content: ""; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
   width: min(60vw, 560px); aspect-ratio: 1;
