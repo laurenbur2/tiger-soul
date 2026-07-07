@@ -635,21 +635,23 @@ section { position: relative; }
 /* ---------- Footer ---------- */
 .footer { background: var(--forest-950); color: var(--champagne); padding-top: clamp(2.5rem, 4vw, 3.5rem); }
 .footer .wrap { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: clamp(2rem, 4vw, 4rem); }
+.footer .wrap:last-child { display: block; }
 .footer__brand img { height: 78px; margin-bottom: 1.4rem; }
-.footer__brand p { font-size: 0.9rem; color: rgba(216,196,160,0.7); max-width: 34ch; }
+.footer__brand p { font-size: 0.8rem; line-height: 1.6; color: rgba(216,196,160,0.7); max-width: 32ch; }
 .footer h4 { font-family: var(--font-sans); font-weight: 400; font-size: 0.64rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.4rem; }
 .footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; }
 .footer ul a { font-size: 0.9rem; color: rgba(246,241,231,0.72); transition: color 0.3s, padding-left 0.3s; }
 .footer ul a:hover { color: var(--gold-light); padding-left: 0.4rem; }
 .footer__bottom {
-  margin-top: clamp(2rem, 3.5vw, 3rem);
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
   border-top: 1px solid rgba(198,167,105,0.14);
-  padding: 2rem 0;
-  display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: center; justify-content: space-between;
-  font-size: 0.68rem; letter-spacing: 0.1em; color: rgba(216,196,160,0.5);
+  padding: 1.4rem 0;
+  display: flex; flex-wrap: wrap; gap: 0.5rem 2.5rem; align-items: baseline; justify-content: space-between;
+  font-size: 0.6rem; letter-spacing: 0.08em; color: rgba(216,196,160,0.5);
 }
-.footer__disclaimer { max-width: 62ch; line-height: 1.7; }
-@media (max-width: 900px) { .footer .wrap { grid-template-columns: 1fr 1fr; } .footer__brand { grid-column: 1 / -1; } }
+.footer__bottom > span:first-child { flex: 0 0 auto; }
+.footer__disclaimer { flex: 1 1 auto; max-width: 80ch; text-align: right; line-height: 1.55; }
+@media (max-width: 900px) { .footer .wrap { grid-template-columns: 1fr 1fr; } .footer .wrap:last-child { display: block; } .footer__brand { grid-column: 1 / -1; } .footer__disclaimer { text-align: left; max-width: 60ch; } }
 @media (max-width: 520px) { .footer .wrap { grid-template-columns: 1fr; } }
 
 /* Marquee strip */
