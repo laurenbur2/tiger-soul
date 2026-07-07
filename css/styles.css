@@ -347,6 +347,9 @@ p { margin: 0 0 1.2em; }
   position: relative;
 }
 .nav-overlay.open .nav-list a { animation: navrise 0.9s var(--ease) forwards; }
+/* Account links (Log In / Become a Member) — smaller, with a gold arrow */
+.nav-list li.nav-list__acct a { font-size: 1.15rem; align-items: center; color: var(--champagne); }
+.nav-list li.nav-list__acct .arw { color: var(--gold); margin-left: 0.55em; font-size: 0.8em; }
 .nav-list a .lbl { position: relative; transition: transform 0.5s var(--ease); }
 .nav-list a:hover { color: var(--gold-light); }
 .nav-list a:hover .lbl { transform: translateX(0.6rem); }
