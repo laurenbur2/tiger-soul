@@ -265,7 +265,14 @@ p { margin: 0 0 1.2em; }
 
 .header-actions { justify-self: end; display: flex; align-items: center; gap: 1.6rem; }
 .header .btn { padding: 0.95em 1.8em; }
-@media (max-width: 720px) { .header .btn { display: none; } }
+.header-login {
+  font-family: var(--font-sans); font-weight: 400; font-size: 0.72rem;
+  letter-spacing: 0.28em; text-transform: uppercase; color: inherit;
+  transition: color 0.4s var(--ease);
+}
+.header-login:hover { color: var(--gold-light); }
+.header--on-light .header-login:hover { color: var(--gold-deep); }
+@media (max-width: 720px) { .header .btn, .header-login { display: none; } }
 
 /* ---------- Full-screen menu overlay ---------- */
 .nav-overlay {
@@ -330,10 +337,10 @@ p { margin: 0 0 1.2em; }
 .nav-list a {
   display: flex;
   align-items: baseline;
-  padding: clamp(0.45rem, 1vw, 0.8rem) 0;
+  padding: clamp(0.32rem, 0.7vw, 0.58rem) 0;
   color: var(--cream);
   font-family: var(--font-display);
-  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  font-size: clamp(1.3rem, 2.4vw, 2rem);
   line-height: 1.15;
   transform: translateY(115%);
   transition: color 0.4s var(--ease);
@@ -356,6 +363,10 @@ p { margin: 0 0 1.2em; }
 .nav-foot .col-label { font-size: 0.62rem; letter-spacing: 0.34em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 0.7rem; }
 .nav-foot a:hover { color: var(--gold); }
 .nav-socials { display: flex; gap: 1.4rem; letter-spacing: 0.2em; font-size: 0.68rem; text-transform: uppercase; }
+.nav-account { display: flex; flex-direction: column; gap: 0.5rem; }
+.nav-account a { font-family: var(--font-display); font-size: 1.15rem; color: var(--cream); transition: color 0.4s var(--ease); }
+.nav-account a:hover { color: var(--gold-light); }
+.nav-account a .arw { color: var(--gold); margin-left: 0.5em; font-size: 0.8em; }
 
 /* ---------- Hero ---------- */
 .hero {
