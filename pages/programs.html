@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Programs &amp; Offerings — Tiger Soul Medicine Retreats</title>
+  <meta name="description" content="Every Tiger Soul offering in one place — retreats, the 8-week Liberation Program, Bufo practitioner training, private ceremonies, and membership. Dates update as they are confirmed." />
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/logo/favicon-32.png" />
+  <link rel="apple-touch-icon" href="../assets/images/logo/favicon-180.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Tiger Soul Medicine Retreats" />
+  <meta property="og:title" content="Programs &amp; Offerings — Tiger Soul" />
+  <meta property="og:description" content="Every Tiger Soul offering in one place — retreats, programs, trainings, ceremonies, and membership." />
+  <meta property="og:url" content="https://laurenbur2.github.io/tiger-soul/pages/programs.html" />
+  <meta property="og:image" content="https://laurenbur2.github.io/tiger-soul/assets/images/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://laurenbur2.github.io/tiger-soul/assets/images/og-image.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../css/styles.css" />
+
+  <style>
+    /* ============================================================
+       PROGRAMS / OFFERINGS — event-card grid
+       ============================================================ */
+    .ev-intro { text-align:center; }
+    .ev-intro .eyebrow { justify-content:center; }
+
+    .events-grid{
+      display:grid; grid-template-columns:repeat(3,1fr);
+      gap:clamp(1.3rem, 2.4vw, 2.1rem);
+      margin-top:clamp(2rem,4vw,3.2rem);
+    }
+    @media (max-width:960px){ .events-grid{ grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:640px){ .events-grid{ grid-template-columns:1fr; max-width:26rem; margin-inline:auto; } }
+
+    .ev-card{
+      display:flex; flex-direction:column; background:#fffdf8;
+      border:1px solid rgba(21,21,15,.07); border-radius:16px; overflow:hidden;
+      box-shadow:0 22px 50px -28px rgba(15,28,20,.45);
+      transition:transform .5s var(--ease), box-shadow .5s var(--ease);
+    }
+    .ev-card:hover{ transform:translateY(-6px); box-shadow:0 34px 64px -30px rgba(15,28,20,.55); }
+
+    .ev-card__media{ position:relative; aspect-ratio:3/2; overflow:hidden; }
+    .ev-card__media img{ width:100%; height:100%; object-fit:cover; transition:transform .9s var(--ease); }
+    .ev-card:hover .ev-card__media img{ transform:scale(1.05); }
+    .ev-card__media::after{ content:""; position:absolute; inset:0;
+      background:linear-gradient(180deg, rgba(15,28,20,.22), rgba(15,28,20,0) 42%); }
+
+    .ev-tag{
+      position:absolute; top:1rem; left:1rem; z-index:2;
+      background:rgba(246,241,231,.94); color:var(--forest-800);
+      font-family:var(--font-sans); font-size:.6rem; font-weight:500;
+      letter-spacing:.22em; text-transform:uppercase;
+      padding:.55em 1.05em; border-radius:999px; backdrop-filter:blur(2px);
+    }
+    .ev-pill{
+      position:absolute; right:1rem; bottom:1rem; z-index:2;
+      background:var(--cream); color:var(--forest-900);
+      font-family:var(--font-display); font-style:italic; font-size:1.05rem;
+      padding:.32em .85em; border-radius:999px; box-shadow:0 8px 22px -8px rgba(15,28,20,.5);
+    }
+
+    .ev-card__body{ display:flex; flex-direction:column; flex:1; padding:1.5rem 1.5rem 1.6rem; }
+    .ev-card__body h3{ font-size:1.55rem; line-height:1.1; margin-bottom:.55rem; }
+    .ev-card__body h3 em{ font-style:italic; color:var(--gold-deep); }
+    .ev-card__desc{ font-size:.92rem; line-height:1.6; color:var(--ink-soft); margin:0 0 1.3rem; }
+
+    .ev-meta{ list-style:none; margin:0 0 1.5rem; padding:1.2rem 0 0; border-top:1px solid rgba(21,21,15,.1);
+      display:grid; gap:.62rem; }
+    .ev-meta li{ display:flex; align-items:center; gap:.7rem; font-size:.86rem; color:var(--ink); }
+    .ev-meta svg{ flex:none; width:16px; height:16px; stroke:var(--gold-deep); stroke-width:1.5; fill:none; }
+    .ev-meta .tbd{ color:var(--gold-deep); font-style:italic; font-family:var(--font-display); font-size:1.02rem; }
+
+    .ev-cta{
+      margin-top:auto; display:inline-flex; align-items:center; justify-content:center; gap:.5em;
+      width:100%; padding:.95em 1.2em; border-radius:999px;
+      font-family:var(--font-sans); font-size:.7rem; font-weight:500;
+      letter-spacing:.2em; text-transform:uppercase; text-align:center;
+      transition:background .4s var(--ease), color .4s var(--ease), opacity .4s var(--ease);
+    }
+    .ev-cta--solid{ background:var(--gold); color:var(--forest-950); }
+    .ev-cta--solid:hover{ background:var(--gold-light); }
+    .ev-cta--soon{ background:rgba(198,167,105,.32); color:var(--gold-deep); }
+    .ev-cta--soon:hover{ background:rgba(198,167,105,.45); }
+
+    /* legend under the grid */
+    .ev-note{ text-align:center; margin-top:clamp(2rem,4vw,3rem); font-size:.86rem; color:var(--ink-soft); }
+    .ev-note a{ color:var(--gold-deep); border-bottom:1px solid rgba(163,129,63,.4); }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header" id="header">
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navOverlay">
+      <span class="bars"><span></span><span></span><span></span></span>
+      <span>Menu</span>
+    </button>
+    <a class="brand" href="../index.html" aria-label="Tiger Soul Medicine Retreats — home">
+      <img src="../assets/images/logo/tiger-mark.png" alt="" />
+      <span class="brand-word">Tiger Soul</span>
+      <span class="brand-sub">Medicine Retreats</span>
+    </a>
+    <div class="header-actions"><a class="header-login" href="portal-login.html">Log In</a>
+      <a class="btn" href="membership.html">Become a Member</a>
+    </div>
+  </header>
+
+  <!-- Full-screen menu overlay -->
+  <nav class="nav-overlay" id="navOverlay" aria-hidden="true">
+    <div class="nav-top">
+      <span class="nav-brand">Tiger Soul</span>
+      <button class="nav-close" id="navClose" aria-label="Close menu"><span>Close</span><span class="x"></span></button>
+    </div>
+    <div class="nav-main">
+      <ul class="nav-list">
+        <li><a href="retreats.html"><span class="lbl">Retreats<span class="lbl-it">immersive</span></span></a></li>
+        <li><a href="bufo-training.html"><span class="lbl">Trainings<span class="lbl-it">certified</span></span></a></li>
+        <li><a href="programs.html"><span class="lbl">Programs<span class="lbl-it">guided</span></span></a></li>
+        <li><a href="private-ceremonies.html"><span class="lbl">Sacred Offerings<span class="lbl-it">medicine</span></span></a></li>
+        <li><a href="../index.html#testimonials"><span class="lbl">Testimonials<span class="lbl-it">stories</span></span></a></li>
+        <li><a href="about.html"><span class="lbl">About<span class="lbl-it">the founder</span></span></a></li>
+        <li><a href="../index.html#shop"><span class="lbl">Shop<span class="lbl-it">wellness</span></span></a></li>
+        <li><a href="../index.html#contact"><span class="lbl">Contact<span class="lbl-it">begin</span></span></a></li>
+        <li class="nav-list__acct"><a href="portal-login.html"><span class="lbl">Log In</span> <span class="arw">&rarr;</span></a></li>
+        <li class="nav-list__acct"><a href="membership.html"><span class="lbl">Become a Member</span> <span class="arw">&rarr;</span></a></li>
+      </ul>
+    </div>
+    <div class="nav-foot">
+      <div><div class="col-label">Answer the Call</div><a href="../index.html#contact">hello@tigersoulretreats.com</a></div>
+      <div class="nav-socials"><a href="#">Instagram</a><a href="#">Facebook</a><a href="#">Newsletter</a></div>
+    </div>
+  </nav>
+
+  <!-- Page hero -->
+  <section class="page-hero" id="top">
+    <div class="page-hero__media">
+      <img src="../assets/images/sacred-bg.webp" alt="A sacred ceremony circle gathered in the jungle" fetchpriority="high" />
+    </div>
+    <div class="page-hero__inner">
+      <p class="eyebrow" data-reveal>Programs &amp; Offerings</p>
+      <h1 data-reveal data-reveal-delay="1"><span class="n">What's</span> coming up</h1>
+      <p class="page-hero__sub" data-reveal data-reveal-delay="2">
+        Retreats, guided programs, practitioner trainings, and sacred ceremonies — the calendar
+        updates as dates are confirmed.
+      </p>
+      <p class="page-hero__meta" data-reveal data-reveal-delay="3">Every Offering &middot; One Place</p>
+    </div>
+  </section>
+
+  <!-- Offerings grid -->
+  <section class="section--light pad" id="offerings">
+    <div class="wrap">
+      <div class="ev-intro" data-reveal>
+        <p class="eyebrow centered">The Calendar</p>
+        <h2 style="font-size:clamp(1.9rem,3.4vw,2.8rem);">Upcoming at <em style="font-style:italic;color:var(--gold-deep);">Tiger Soul</em></h2>
+        <p style="max-width:56ch;margin:1rem auto 0;color:var(--ink-soft);">A curated list of every offering. For private ceremonies
+          and member-only gatherings, see your member portal or reach out directly.</p>
+      </div>
+
+      <div class="events-grid">
+
+        <!-- Liberation Program -->
+        <article class="ev-card" data-reveal>
+          <div class="ev-card__media">
+            <span class="ev-tag">Program</span>
+            <img src="../assets/images/pages/ceremonies-hero.webp" alt="Candlelit healing ceremony" loading="lazy" />
+          </div>
+          <div class="ev-card__body">
+            <h3>The <em>Liberation</em> Program</h3>
+            <p class="ev-card__desc">An eight-week journey from unconscious conditioning to conscious,
+              aligned living — awareness, deep healing, sacred medicine, and integration.</p>
+            <ul class="ev-meta">
+              <li><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span class="tbd">Dates to be announced</span></li>
+              <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>8 Weeks · Guided Cohort</li>
+              <li><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Online &amp; In-Person</li>
+            </ul>
+            <a class="ev-cta ev-cta--solid" href="liberation-program.html">View Program</a>
+          </div>
+        </article>
+
+        <!-- Bufo Practitioner Training -->
+        <article class="ev-card" data-reveal data-reveal-delay="1">
+          <div class="ev-card__media">
+            <span class="ev-tag">Training</span>
+            <img src="../assets/images/pages/training-hero.webp" alt="Practitioner training in the jungle" loading="lazy" />
+          </div>
+          <div class="ev-card__body">
+            <h3>Bufo <em>Practitioner</em> Training</h3>
+            <p class="ev-card__desc">Step into the path of sacred service. A certified, immersive
+              training in the safe and reverent facilitation of Bufo / 5-MeO-DMT.</p>
+            <ul class="ev-meta">
+              <li><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>March 6–18, 2027</li>
+              <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>13-Day Immersion</li>
+              <li><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Puerto Morelos, Mexico</li>
+            </ul>
+            <a class="ev-cta ev-cta--solid" href="bufo-training.html">Learn More</a>
+          </div>
+        </article>
+
+        <!-- Private Medicine Retreat -->
+        <article class="ev-card" data-reveal data-reveal-delay="2">
+          <div class="ev-card__media">
+            <span class="ev-tag">Retreat</span>
+            <span class="ev-pill">from $2,999</span>
+            <img src="../assets/images/pages/retreats-hero.webp" alt="Private medicine retreat in Tulum" loading="lazy" />
+          </div>
+          <div class="ev-card__body">
+            <h3>Private Medicine <em>Retreat</em></h3>
+            <p class="ev-card__desc">An intimate, all-inclusive container for complete transformation —
+              physical, mental, emotional, and spiritual — tailored entirely to you.</p>
+            <ul class="ev-meta">
+              <li><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Dates Flexible · By Arrangement</li>
+              <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>6 Days · Fully Private</li>
+              <li><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Tulum, Mexico</li>
+            </ul>
+            <a class="ev-cta ev-cta--solid" href="retreats.html">Inquire</a>
+          </div>
+        </article>
+
+        <!-- Private Ceremonies -->
+        <article class="ev-card" data-reveal>
+          <div class="ev-card__media">
+            <span class="ev-tag">Ceremony</span>
+            <img src="../assets/images/pages/retreats-cta.webp" alt="Private sacred ceremony" loading="lazy" />
+          </div>
+          <div class="ev-card__body">
+            <h3>Private <em>Ceremonies</em></h3>
+            <p class="ev-card__desc">The ancient medicines — Bufo, Kambo, and Rapéh — held one soul at
+              a time with reverence, safety, and deep intention.</p>
+            <ul class="ev-meta">
+              <li><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>By Appointment</li>
+              <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Bufo · Kambo · Rapéh</li>
+              <li><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Fully Private</li>
+            </ul>
+            <a class="ev-cta ev-cta--solid" href="private-ceremonies.html">Book a Ceremony</a>
+          </div>
+        </article>
+
+        <!-- Detox Wellness Retreat -->
+        <article class="ev-card" data-reveal data-reveal-delay="1">
+          <div class="ev-card__media">
+            <span class="ev-tag">Retreat · Add-On</span>
+            <img src="../assets/images/hero-botanical.webp" alt="Botanical detox retreat setting" loading="lazy" />
+          </div>
+          <div class="ev-card__body">
+            <h3>Detox <em>Wellness</em> Retreat</h3>
+            <p class="ev-card__desc">A deeper cleanse and renewal — ocean detox, cenote purification,
+              temazcal, cold plunge, and Kambo — to restore balance and revitalize.</p>
+            <ul class="ev-meta">
+              <li><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Dates Flexible · By Arrangement</li>
+              <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Add-On or Standalone</li>
+              <li><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Tulum, Mexico</li>
+            </ul>
+            <a class="ev-cta ev-cta--solid" href="retreats.html#detox">Learn More</a>
+          </div>
+        </article>
+
+      </div>
+
+      <p class="ev-note" data-reveal>Don't see a date that works? <a href="../index.html#contact">Reach out</a> — private
+        ceremonies and retreats are arranged around your schedule.</p>
+    </div>
+  </section>
+
+  <!-- CTA band -->
+  <section class="cta-band pad" id="begin">
+    <div class="cta-band__media" aria-hidden="true"><img src="../assets/images/pages/retreats-cta.webp" alt="" loading="lazy" /></div>
+    <div class="wrap">
+      <p class="eyebrow centered" data-reveal>Answer the Call</p>
+      <h2 data-reveal data-reveal-delay="1">Not sure where to <em>begin?</em></h2>
+      <p data-reveal data-reveal-delay="2">Tell us where you are on your journey and we'll help you find the right
+        offering — from a single ceremony to the full eight-week path.</p>
+      <div class="cta-band__actions" data-reveal data-reveal-delay="3">
+        <a class="btn btn--solid" href="../index.html#contact">Inquire Now</a>
+        <a class="btn" href="membership.html">Become a Member</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" id="contact">
+    <div class="wrap">
+      <div class="footer__brand">
+        <img src="../assets/images/logo/logo-full.png" alt="Tiger Soul Medicine Retreats" />
+        <p>Sacred plant medicine, retreats, and practitioner trainings for those ready to live with
+          courage, compassion, and connection.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="retreats.html">Retreats</a></li>
+          <li><a href="bufo-training.html">Trainings</a></li>
+          <li><a href="programs.html">Programs</a></li>
+          <li><a href="private-ceremonies.html">Sacred Offerings</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Discover</h4>
+        <ul>
+          <li><a href="membership.html">Membership</a></li>
+          <li><a href="../index.html#testimonials">Testimonials</a></li>
+          <li><a href="about.html">About Blaine</a></li>
+          <li><a href="../index.html#shop">Shop</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="mailto:hello@tigersoulretreats.com">Email Us</a></li>
+          <li><a href="../index.html#shop">Newsletter</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="footer__bottom">
+        <span>&copy; 2026 Tiger Soul Medicine Retreats. All rights reserved.</span>
+        <span class="footer__disclaimer">Offerings are not medical advice. Participation is voluntary and each guest is
+          responsible for their own well-being. Please consult a physician before any ceremony.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

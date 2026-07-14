@@ -1,6 +1,12 @@
 Blaine - Bufo TRAINING/
+Blaine/
+Blaine 1/
+Photos/
+brochure/
 Hero Images/
 assets/images/originals/
+*.pdf
+Tiger Soul Logo .jpn.jpg
 server.js
 .claude/
 node_modules/
@@ -8,3 +14,4 @@ node_modules/
 *.mp4
 /Toady-toad.jpg
 /song-of-tranquility.jpg
+.gstack/

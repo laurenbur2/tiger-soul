@@ -1,0 +1,288 @@
+<style>
+  * { box-sizing: border-box; }
+  .canvas {
+    background: #ffffff;
+    min-height: 100vh;
+    padding: clamp(0.75rem, 3vw, 2.5rem) clamp(0.5rem, 2vw, 1.5rem);
+    display: flex;
+    justify-content: center;
+  }
+  .doc {
+    background: #ffffff;
+    color: #1b1b1b;
+    width: 100%;
+    max-width: 780px;
+    padding: clamp(1.75rem, 6vw, 3rem) clamp(1.5rem, 6vw, 3.25rem);
+    font-family: 'Times New Roman', Times, Georgia, serif;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .doc h1 {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin: 0 0 4px;
+    letter-spacing: 0.01em;
+  }
+  .doc .sub {
+    text-align: center;
+    font-size: 14px;
+    font-style: italic;
+    color: #444;
+    margin: 0 0 1.5rem;
+  }
+  .parties {
+    font-size: 14px;
+    line-height: 1.7;
+    margin: 0 0 1.5rem;
+  }
+  .parties strong { font-weight: bold; }
+
+  hr.div { border: 0; border-top: 1px solid #bbb; margin: 1.5rem 0; }
+
+  h2 {
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 1.75rem 0 0.6rem;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #ccc;
+  }
+  p { margin: 0 0 0.85rem; }
+  .clause { margin: 0 0 0.85rem; }
+  .clause .lead-in { font-weight: bold; }
+
+  .phase { margin: 0 0 1.1rem; }
+  .phase-title {
+    font-weight: bold;
+    margin: 0 0 0.25rem;
+  }
+  .phase-title .later {
+    font-weight: normal;
+    font-style: italic;
+    font-size: 13px;
+    color: #666;
+  }
+  ul { margin: 0.2rem 0 0; padding-left: 1.5rem; }
+  li { margin: 0.2rem 0; }
+
+  table.foundation {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.3rem 0 0;
+    font-size: 14px;
+  }
+  table.foundation td {
+    padding: 0.25rem 0.5rem 0.25rem 1.2rem;
+    position: relative;
+    vertical-align: top;
+    width: 50%;
+  }
+
+  .rate-line {
+    font-size: 16px;
+    margin: 0.5rem 0 0.85rem;
+  }
+  .rate-line strong { font-size: 18px; }
+
+  .sig-wrap {
+    display: flex;
+    gap: 3rem;
+    margin-top: 2.75rem;
+    flex-wrap: wrap;
+  }
+  .sig { flex: 1; min-width: 220px; }
+  .sig .line {
+    border-bottom: 1px solid #1b1b1b;
+    height: 2.25rem;
+  }
+  .sig .who { font-size: 13px; margin-top: 0.35rem; line-height: 1.5; }
+  .sig .who strong { font-weight: bold; }
+  .sig .date {
+    border-bottom: 1px solid #1b1b1b;
+    height: 1.9rem;
+    margin-top: 1.4rem;
+  }
+  .sig .date-label { font-size: 13px; margin-top: 0.35rem; }
+
+  @media (max-width: 520px) {
+    table.foundation td { display: block; width: 100%; }
+  }
+</style>
+
+<div class="canvas">
+  <article class="doc">
+
+    <h1>Website &amp; Platform Development Agreement</h1>
+    <p class="sub">Tiger Soul Medicine Retreats</p>
+
+    <p class="parties">
+      This agreement is made on <strong>______________________</strong> between <strong>Lauren Burandt</strong>
+      (the &ldquo;Contractor&rdquo;) and <strong>Blaine Mueller</strong>, Founder of
+      <strong>Tiger Soul Medicine Retreats</strong> (the &ldquo;Client&rdquo;). It sets out the work
+      the Contractor will perform, the compensation, and the terms of the engagement.
+    </p>
+
+    <hr class="div" />
+
+    <h2>1. Overview</h2>
+    <p>
+      The Contractor will rebuild the Tiger Soul website and design and develop a connected
+      platform, including a member portal, a staff operations dashboard, automated communications,
+      and an online shop. The work is delivered in phases so the website can launch and begin
+      accepting payments while the deeper systems are built out. The platform is engineered as
+      one secure, connected system so that payments, memberships, scheduling, and communications
+      all work together.
+    </p>
+
+    <h2>2. Technical Foundation</h2>
+    <p>The following apply across every phase of the work:</p>
+    <table class="foundation">
+      <tr>
+        <td>&bull;&nbsp; Modern, fast, mobile-responsive rebuild</td>
+        <td>&bull;&nbsp; Protected member accounts and data</td>
+      </tr>
+      <tr>
+        <td>&bull;&nbsp; Consistent, on-brand design throughout</td>
+        <td>&bull;&nbsp; Staff-editable content and pricing</td>
+      </tr>
+      <tr>
+        <td>&bull;&nbsp; Secure, PCI-compliant payment processing</td>
+        <td>&bull;&nbsp; Search-optimized, with analytics</td>
+      </tr>
+    </table>
+
+    <h2>3. Scope of Work</h2>
+
+    <div class="phase">
+      <p class="phase-title">Phase 1: Website Rebuild &amp; Program Pages</p>
+      <ul>
+        <li>Complete redesign and rebuild of the public website</li>
+        <li>An individual page for every program, training, and package, with accurate details, pricing, and imagery</li>
+        <li>A designed service brochure for each program, training, and package</li>
+        <li>A complete menu of all offerings, presented in one place</li>
+        <li>Simple, secure purchasing on each page (deposits or paid in full)</li>
+        <li>Clear contact and inquiry options throughout</li>
+        <li>A membership sign-up path built into the site</li>
+      </ul>
+    </div>
+
+    <div class="phase">
+      <p class="phase-title">Phase 2: Membership Portal</p>
+      <ul>
+        <li>Secure member accounts and login</li>
+        <li>Ability to make payments and donations online</li>
+        <li>View programs the member is enrolled in</li>
+        <li>View credits and balances, such as coaching sessions</li>
+        <li>Access to included resources (documents, guides, and materials)</li>
+        <li>Member management of profile and payment details</li>
+      </ul>
+    </div>
+
+    <div class="phase">
+      <p class="phase-title">Phase 3: Staff Operations Dashboard</p>
+      <ul>
+        <li>Track upcoming appointments and the members they belong to</li>
+        <li>Track payment status (full, partial, or outstanding) for each package</li>
+        <li>Manage scheduling, calendars, and coaching sessions</li>
+        <li>Access member accounts to issue refunds, credits, or granted sessions</li>
+        <li>An overview of bookings, payments, and activity</li>
+      </ul>
+    </div>
+
+    <div class="phase">
+      <p class="phase-title">Phase 4: Automated Reminders &amp; Communications</p>
+      <ul>
+        <li>Automated email and text (SMS) reminders for appointments and payments</li>
+        <li>Confirmations and follow-ups sent to members and clients</li>
+        <li>Alerts to staff for upcoming appointments and due payments</li>
+      </ul>
+    </div>
+
+    <div class="phase">
+      <p class="phase-title">Phase 5: Merchandise Shop <span class="later">(built out in a later phase)</span></p>
+      <ul>
+        <li>Product catalog, cart, and secure checkout</li>
+        <li>Order management and shipping</li>
+        <li>Developed after the core platform is live</li>
+      </ul>
+    </div>
+
+    <h2>4. Ongoing Maintenance &amp; Support</h2>
+    <p>
+      Beyond the initial build, the monthly engagement includes ongoing maintenance, updates,
+      monitoring, and continued improvements to the platform as Tiger Soul grows.
+    </p>
+
+    <h2>5. Compensation</h2>
+    <p class="rate-line"><strong>$3,000 per month.</strong></p>
+    <p>
+      This fee covers the Contractor&rsquo;s design, development, and ongoing maintenance work
+      only. It does not include any third-party service costs.
+    </p>
+    <p class="clause"><span class="lead-in">5.1 Third-party services.</span>
+      The platform relies on a few outside tools and services, such as the payment processor,
+      website hosting, the domain, and an email or text messaging provider (for example Resend
+      or Twilio). These are set up under the Client&rsquo;s own accounts and billed directly to
+      the Client, and are separate from the monthly fee.
+    </p>
+
+    <h2>6. Terms</h2>
+    <p class="clause"><span class="lead-in">6.1 Term and renewal.</span> This agreement runs in 30-day periods and renews automatically for successive 30-day periods, unless either party gives written notice not to renew before the next period begins.</p>
+    <p class="clause"><span class="lead-in">6.2 Payment.</span> The $3,000 fee is invoiced and payable at the start of each 30-day period, in advance of that period&rsquo;s work.</p>
+    <p class="clause"><span class="lead-in">6.3 Ownership.</span> Delivered work and account access transfer to the Client as each period is paid in full.</p>
+    <p class="clause"><span class="lead-in">6.4 Evolving scope.</span> This agreement covers the build-out and ongoing maintenance of the platform. Broader services, such as a full marketing strategy, fall outside this scope and would be added under a renewed or separate written agreement, which may carry an adjusted fee.</p>
+    <p class="clause"><span class="lead-in">6.5 Additional requests.</span> If the Client would like anything else included in the build-out, they can let the Contractor know and it will be reviewed and added by mutual agreement.</p>
+
+    <h2>7. Confidentiality</h2>
+    <p>
+      Each party will keep the other&rsquo;s private information confidential, including member
+      data, financial details, and business information accessed during the engagement, and will
+      use it only to carry out this work. This obligation continues after the agreement ends.
+    </p>
+
+    <h2>8. Warranties &amp; Third-Party Services</h2>
+    <p>
+      The Contractor will perform the work with reasonable skill and care. Payment processing,
+      processor-level data security, and message delivery are handled by third-party services,
+      such as the payment processor, hosting provider, and email or text messaging providers. The
+      Contractor is not responsible for outages, failures, or losses caused by those third-party
+      services. Except as stated in this agreement, the work is provided without other warranties.
+    </p>
+
+    <h2>9. Limitation of Liability</h2>
+    <p>
+      The Contractor&rsquo;s total liability under this agreement is limited to the fees paid by
+      the Client for the 30-day period in which a claim arises. Neither party is liable to the
+      other for indirect or consequential losses. Nothing in this section limits any liability
+      that cannot be limited by law.
+    </p>
+
+    <h2>10. Independent Contractor</h2>
+    <p>
+      The Contractor is an independent contractor, not an employee, partner, or agent of the
+      Client. The Contractor is responsible for their own taxes and provides their own tools and
+      equipment.
+    </p>
+
+    <hr class="div" />
+
+    <div class="sig-wrap">
+      <div class="sig">
+        <div class="line"></div>
+        <p class="who"><strong>Lauren Burandt</strong><br />Contractor</p>
+        <div class="date"></div>
+        <p class="date-label">Date</p>
+      </div>
+      <div class="sig">
+        <div class="line"></div>
+        <p class="who"><strong>Blaine Mueller</strong><br />Tiger Soul Medicine Retreats</p>
+        <div class="date"></div>
+        <p class="date-label">Date</p>
+      </div>
+    </div>
+
+  </article>
+</div>
