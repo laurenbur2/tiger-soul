@@ -53,14 +53,6 @@
     .ct-method small{ display:block; font-size:.78rem; color:var(--ink-soft); margin-top:.3rem; }
 
     /* ---- right column: the form ---- */
-    .ct-notice{
-      border:1px dashed rgba(163,129,63,.55); border-radius:6px;
-      padding:.9rem 1.2rem; background:rgba(198,167,105,.07); margin-bottom:1.2rem;
-    }
-    .ct-notice p{ margin:0; font-size:.84rem; line-height:1.6; color:var(--ink-soft); }
-    .ct-notice strong{ color:var(--gold-deep); font-weight:500; }
-    .ct-notice a{ color:var(--gold-deep); border-bottom:1px solid rgba(163,129,63,.4); }
-
     .ct-form{
       background:#fffdf8; border:1px solid rgba(21,21,15,.1); border-radius:12px;
       padding:clamp(1.4rem,2.6vw,2rem);
@@ -92,11 +84,6 @@
     }
 
     .ct-submit{ margin-top:1.4rem; }
-    .ct-submit .btn[disabled]{ opacity:.45; cursor:not-allowed; pointer-events:none; }
-    .ct-submit__note{
-      font-size:.8rem; color:var(--ink-soft); margin:.9rem 0 0; line-height:1.6;
-    }
-    .ct-submit__note a{ color:var(--gold-deep); border-bottom:1px solid rgba(163,129,63,.4); }
 
     /* ---- FAQ accordion (native details/summary — works without JS) ---- */
     .faq-acc{ max-width:820px; margin:0 auto; }
@@ -170,7 +157,7 @@
   </nav>
 
   <!-- Page hero -->
-  <section class="page-hero" id="top">
+  <section class="page-hero" id="top" style="--hero-pos: center 20%">
     <div class="page-hero__media">
       <img src="../assets/images/pages/retreat-embrace.webp" alt="A moment of connection during a Tiger Soul retreat" fetchpriority="high" />
     </div>
@@ -222,18 +209,12 @@
 
       <!-- Right: the form -->
       <div class="ct-main" data-reveal data-reveal-delay="1">
-        <!-- NOT CONNECTED YET — client is wiring this to Resend.
-             The form has no action and the submit button is disabled so nobody
-             types a message that silently goes nowhere. To activate: POST these
-             fields to a Resend endpoint, drop the disabled attribute, and remove
-             the .ct-notice block. -->
-        <div class="ct-notice">
-          <p><strong>The form isn't connected yet.</strong> It's being wired up now — until then, please
-            email <a href="mailto:hello@tigersoulretreats.com">hello@tigersoulretreats.com</a> and we'll
-            reply personally.</p>
-        </div>
-
-        <form class="ct-form" id="contactForm" novalidate>
+        <!-- Submission is not wired yet — client is connecting this to Resend.
+             The button is live-looking but inert until then. -->
+        <!-- onsubmit returns false so an un-wired submit can't GET the visitor's
+             email and phone into the URL as query params. Replace with the
+             Resend handler when connecting. -->
+        <form class="ct-form" id="contactForm" novalidate onsubmit="return false;">
           <div class="ct-row">
             <div class="ct-field">
               <label for="ctFirst">First Name</label>
@@ -276,9 +257,7 @@
           </div>
 
           <div class="ct-submit">
-            <button class="btn btn--solid" type="button" disabled aria-describedby="ctSubmitNote">Send Message</button>
-            <p class="ct-submit__note" id="ctSubmitNote">Sending opens once the form is connected. In the
-              meantime, <a href="mailto:hello@tigersoulretreats.com">email us</a> directly.</p>
+            <button class="btn btn--solid" type="submit">Send Message</button>
           </div>
         </form>
       </div>
