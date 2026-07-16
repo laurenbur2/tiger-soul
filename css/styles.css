@@ -717,6 +717,10 @@ section { position: relative; }
 .page-hero__media img { width: 100%; height: 100%; object-fit: cover; object-position: var(--hero-pos, center 30%); }
 /* Phones are narrow and tall — the band needs a little more room for the words. */
 @media (max-width: 720px) { .page-hero { min-height: 62vh; } }
+/* Utility pages (a form, not a sales pitch) want the content up top, not a big photo. */
+.page-hero--compact { min-height: 38vh; }
+.page-hero--compact h1 { font-size: clamp(1.8rem, 3.2vw, 2.7rem); }
+@media (max-width: 720px) { .page-hero--compact { min-height: 44vh; } }
 .page-hero__media::after {
   content: ""; position: absolute; inset: 0;
   background: linear-gradient(180deg, rgba(11,18,13,0.55) 0%, rgba(11,18,13,0.22) 42%, rgba(11,18,13,0.86) 100%);

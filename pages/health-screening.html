@@ -28,31 +28,36 @@
     /* ============================================================
        HEALTH SCREENING — mission panel + screening placeholder
        ============================================================ */
+    /* Intro: short, so the form is visible fast */
+    .hs-intro{ max-width:64ch; margin-inline:auto; text-align:center;
+      padding-block:clamp(1.8rem,3.4vw,2.6rem); }
+    .hs-intro .lead{ font-size:clamp(1.02rem,1.45vw,1.2rem); line-height:1.55; margin-bottom:1.4rem; }
     .hs-mission{
-      max-width:60ch; margin:clamp(2rem,4vw,3rem) auto 0;
-      padding:clamp(1.8rem,3.2vw,2.8rem) clamp(1.5rem,3vw,2.6rem);
-      border:1px solid rgba(198,167,105,.34); border-radius:4px;
-      background:rgba(198,167,105,.05); text-align:center;
+      margin:0; padding:1rem 1.3rem; border-radius:4px;
+      border:1px solid rgba(198,167,105,.32); background:rgba(198,167,105,.06);
+      font-family:var(--font-display); font-style:italic;
+      font-size:clamp(.98rem,1.3vw,1.1rem); line-height:1.5; color:var(--ink);
     }
     .hs-mission .k{
-      display:block; font-family:var(--font-sans); font-size:.6rem; font-weight:500;
-      letter-spacing:.3em; text-transform:uppercase; color:var(--gold-deep); margin-bottom:1rem;
-    }
-    .hs-mission p{
-      font-family:var(--font-display); font-size:clamp(1.15rem,2vw,1.5rem);
-      font-style:italic; line-height:1.5; color:var(--ink); margin:0;
+      display:block; font-family:var(--font-sans); font-style:normal; font-size:.54rem;
+      font-weight:500; letter-spacing:.3em; text-transform:uppercase;
+      color:var(--gold-deep); margin-bottom:.5rem;
     }
     .hs-mission em{ font-style:italic; color:var(--gold-deep); }
 
-    /* Notice: the form is not connected yet */
-    .hs-notice{
-      max-width:760px; margin:clamp(1.5rem,3vw,2.2rem) auto 0;
-      border:1px dashed rgba(163,129,63,.55); border-radius:6px;
-      padding:1.1rem 1.4rem; background:rgba(198,167,105,.07);
+    /* Three steps as one tight band */
+    .hs-steps{
+      list-style:none; margin:0; padding:clamp(1.4rem,2.6vw,2rem) 0;
+      display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(1.2rem,2.6vw,2.4rem);
     }
-    .hs-notice p{ margin:0; font-size:.9rem; line-height:1.6; color:var(--ink-soft); }
-    .hs-notice strong{ color:var(--gold-deep); font-weight:500; }
-    .hs-notice a{ color:var(--gold-deep); border-bottom:1px solid rgba(163,129,63,.4); }
+    @media (max-width:760px){ .hs-steps{ grid-template-columns:1fr; gap:1.3rem; } }
+    .hs-steps li{ display:grid; grid-template-columns:auto 1fr; gap:.2rem .9rem; align-items:baseline; }
+    .hs-steps .n{
+      grid-row:1 / span 2; font-family:var(--font-display); font-style:italic;
+      font-size:1.9rem; line-height:1; color:var(--gold-light);
+    }
+    .hs-steps h3{ font-size:1.02rem; margin:0; color:var(--cream); line-height:1.3; }
+    .hs-steps p{ margin:.25rem 0 0; font-size:.82rem; line-height:1.55; color:rgba(246,241,231,.66); }
 
     /* The screening form */
     .hs-form{ max-width:760px; margin:clamp(1.6rem,3vw,2.4rem) auto 0; }
@@ -139,66 +144,53 @@
   </nav>
 
   <!-- Page hero -->
-  <section class="page-hero" id="top" style="--hero-pos: center 35%">
+  <section class="page-hero page-hero--compact" id="top" style="--hero-pos: center 35%">
     <div class="page-hero__media">
       <img src="../assets/images/pages/ceremony-circle.webp" alt="A ceremony circle gathered in the jungle, holding one another with care" fetchpriority="high" />
     </div>
     <div class="page-hero__inner">
       <p class="eyebrow" data-reveal>Health Screening</p>
       <h1 data-reveal data-reveal-delay="1"><span class="n">Thank you for your interest in</span> Tiger Soul</h1>
-      <p class="page-hero__sub" data-reveal data-reveal-delay="2">
-        Every application begins here, with a simple health screening — so we can meet you
-        safely, and hold you well.
-      </p>
-      <p class="page-hero__meta" data-reveal data-reveal-delay="3">Step One &middot; Your Application</p>
+      <p class="page-hero__meta" data-reveal data-reveal-delay="2">Step One &middot; Your Application</p>
     </div>
   </section>
 
-  <!-- Welcome + mission -->
-  <section class="section--light pad" id="welcome">
-    <div class="wrap">
-      <div class="lead-block centered" data-reveal>
-        <p class="eyebrow centered">Why We Ask</p>
-        <p class="lead">Thank you for your interest in applying to Tiger Soul Retreats. Every application
-          begins with this health screening — it's how we decide whether the medicines are safe for your
-          body, and how to care for you once you arrive.</p>
-        <p>These are powerful medicines. Certain heart conditions, medications, and mental health
-          histories can make them genuinely dangerous, so we need the full picture before we can hold
-          you well. Answer honestly, in as much detail as you can.</p>
-        <p class="muted">There are no wrong answers here, and nothing you share will be held against
-          your application. What you write is read by the facilitators and no one else.</p>
-      </div>
-
-      <div class="hs-mission" data-reveal data-reveal-delay="1">
+  <!-- Why we ask + mission (kept tight — the form is the point of this page) -->
+  <section class="section--light" id="welcome">
+    <div class="wrap hs-intro">
+      <p class="eyebrow centered" data-reveal>Why We Ask</p>
+      <p class="lead" data-reveal data-reveal-delay="1">Thank you for your interest in applying. This screening tells us
+        whether the medicines are safe for your body — certain heart conditions, medications, and
+        mental health histories make them genuinely dangerous. Answer honestly; nothing you share is
+        held against your application, and only the facilitators read it.</p>
+      <p class="hs-mission" data-reveal data-reveal-delay="2">
         <span class="k">Our Mission</span>
-        <p>Reduce unnecessary suffering by helping people heal <em>emotionally, mentally, physically,
-          and spiritually</em> — through education, community, ceremony, and ongoing integration.</p>
-      </div>
+        Reduce unnecessary suffering by helping people heal <em>emotionally, mentally, physically, and
+        spiritually</em> — through education, community, ceremony, and ongoing integration.
+      </p>
     </div>
   </section>
 
-  <!-- What happens next -->
-  <section class="on-dark pad" id="next">
+  <!-- The three steps -->
+  <section class="on-dark" id="next">
     <div class="wrap">
-      <div class="sec-head centered" data-reveal>
-        <p class="eyebrow centered">The Process</p>
-        <h2>Three steps from here</h2>
-        <p>No automated replies, and no rush. Every screening is read personally.</p>
-      </div>
-      <div class="timeline">
-        <div class="timeline__item" data-reveal>
-          <div class="timeline__day">Step One<small>The Screening</small></div>
-          <div><h3>Fill out the health screening</h3><p>The questions below. Share your health history, any medications you take, and what is calling you to this work. It stays between you and the facilitators.</p></div>
-        </div>
-        <div class="timeline__item" data-reveal>
-          <div class="timeline__day">Step Two<small>The Call</small></div>
-          <div><h3>Schedule a call</h3><p>Once we've read your screening, we'll arrange a personal conversation — to answer your questions and feel into whether this is your time.</p></div>
-        </div>
-        <div class="timeline__item" data-reveal>
-          <div class="timeline__day">Step Three<small>Your Place</small></div>
-          <div><h3>If cleared, reserve your place</h3><p>When the path is aligned and you're medically cleared, we process payment and send everything you need — dates, preparation, and your retreat information.</p></div>
-        </div>
-      </div>
+      <ol class="hs-steps" data-reveal>
+        <li>
+          <span class="n">1</span>
+          <h3>Fill out the health screening</h3>
+          <p>The questions below. It stays between you and the facilitators.</p>
+        </li>
+        <li>
+          <span class="n">2</span>
+          <h3>Schedule a call</h3>
+          <p>Once we've read it, we'll arrange a personal conversation.</p>
+        </li>
+        <li>
+          <span class="n">3</span>
+          <h3>If cleared, reserve your place</h3>
+          <p>We process payment and send your retreat information.</p>
+        </li>
+      </ol>
     </div>
   </section>
 
