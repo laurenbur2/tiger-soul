@@ -638,6 +638,27 @@ section { position: relative; }
 .cta h2 em { color: var(--gold-light); }
 .cta p { max-width: 46ch; margin-inline: auto; color: rgba(246,241,231,0.82); margin-bottom: 2.6rem; }
 .cta { padding-bottom: clamp(2rem, 3vw, 3rem); }
+/* .cta is a dark band by default; these repaint it when it sits on a light section
+   (otherwise its cream text lands on cream and disappears). */
+.cta.section--light { background: var(--cream); color: var(--ink); }
+.cta.section--light .eyebrow { color: var(--gold-deep); }
+.cta.section--light h2 em { color: var(--gold-deep); }
+.cta.section--light p { color: var(--ink-soft); }
+.cta.section--light::before { opacity: 0.035; }
+/* Slim closing band: the primary Apply now lives up with the pricing, so this
+   one is a quieter sign-off and doesn't need full section padding. */
+.cta.section--light { padding-bottom: 0; }
+.cta.section--light > .wrap { padding-block: clamp(2rem, 3.2vw, 2.8rem); }
+.cta.section--light h2 { margin-bottom: 0.8rem; }
+.cta.section--light p { margin-bottom: 1.6rem; }
+
+/* Apply CTA sitting directly under the price cards */
+.price-cta { margin-top: clamp(1.8rem, 3.2vw, 2.6rem); text-align: center; }
+.price-cta__note {
+  margin: 1rem auto 0; font-family: var(--font-sans); font-size: 0.62rem;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--champagne);
+  opacity: 0.75;
+}
 .newsletter { display: flex; gap: 0.8rem; max-width: 500px; margin: 0 auto; flex-wrap: wrap; }
 .newsletter input {
   flex: 1 1 240px; background: transparent; border: 1px solid rgba(198,167,105,0.4);
