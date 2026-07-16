@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Health Screening — Tiger Soul Medicine Retreats</title>
+  <meta name="description" content="Every application to Tiger Soul begins with a simple health screening. Your safety and readiness are honored at every step of the way." />
+  <meta name="robots" content="noindex" />
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/logo/favicon-32.png" />
+  <link rel="apple-touch-icon" href="../assets/images/logo/favicon-180.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Tiger Soul Medicine Retreats" />
+  <meta property="og:title" content="Health Screening — Tiger Soul Medicine Retreats" />
+  <meta property="og:description" content="Every application to Tiger Soul begins with a simple health screening." />
+  <meta property="og:url" content="https://laurenbur2.github.io/tiger-soul/pages/health-screening.html" />
+  <meta property="og:image" content="https://laurenbur2.github.io/tiger-soul/assets/images/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://laurenbur2.github.io/tiger-soul/assets/images/og-image.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../css/styles.css" />
+
+  <style>
+    /* ============================================================
+       HEALTH SCREENING — mission panel + screening placeholder
+       ============================================================ */
+    .hs-mission{
+      max-width:60ch; margin:clamp(2rem,4vw,3rem) auto 0;
+      padding:clamp(1.8rem,3.2vw,2.8rem) clamp(1.5rem,3vw,2.6rem);
+      border:1px solid rgba(198,167,105,.34); border-radius:4px;
+      background:rgba(198,167,105,.05); text-align:center;
+    }
+    .hs-mission .k{
+      display:block; font-family:var(--font-sans); font-size:.6rem; font-weight:500;
+      letter-spacing:.3em; text-transform:uppercase; color:var(--gold-deep); margin-bottom:1rem;
+    }
+    .hs-mission p{
+      font-family:var(--font-display); font-size:clamp(1.15rem,2vw,1.5rem);
+      font-style:italic; line-height:1.5; color:var(--ink); margin:0;
+    }
+    .hs-mission em{ font-style:italic; color:var(--gold-deep); }
+
+    /* Placeholder standing in for the real screening questions */
+    .hs-form{
+      max-width:640px; margin:clamp(1.5rem,3vw,2.4rem) auto 0;
+      border:1px dashed rgba(163,129,63,.5); border-radius:6px;
+      padding:clamp(1.8rem,3.4vw,2.8rem); text-align:center; background:rgba(198,167,105,.04);
+    }
+    .hs-form h3{ font-size:1.4rem; margin:0 0 .7rem; }
+    .hs-form p{ font-size:.94rem; color:var(--ink-soft); margin:0 auto 1.5rem; max-width:48ch; }
+    .hs-form .btn{ --tc:var(--forest-950); border-color:var(--gold-deep); }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header" id="header">
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navOverlay">
+      <span class="bars"><span></span><span></span><span></span></span>
+      <span>Menu</span>
+    </button>
+    <a class="brand" href="../index.html" aria-label="Tiger Soul Medicine Retreats — home">
+      <img src="../assets/images/logo/tiger-mark.png" alt="" />
+      <span class="brand-word">Tiger Soul</span>
+      <span class="brand-sub">Medicine Retreats</span>
+    </a>
+  </header>
+
+  <!-- Full-screen menu overlay -->
+  <nav class="nav-overlay" id="navOverlay" aria-hidden="true">
+    <div class="nav-top">
+      <span class="nav-brand">Tiger Soul</span>
+      <button class="nav-close" id="navClose" aria-label="Close menu"><span>Close</span><span class="x"></span></button>
+    </div>
+    <div class="nav-main">
+      <ul class="nav-list">
+        <li><a href="retreats.html"><span class="lbl">Retreats<span class="lbl-it">immersive</span></span></a></li>
+        <li><a href="private-ceremonies.html"><span class="lbl">Sacred Offerings<span class="lbl-it">medicine</span></span></a></li>
+        <li><a href="../index.html#testimonials"><span class="lbl">Testimonials<span class="lbl-it">stories</span></span></a></li>
+        <li><a href="about.html"><span class="lbl">About<span class="lbl-it">the founder</span></span></a></li>
+        <li><a href="../index.html#contact"><span class="lbl">Contact<span class="lbl-it">begin</span></span></a></li>
+      </ul>
+    </div>
+    <div class="nav-foot">
+      <div><div class="col-label">Answer the Call</div><a href="../index.html#contact">hello@tigersoulretreats.com</a></div>
+      <div class="nav-socials"><a href="#">Instagram</a><a href="#">Facebook</a><a href="#">Newsletter</a></div>
+    </div>
+  </nav>
+
+  <!-- Page hero -->
+  <section class="page-hero" id="top">
+    <div class="page-hero__media">
+      <img src="../assets/images/pages/ceremony-circle.webp" alt="A ceremony circle gathered in the jungle, holding one another with care" fetchpriority="high" />
+    </div>
+    <div class="page-hero__inner">
+      <p class="eyebrow" data-reveal>Health Screening</p>
+      <h1 data-reveal data-reveal-delay="1"><span class="n">Thank you for your interest in</span> Tiger Soul</h1>
+      <p class="page-hero__sub" data-reveal data-reveal-delay="2">
+        Every application begins here, with a simple health screening — so we can meet you
+        safely, and hold you well.
+      </p>
+      <p class="page-hero__meta" data-reveal data-reveal-delay="3">Step One &middot; Your Application</p>
+    </div>
+  </section>
+
+  <!-- Welcome + mission -->
+  <section class="section--light pad" id="welcome">
+    <div class="wrap">
+      <div class="lead-block centered" data-reveal>
+        <p class="eyebrow centered">Why We Ask</p>
+        <p class="lead">Thank you for your interest in applying to Tiger Soul Retreats. Before we speak,
+          we ask everyone to complete a short health screening. It tells us how to care for you, and
+          whether this path is right for you at this moment in your life.</p>
+        <p class="muted">There are no wrong answers here, and nothing you share will be held against
+          your application. We ask because we take your safety seriously.</p>
+      </div>
+
+      <div class="hs-mission" data-reveal data-reveal-delay="1">
+        <span class="k">Our Mission</span>
+        <p>Reduce unnecessary suffering by helping people heal <em>emotionally, mentally, physically,
+          and spiritually</em> — through education, community, ceremony, and ongoing integration.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- What happens next -->
+  <section class="on-dark pad" id="next">
+    <div class="wrap">
+      <div class="sec-head centered" data-reveal>
+        <p class="eyebrow centered">What Happens Next</p>
+        <h2>How your application unfolds</h2>
+        <p>No automated replies, and no rush. Every application is read personally.</p>
+      </div>
+      <div class="timeline">
+        <div class="timeline__item" data-reveal>
+          <div class="timeline__day">First<small>The Screening</small></div>
+          <div><h3>You share where you are</h3><p>A short set of questions about your health, your history, and any medications you take. It stays between you and the facilitators.</p></div>
+        </div>
+        <div class="timeline__item" data-reveal>
+          <div class="timeline__day">Then<small>We Read It</small></div>
+          <div><h3>We review it personally</h3><p>Blaine reads every screening himself. If anything needs a closer look, we'll ask — gently, and without judgment.</p></div>
+        </div>
+        <div class="timeline__item" data-reveal>
+          <div class="timeline__day">Next<small>We Speak</small></div>
+          <div><h3>We talk, soul to soul</h3><p>A personal conversation to answer your questions and feel into whether this is your time. You are never obligated to continue.</p></div>
+        </div>
+        <div class="timeline__item" data-reveal>
+          <div class="timeline__day">Finally<small>Your Place</small></div>
+          <div><h3>Your place is held</h3><p>If the path is aligned, we'll walk you through preparation, dates, and everything you need to arrive ready.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The screening itself -->
+  <section class="section--light pad" id="screening">
+    <div class="wrap">
+      <div class="sec-head centered" data-reveal>
+        <p class="eyebrow centered">The Screening</p>
+        <h2>Begin your screening</h2>
+      </div>
+
+      <!-- PLACEHOLDER — the real screening questions are not built yet.
+           Client is supplying the actual health questions (contraindications for
+           Bufo / 5-MeO-DMT and Kambo, medications, cardiac + psychiatric history).
+           Nothing here collects data on purpose: no submission target has been
+           chosen yet, and health answers must not be gathered until it is.
+           Replace this block with the real form once both are decided. -->
+      <div class="hs-form" data-reveal data-reveal-delay="1">
+        <h3>The screening form is being finalized</h3>
+        <p>We're preparing it with the care it deserves. In the meantime, write to us directly and
+          we'll send it to you personally, along with anything else you'd like to know.</p>
+        <a class="btn btn--solid" href="mailto:hello@tigersoulretreats.com?subject=Health%20Screening%20%E2%80%94%20Application">Email Us to Begin</a>
+      </div>
+
+      <p class="muted" data-reveal data-reveal-delay="2" style="text-align:center; max-width:60ch; margin:2rem auto 0;">
+        Tiger Soul offerings are not medical treatment and this screening is not medical advice.
+        Please consult your physician before any ceremony, and tell us about every medication and
+        condition — some are not safe to combine with the medicines.
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" id="contact">
+    <div class="wrap">
+      <div class="footer__brand">
+        <img src="../assets/images/logo/logo-full.png" alt="Tiger Soul Medicine Retreats" />
+        <p>Sacred plant medicine, retreats, and practitioner trainings for those ready to live with
+          courage, compassion, and connection.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="retreats.html">Retreats</a></li>
+          <li><a href="bufo-training.html">Practitioner Training</a></li>
+          <li><a href="liberation-program.html">Liberation Program</a></li>
+          <li><a href="private-ceremonies.html">Sacred Offerings</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Discover</h4>
+        <ul>
+          <li><a href="../index.html#testimonials">Testimonials</a></li>
+          <li><a href="about.html">About Blaine</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="mailto:hello@tigersoulretreats.com">Email Us</a></li>
+          <li><a href="../index.html#newsletter">Newsletter</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="footer__bottom">
+        <span>&copy; 2026 Tiger Soul Medicine Retreats. All rights reserved.</span>
+        <span class="footer__disclaimer">Offerings are not medical advice. Participation is voluntary and each guest is
+          responsible for their own well-being. Please consult a physician before any ceremony.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
