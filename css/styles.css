@@ -571,7 +571,8 @@ section { position: relative; }
 
 /* Sacred offerings / medicines row */
 .sacred { position: relative; background: var(--cream); color: var(--ink); overflow: hidden; }
-.medicine-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.6rem, 3vw, 3rem); max-width: 1000px; margin: 0 auto; }
+.medicine-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(1.6rem, 3vw, 3rem); max-width: 1180px; margin: 0 auto; }
+@media (max-width: 900px) { .medicine-grid { grid-template-columns: repeat(2, 1fr); max-width: 640px; } }
 .medicine { display: block; text-align: center; }
 .medicine h3 { transition: color 0.3s var(--ease); }
 .medicine:hover h3 { color: var(--gold-deep); }
@@ -783,6 +784,12 @@ section { position: relative; }
 .timeline__item h3 { font-size: 1.2rem; margin: 0 0 0.4rem; }
 .timeline__item p { margin: 0; font-size: 0.92rem; color: rgba(246,241,231,0.72); }
 @media (max-width: 600px) { .timeline__item { grid-template-columns: 1fr; gap: 0.4rem; } }
+/* .timeline is built for dark bands — repaint it on light sections. */
+.section--light .timeline__item { border-color: rgba(21,21,15,0.12); }
+.section--light .timeline__item:last-child { border-color: rgba(21,21,15,0.12); }
+.section--light .timeline__day { color: var(--gold-deep); }
+.section--light .timeline__day small { color: var(--gold-deep); opacity: 0.7; }
+.section--light .timeline__item p { color: var(--ink-soft); }
 
 /* Price cards */
 .price-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(1.2rem, 2.4vw, 2rem); max-width: 780px; margin: 0 auto; }
