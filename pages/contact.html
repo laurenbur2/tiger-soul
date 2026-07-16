@@ -27,37 +27,60 @@
 
   <style>
     /* ============================================================
-       CONTACT — enquiry form
+       CONTACT — two-column enquiry + accordion FAQ
        ============================================================ */
-    .ct-notice{
-      max-width:680px; margin:0 auto clamp(1.4rem,2.6vw,2rem);
-      border:1px dashed rgba(163,129,63,.55); border-radius:6px;
-      padding:1rem 1.3rem; background:rgba(198,167,105,.07);
+    .ct-grid{
+      display:grid; grid-template-columns:0.85fr 1.15fr;
+      gap:clamp(2rem, 5vw, 4.5rem); align-items:start;
     }
-    .ct-notice p{ margin:0; font-size:.88rem; line-height:1.6; color:var(--ink-soft); }
+    @media (max-width:900px){ .ct-grid{ grid-template-columns:1fr; gap:2.4rem; } }
+
+    /* ---- left column: ways to reach us ---- */
+    .ct-aside h2{ font-size:clamp(1.8rem,3.2vw,2.6rem); margin:0 0 1rem; }
+    .ct-aside h2 em{ font-style:italic; color:var(--gold-deep); }
+    .ct-aside__lead{ color:var(--ink-soft); margin-bottom:clamp(1.6rem,3vw,2.2rem); max-width:38ch; }
+
+    .ct-methods{ list-style:none; margin:0; padding:0; display:grid; gap:1.4rem; }
+    .ct-method__k{
+      display:block; font-family:var(--font-sans); font-size:.6rem; font-weight:500;
+      letter-spacing:.26em; text-transform:uppercase; color:var(--gold-deep); margin-bottom:.35rem;
+    }
+    .ct-method a, .ct-method span.val{
+      font-family:var(--font-display); font-size:1.2rem; color:var(--ink); line-height:1.3;
+    }
+    .ct-method a{ border-bottom:1px solid rgba(163,129,63,.45); transition:color .3s var(--ease); }
+    .ct-method a:hover{ color:var(--gold-deep); }
+    .ct-method small{ display:block; font-size:.78rem; color:var(--ink-soft); margin-top:.3rem; }
+
+    /* ---- right column: the form ---- */
+    .ct-notice{
+      border:1px dashed rgba(163,129,63,.55); border-radius:6px;
+      padding:.9rem 1.2rem; background:rgba(198,167,105,.07); margin-bottom:1.2rem;
+    }
+    .ct-notice p{ margin:0; font-size:.84rem; line-height:1.6; color:var(--ink-soft); }
     .ct-notice strong{ color:var(--gold-deep); font-weight:500; }
     .ct-notice a{ color:var(--gold-deep); border-bottom:1px solid rgba(163,129,63,.4); }
 
     .ct-form{
-      max-width:680px; margin:0 auto; background:#fffdf8;
-      border:1px solid rgba(21,21,15,.1); border-radius:12px;
-      padding:clamp(1.5rem,3vw,2.4rem);
+      background:#fffdf8; border:1px solid rgba(21,21,15,.1); border-radius:12px;
+      padding:clamp(1.4rem,2.6vw,2rem);
+      box-shadow:0 22px 50px -34px rgba(15,28,20,.4);
     }
     .ct-row{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
     @media (max-width:560px){ .ct-row{ grid-template-columns:1fr; } }
 
-    .ct-field{ margin-bottom:1.2rem; }
+    .ct-field{ margin-bottom:1.1rem; }
     .ct-field label{
-      display:block; font-family:var(--font-sans); font-size:.66rem; font-weight:500;
-      letter-spacing:.18em; text-transform:uppercase; color:var(--gold-deep); margin-bottom:.5rem;
+      display:block; font-family:var(--font-sans); font-size:.64rem; font-weight:500;
+      letter-spacing:.18em; text-transform:uppercase; color:var(--gold-deep); margin-bottom:.45rem;
     }
-    .ct-field .opt{ text-transform:none; letter-spacing:.04em; color:var(--ink-soft); opacity:.7; }
     .ct-field input, .ct-field select, .ct-field textarea{
       width:100%; font-family:var(--font-sans); font-size:.95rem; color:var(--ink);
       background:var(--cream); border:1px solid rgba(21,21,15,.18); border-radius:6px;
       padding:.8em .9em; transition:border-color .3s var(--ease), box-shadow .3s var(--ease);
     }
-    .ct-field textarea{ resize:vertical; min-height:8em; line-height:1.6; }
+    .ct-field input::placeholder, .ct-field textarea::placeholder{ color:rgba(21,21,15,.35); }
+    .ct-field textarea{ resize:vertical; min-height:7.5em; line-height:1.6; }
     .ct-field select{
       appearance:none; cursor:pointer;
       background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a3813f' stroke-width='2'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e");
@@ -68,19 +91,46 @@
       outline:none; border-color:var(--gold-deep); box-shadow:0 0 0 3px rgba(198,167,105,.22);
     }
 
-    .ct-submit{ text-align:center; margin-top:1.6rem; }
+    .ct-submit{ margin-top:1.4rem; }
     .ct-submit .btn[disabled]{ opacity:.45; cursor:not-allowed; pointer-events:none; }
     .ct-submit__note{
-      font-size:.82rem; color:var(--ink-soft); margin:1rem auto 0; max-width:44ch; line-height:1.6;
+      font-size:.8rem; color:var(--ink-soft); margin:.9rem 0 0; line-height:1.6;
     }
     .ct-submit__note a{ color:var(--gold-deep); border-bottom:1px solid rgba(163,129,63,.4); }
 
-    /* direct contact details under the form */
-    .ct-direct{
-      max-width:680px; margin:clamp(1.6rem,3vw,2.2rem) auto 0; text-align:center;
-      font-size:.9rem; color:var(--ink-soft);
+    /* ---- FAQ accordion (native details/summary — works without JS) ---- */
+    .faq-acc{ max-width:820px; margin:0 auto; }
+    .faq-q{ border-top:1px solid rgba(198,167,105,.2); }
+    .faq-q:last-child{ border-bottom:1px solid rgba(198,167,105,.2); }
+    .faq-q > summary{
+      display:flex; align-items:center; justify-content:space-between; gap:1.5rem;
+      cursor:pointer; list-style:none; padding:clamp(1.1rem,2vw,1.4rem) 0;
+      font-family:var(--font-display); font-size:clamp(1.05rem,1.7vw,1.25rem);
+      color:var(--cream); transition:color .3s var(--ease);
     }
-    .ct-direct a{ color:var(--gold-deep); border-bottom:1px solid rgba(163,129,63,.4); }
+    .faq-q > summary::-webkit-details-marker{ display:none; }
+    .faq-q > summary:hover{ color:var(--gold-light); }
+    .faq-q > summary:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
+    .faq-q__ico{
+      flex:none; position:relative; width:14px; height:14px;
+      transition:transform .35s var(--ease);
+    }
+    .faq-q__ico::before, .faq-q__ico::after{
+      content:""; position:absolute; background:var(--gold-light);
+      transition:opacity .3s var(--ease);
+    }
+    .faq-q__ico::before{ top:6px; left:0; width:14px; height:1.5px; }
+    .faq-q__ico::after{ left:6px; top:0; width:1.5px; height:14px; }
+    .faq-q[open] .faq-q__ico{ transform:rotate(135deg); }
+    .faq-q__a{
+      padding:0 0 clamp(1.1rem,2vw,1.4rem); margin:0;
+      font-size:.94rem; line-height:1.7; color:rgba(246,241,231,.74); max-width:70ch;
+    }
+    .faq-q[open] .faq-q__a{ animation:faqIn .35s var(--ease); }
+    @keyframes faqIn{ from{ opacity:0; transform:translateY(-4px); } to{ opacity:1; transform:none; } }
+    @media (prefers-reduced-motion:reduce){
+      .faq-q__ico, .faq-q[open] .faq-q__a{ transition:none; animation:none; }
+    }
   </style>
 </head>
 <body>
@@ -135,79 +185,104 @@
     </div>
   </section>
 
-  <!-- Enquiry form -->
+  <!-- Enquiry: ways to reach us + form -->
   <section class="section--light pad" id="enquire">
-    <div class="wrap">
-      <div class="sec-head centered" data-reveal>
-        <p class="eyebrow centered">Send a Note</p>
-        <h2>Ask us anything</h2>
-        <p>No question is too small. If you're not sure where to begin, say so — that's a good
-          place to start.</p>
+    <div class="wrap ct-grid">
+
+      <!-- Left: other ways to reach us -->
+      <div class="ct-aside" data-reveal>
+        <p class="eyebrow">Other Ways to Reach Us</p>
+        <h2>We'd love to <em>hear from you</em></h2>
+        <p class="ct-aside__lead">Send a note using the form, or reach out however feels easiest.
+          Every message is read personally — there are no automated replies here.</p>
+
+        <ul class="ct-methods">
+          <li class="ct-method">
+            <span class="ct-method__k">Email</span>
+            <a href="mailto:hello@tigersoulretreats.com">hello@tigersoulretreats.com</a>
+            <small>The surest way to reach us.</small>
+          </li>
+          <li class="ct-method">
+            <span class="ct-method__k">Instagram</span>
+            <a href="https://www.instagram.com/tigersoul.retreats" target="_blank" rel="noopener">@tigersoul.retreats</a>
+            <small>Ceremony, medicine, and the road from darkness into light.</small>
+          </li>
+          <li class="ct-method">
+            <span class="ct-method__k">Where We Are</span>
+            <span class="val">Tulum, Mexico</span>
+            <small>Private ceremonies &amp; retreats. Trainings are held in Puerto Morelos.</small>
+          </li>
+          <li class="ct-method">
+            <span class="ct-method__k">Ready to Apply?</span>
+            <a href="health-screening.html">Begin your health screening</a>
+            <small>Every offering starts here.</small>
+          </li>
+        </ul>
       </div>
 
-      <!-- NOT CONNECTED YET — client is wiring this to Resend.
-           The form has no action and the submit button is disabled so nobody
-           types a message that silently goes nowhere. To activate: POST these
-           fields to a Resend endpoint, drop the disabled attribute, and remove
-           the .ct-notice block. -->
-      <div class="ct-notice" data-reveal>
-        <p><strong>The form isn't connected yet.</strong> It's being wired up now — until then, please
-          email <a href="mailto:hello@tigersoulretreats.com">hello@tigersoulretreats.com</a> and we'll
-          reply personally.</p>
+      <!-- Right: the form -->
+      <div class="ct-main" data-reveal data-reveal-delay="1">
+        <!-- NOT CONNECTED YET — client is wiring this to Resend.
+             The form has no action and the submit button is disabled so nobody
+             types a message that silently goes nowhere. To activate: POST these
+             fields to a Resend endpoint, drop the disabled attribute, and remove
+             the .ct-notice block. -->
+        <div class="ct-notice">
+          <p><strong>The form isn't connected yet.</strong> It's being wired up now — until then, please
+            email <a href="mailto:hello@tigersoulretreats.com">hello@tigersoulretreats.com</a> and we'll
+            reply personally.</p>
+        </div>
+
+        <form class="ct-form" id="contactForm" novalidate>
+          <div class="ct-row">
+            <div class="ct-field">
+              <label for="ctFirst">First Name</label>
+              <input type="text" id="ctFirst" name="firstName" autocomplete="given-name" placeholder="Your first name" />
+            </div>
+            <div class="ct-field">
+              <label for="ctLast">Last Name</label>
+              <input type="text" id="ctLast" name="lastName" autocomplete="family-name" placeholder="Your last name" />
+            </div>
+          </div>
+
+          <div class="ct-row">
+            <div class="ct-field">
+              <label for="ctEmail">Email</label>
+              <input type="email" id="ctEmail" name="email" autocomplete="email" placeholder="you@example.com" />
+            </div>
+            <div class="ct-field">
+              <label for="ctPhone">Phone Number</label>
+              <input type="tel" id="ctPhone" name="phone" autocomplete="tel" placeholder="Optional" />
+            </div>
+          </div>
+
+          <div class="ct-field">
+            <label for="ctOffering">What are you asking about?</label>
+            <select id="ctOffering" name="offering">
+              <option value="" selected>Choose an offering…</option>
+              <option value="Private Bufo Ceremony">Private Bufo Ceremony</option>
+              <option value="Private Kambo Ceremony">Private Kambo Ceremony</option>
+              <option value="Private Rap&eacute;h Ceremony">Private Rap&eacute;h Ceremony</option>
+              <option value="Private Medicine Retreat">Private Medicine Retreat</option>
+              <option value="Bufo Practitioner Training">Bufo Practitioner Training</option>
+              <option value="The Liberation Program">The Liberation Program</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="ct-field">
+            <label for="ctMessage">Your Message</label>
+            <textarea id="ctMessage" name="message" rows="6" placeholder="Tell us a little about what brings you here&hellip;"></textarea>
+          </div>
+
+          <div class="ct-submit">
+            <button class="btn btn--solid" type="button" disabled aria-describedby="ctSubmitNote">Send Message</button>
+            <p class="ct-submit__note" id="ctSubmitNote">Sending opens once the form is connected. In the
+              meantime, <a href="mailto:hello@tigersoulretreats.com">email us</a> directly.</p>
+          </div>
+        </form>
       </div>
 
-      <form class="ct-form" id="contactForm" data-reveal data-reveal-delay="1" novalidate>
-        <div class="ct-row">
-          <div class="ct-field">
-            <label for="ctFirst">First Name</label>
-            <input type="text" id="ctFirst" name="firstName" autocomplete="given-name" />
-          </div>
-          <div class="ct-field">
-            <label for="ctLast">Last Name</label>
-            <input type="text" id="ctLast" name="lastName" autocomplete="family-name" />
-          </div>
-        </div>
-
-        <div class="ct-row">
-          <div class="ct-field">
-            <label for="ctEmail">Email</label>
-            <input type="email" id="ctEmail" name="email" autocomplete="email" />
-          </div>
-          <div class="ct-field">
-            <label for="ctPhone">Phone Number</label>
-            <input type="tel" id="ctPhone" name="phone" autocomplete="tel" />
-          </div>
-        </div>
-
-        <div class="ct-field">
-          <label for="ctOffering">What are you asking about?</label>
-          <select id="ctOffering" name="offering">
-            <option value="" selected>Choose an offering…</option>
-            <option value="Private Bufo Ceremony">Private Bufo Ceremony</option>
-            <option value="Private Kambo Ceremony">Private Kambo Ceremony</option>
-            <option value="Private Rapéh Ceremony">Private Rapéh Ceremony</option>
-            <option value="Private Medicine Retreat">Private Medicine Retreat</option>
-            <option value="Bufo Practitioner Training">Bufo Practitioner Training</option>
-            <option value="The Liberation Program">The Liberation Program</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-
-        <div class="ct-field">
-          <label for="ctMessage">Your Message</label>
-          <textarea id="ctMessage" name="message" rows="6"></textarea>
-        </div>
-
-        <div class="ct-submit">
-          <button class="btn btn--solid" type="button" disabled aria-describedby="ctSubmitNote">Send Message</button>
-          <p class="ct-submit__note" id="ctSubmitNote">Sending opens once the form is connected. In the
-            meantime, <a href="mailto:hello@tigersoulretreats.com">email us</a> directly.</p>
-        </div>
-      </form>
-
-      <p class="ct-direct" data-reveal data-reveal-delay="2">
-        Prefer email? <a href="mailto:hello@tigersoulretreats.com">hello@tigersoulretreats.com</a>
-      </p>
     </div>
   </section>
 
@@ -224,61 +299,78 @@
            medicines, the screening step, dates, pricing). Deliberately contains no
            medical or safety claims; those need to come from Blaine. Client to review
            and edit the wording. -->
-      <div class="faq" data-reveal data-reveal-delay="1">
-        <div class="faq__item">
-          <h3>How do I apply or book?</h3>
-          <p>Everything begins with the health screening. Once we've read it, we'll arrange a call to
-            answer your questions and see whether this is your time. If you're cleared, we process
-            payment and send you everything you need — dates, preparation, and your retreat
+      <div class="faq-acc" data-reveal data-reveal-delay="1">
+
+        <details class="faq-q">
+          <summary>How do I apply or book?<span class="faq-q__ico" aria-hidden="true"></span></summary>
+          <p class="faq-q__a">Everything begins with the health screening. Once we've read it, we'll arrange
+            a call to answer your questions and see whether this is your time. If you're cleared, we
+            process payment and send you everything you need — dates, preparation, and your retreat
             information.</p>
-        </div>
-        <div class="faq__item">
-          <h3>Do I have to complete the health screening?</h3>
-          <p>Yes — everyone does, for every offering. Certain conditions and medications aren't safe
-            to combine with these medicines, so we need the full picture before we can hold you well.
-            Please tell us everything, including anything you're unsure about.</p>
-        </div>
-        <div class="faq__item">
-          <h3>Where do you hold ceremonies and retreats?</h3>
-          <p>Private ceremonies and private medicine retreats are held in Tulum, Mexico. The Bufo
-            Practitioner Training takes place at the Luntia Jungle Retreat in Puerto Morelos, Mexico.
-            The Liberation Program runs both online and in person.</p>
-        </div>
-        <div class="faq__item">
-          <h3>Which medicines do you work with?</h3>
-          <p>Bufo (5-MeO-DMT), Kambo, and Rapéh are offered as private ceremonies. Retreats may also
-            weave in mushrooms and San Pedro, alongside yoga, meditation, breathwork, sound healing,
-            and ice therapy. Every journey is shaped around you — you choose what resonates.</p>
-        </div>
-        <div class="faq__item">
-          <h3>What does it cost?</h3>
-          <p>The private medicine retreat in Tulum is $2,999 USD for one person, or $5,499 for a
-            couple. The Bufo Practitioner Training is $5,777 USD with shared accommodations, or
-            $6,999 with private. Flights are not included. Liberation Program dates and pricing are
+        </details>
+
+        <details class="faq-q">
+          <summary>Do I have to complete the health screening?<span class="faq-q__ico" aria-hidden="true"></span></summary>
+          <p class="faq-q__a">Yes — everyone does, for every offering. Certain conditions and medications
+            aren't safe to combine with these medicines, so we need the full picture before we can hold
+            you well. Please tell us everything, including anything you're unsure about.</p>
+        </details>
+
+        <details class="faq-q">
+          <summary>Where do you hold ceremonies and retreats?<span class="faq-q__ico" aria-hidden="true"></span></summary>
+          <p class="faq-q__a">Private ceremonies and private medicine retreats are held in Tulum, Mexico.
+            The Bufo Practitioner Training takes place at the Luntia Jungle Retreat in Puerto Morelos,
+            Mexico. The Liberation Program runs online, with one week together in person.</p>
+        </details>
+
+        <details class="faq-q">
+          <summary>Which medicines do you work with?<span class="faq-q__ico" aria-hidden="true"></span></summary>
+          <p class="faq-q__a">Bufo (5-MeO-DMT), Kambo, and Rap&eacute;h are offered as private ceremonies.
+            Retreats may also weave in mushrooms and San Pedro, alongside yoga, meditation, breathwork,
+            sound healing, and ice therapy. Every journey is shaped around you — you choose what
+            resonates.</p>
+        </details>
+
+        <details class="faq-q">
+          <summary>What does it cost?<span class="faq-q__ico" aria-hidden="true"></span></summary>
+          <p class="faq-q__a">The private medicine retreat in Tulum is $2,999 USD for one person, or
+            $5,499 for a couple. The Bufo Practitioner Training is $5,777 USD with shared accommodations,
+            or $6,999 with private. Flights are not included. Liberation Program dates and pricing are
             announced as cohorts open.</p>
-        </div>
-        <div class="faq__item">
-          <h3>Can I come with a partner or a friend?</h3>
-          <p>Yes. Private retreats are available for singles, couples, or friends sharing the journey,
-            and accommodations are arranged to suit. Couples pricing is listed above.</p>
-        </div>
-        <div class="faq__item">
-          <h3>How long is the practitioner training?</h3>
-          <p>It's a 13-day immersion, running March 6–18, 2027, at the Luntia Jungle Retreat in Puerto
-            Morelos. It's a certified training in the safe and reverent facilitation of Bufo /
-            5-MeO-DMT, capped small so attention stays individual.</p>
-        </div>
-        <div class="faq__item">
-          <h3>What's included in a retreat?</h3>
-          <p>Round-trip private shuttle, meals prepared with intention, all ceremonies and sessions,
-            daily yoga, sound healing and meditation, a private room with access to the rooftop pool,
-            yoga shala and gym, plus holistic therapies and one additional modality of your choice.</p>
-        </div>
-        <div class="faq__item">
-          <h3>How soon will I hear back?</h3>
-          <p>There are no automated replies here. Every message and every screening is read
+        </details>
+
+        <details class="faq-q">
+          <summary>Can I come with a partner or a friend?<span class="faq-q__ico" aria-hidden="true"></span></summary>
+          <p class="faq-q__a">Yes. Private retreats are available for singles, couples, or friends sharing
+            the journey, and accommodations are arranged to suit. Couples pricing is listed above.</p>
+        </details>
+
+        <details class="faq-q">
+          <summary>How long is the practitioner training?<span class="faq-q__ico" aria-hidden="true"></span></summary>
+          <p class="faq-q__a">It's a 13-day immersion, running March 6–18, 2027, at the Luntia Jungle
+            Retreat in Puerto Morelos. It's a certified training in the safe and reverent facilitation of
+            Bufo / 5-MeO-DMT, capped small so attention stays individual.</p>
+        </details>
+
+        <details class="faq-q">
+          <summary>How long is the Liberation Program?<span class="faq-q__ico" aria-hidden="true"></span></summary>
+          <p class="faq-q__a">Nine weeks — four weeks of preparation, one week together in person for the
+            retreat, then four weeks of integration. Dates are announced as cohorts open.</p>
+        </details>
+
+        <details class="faq-q">
+          <summary>What's included in a retreat?<span class="faq-q__ico" aria-hidden="true"></span></summary>
+          <p class="faq-q__a">Round-trip private shuttle, meals prepared with intention, all ceremonies and
+            sessions, daily yoga, sound healing and meditation, a private room with access to the rooftop
+            pool, yoga shala and gym, plus holistic therapies and one additional modality of your choice.</p>
+        </details>
+
+        <details class="faq-q">
+          <summary>How soon will I hear back?<span class="faq-q__ico" aria-hidden="true"></span></summary>
+          <p class="faq-q__a">There are no automated replies here. Every message and every screening is read
             personally, so give us a little time — we'll come back to you.</p>
-        </div>
+        </details>
+
       </div>
     </div>
   </section>
