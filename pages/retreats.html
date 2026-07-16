@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Retreats — Tiger Soul Medicine Retreats | Private Medicine Retreat in Tulum</title>
-  <meta name="description" content="A private, all-inclusive medicine retreat in Tulum — sacred plant medicine, luxury accommodations, and a fully personalized journey of deep healing and transformation." />
+  <title>Retreats — Tiger Soul Medicine Retreats</title>
+  <meta name="description" content="Every Tiger Soul offering in one place — the Bufo Practitioner Training, the eight-week Liberation Program, and private ceremony in Tulum. Dates update as they are confirmed." />
 
   <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/logo/favicon-32.png" />
   <link rel="apple-touch-icon" href="../assets/images/logo/favicon-180.png" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Tiger Soul Medicine Retreats" />
   <meta property="og:title" content="Retreats — Tiger Soul Medicine Retreats" />
-  <meta property="og:description" content="A private, all-inclusive medicine retreat in Tulum — deep healing and transformation." />
+  <meta property="og:description" content="Trainings, programs, and private ceremony — everything coming up at Tiger Soul." />
   <meta property="og:url" content="https://laurenbur2.github.io/tiger-soul/pages/retreats.html" />
   <meta property="og:image" content="https://laurenbur2.github.io/tiger-soul/assets/images/og-image.jpg" />
   <meta property="og:image:width" content="1200" />
@@ -24,6 +24,70 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="../css/styles.css" />
+
+  <style>
+    /* ============================================================
+       RETREATS — offering-card grid
+       ============================================================ */
+    .ev-intro { text-align:center; }
+    .ev-intro .eyebrow { justify-content:center; }
+
+    .events-grid{
+      display:grid; grid-template-columns:repeat(3,1fr);
+      gap:clamp(1.3rem, 2.4vw, 2.1rem);
+      margin-top:clamp(2rem,4vw,3.2rem);
+    }
+    @media (max-width:960px){ .events-grid{ grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:640px){ .events-grid{ grid-template-columns:1fr; max-width:26rem; margin-inline:auto; } }
+
+    .ev-card{
+      display:flex; flex-direction:column; background:#fffdf8;
+      border:1px solid rgba(21,21,15,.07); border-radius:16px; overflow:hidden;
+      box-shadow:0 22px 50px -28px rgba(15,28,20,.45);
+      transition:transform .5s var(--ease), box-shadow .5s var(--ease);
+    }
+    .ev-card:hover{ transform:translateY(-6px); box-shadow:0 34px 64px -30px rgba(15,28,20,.55); }
+
+    .ev-card__media{ position:relative; aspect-ratio:3/2; overflow:hidden; }
+    .ev-card__media img{ width:100%; height:100%; object-fit:cover; transition:transform .9s var(--ease); }
+    .ev-card:hover .ev-card__media img{ transform:scale(1.05); }
+    .ev-card__media::after{ content:""; position:absolute; inset:0;
+      background:linear-gradient(180deg, rgba(15,28,20,.22), rgba(15,28,20,0) 42%); }
+
+    .ev-tag{
+      position:absolute; top:1rem; left:1rem; z-index:2;
+      background:rgba(246,241,231,.94); color:var(--forest-800);
+      font-family:var(--font-sans); font-size:.6rem; font-weight:500;
+      letter-spacing:.22em; text-transform:uppercase;
+      padding:.55em 1.05em; border-radius:999px; backdrop-filter:blur(2px);
+    }
+
+    .ev-card__body{ display:flex; flex-direction:column; flex:1; padding:1.5rem 1.5rem 1.6rem; }
+    .ev-card__body h3{ font-size:1.55rem; line-height:1.1; margin-bottom:.55rem; }
+    .ev-card__body h3 em{ font-style:italic; color:var(--gold-deep); }
+    .ev-card__desc{ font-size:.92rem; line-height:1.6; color:var(--ink-soft); margin:0 0 1.3rem; }
+
+    .ev-meta{ list-style:none; margin:0 0 1.5rem; padding:1.2rem 0 0; border-top:1px solid rgba(21,21,15,.1);
+      display:grid; gap:.62rem; }
+    .ev-meta li{ display:flex; align-items:center; gap:.7rem; font-size:.86rem; color:var(--ink); }
+    .ev-meta svg{ flex:none; width:16px; height:16px; stroke:var(--gold-deep); stroke-width:1.5; fill:none; }
+    .ev-meta .tbd{ color:var(--gold-deep); font-style:italic; font-family:var(--font-display); font-size:1.02rem; }
+
+    .ev-cta{
+      margin-top:auto; display:inline-flex; align-items:center; justify-content:center; gap:.5em;
+      width:100%; padding:.95em 1.2em; border-radius:999px;
+      font-family:var(--font-sans); font-size:.7rem; font-weight:500;
+      letter-spacing:.2em; text-transform:uppercase; text-align:center;
+      transition:background .4s var(--ease), color .4s var(--ease), opacity .4s var(--ease);
+    }
+    .ev-cta--solid{ background:var(--gold); color:var(--forest-950); }
+    .ev-cta--solid:hover{ background:var(--gold-light); }
+    .ev-cta--quiet{ background:transparent; color:var(--forest-800); border:1px solid rgba(21,21,15,.18); }
+    .ev-cta--quiet:hover{ background:rgba(21,21,15,.05); }
+
+    .ev-note{ text-align:center; margin-top:clamp(2rem,4vw,3rem); font-size:.86rem; color:var(--ink-soft); }
+    .ev-note a{ color:var(--gold-deep); border-bottom:1px solid rgba(163,129,63,.4); }
+  </style>
 </head>
 <body>
 
@@ -52,12 +116,9 @@
     <div class="nav-main">
       <ul class="nav-list">
         <li><a href="retreats.html"><span class="lbl">Retreats<span class="lbl-it">immersive</span></span></a></li>
-        <li><a href="bufo-training.html"><span class="lbl">Trainings<span class="lbl-it">certified</span></span></a></li>
-        <li><a href="programs.html"><span class="lbl">Programs<span class="lbl-it">guided</span></span></a></li>
         <li><a href="private-ceremonies.html"><span class="lbl">Sacred Offerings<span class="lbl-it">medicine</span></span></a></li>
         <li><a href="../index.html#testimonials"><span class="lbl">Testimonials<span class="lbl-it">stories</span></span></a></li>
         <li><a href="about.html"><span class="lbl">About<span class="lbl-it">the founder</span></span></a></li>
-        <li><a href="../index.html#shop"><span class="lbl">Shop<span class="lbl-it">wellness</span></span></a></li>
         <li><a href="../index.html#contact"><span class="lbl">Contact<span class="lbl-it">begin</span></span></a></li>
         <li class="nav-list__acct"><a href="portal-login.html"><span class="lbl">Log In</span> <span class="arw">&rarr;</span></a></li>
         <li class="nav-list__acct"><a href="membership.html"><span class="lbl">Become a Member</span> <span class="arw">&rarr;</span></a></li>
@@ -65,7 +126,7 @@
     </div>
     <div class="nav-foot">
       <div><div class="col-label">Answer the Call</div><a href="../index.html#contact">hello@tigersoulretreats.com</a></div>
-<div class="nav-socials"><a href="#">Instagram</a><a href="#">Facebook</a><a href="#">Newsletter</a></div>
+      <div class="nav-socials"><a href="#">Instagram</a><a href="#">Facebook</a><a href="#">Newsletter</a></div>
     </div>
   </nav>
 
@@ -76,191 +137,88 @@
     </div>
     <div class="page-hero__inner">
       <p class="eyebrow" data-reveal>Retreats</p>
-      <h1 data-reveal data-reveal-delay="1"><span class="n">Private Medicine Retreat</span> in Tulum</h1>
+      <h1 data-reveal data-reveal-delay="1"><span class="n">What's</span> coming up</h1>
       <p class="page-hero__sub" data-reveal data-reveal-delay="2">
-        An intimate, all-inclusive container for complete transformation — physical, mental,
-        emotional, and spiritual.
+        Practitioner trainings, the Liberation Program, and private ceremony — every way to
+        journey with us, in one place.
       </p>
-      <p class="page-hero__meta" data-reveal data-reveal-delay="3">Tulum, Mexico &middot; Fully Private &middot; Tailored to You</p>
+      <p class="page-hero__meta" data-reveal data-reveal-delay="3">Every Offering &middot; One Place</p>
     </div>
   </section>
 
-  <!-- Intro -->
-  <section class="section--light pad" id="intro">
+  <!-- Offerings grid -->
+  <section class="section--light pad" id="offerings">
     <div class="wrap">
-      <div class="sec-head centered" data-reveal>
-        <p class="eyebrow centered">Experience Deep Healing</p>
-        <h2>A complete metamorphosis, held in sacred space</h2>
+      <div class="ev-intro" data-reveal>
+        <p class="eyebrow centered">The Calendar</p>
+        <h2 style="font-size:clamp(1.9rem,3.4vw,2.8rem);">Upcoming at <em style="font-style:italic;color:var(--gold-deep);">Tiger Soul</em></h2>
+        <p style="max-width:56ch;margin:1rem auto 0;color:var(--ink-soft);">Trainings and programs are by application —
+          every one is read personally. Private ceremony is arranged around your schedule.</p>
       </div>
-      <div class="lead-block centered" data-reveal data-reveal-delay="1">
-        <p class="lead">Set out on a journey of profound healing and transformation. This intimate,
-          sacred space is designed to guide and support you through a complete metamorphosis —
-          blending ancient wisdom with modern practice to create a safe container for deep healing
-          and the expansion of consciousness.</p>
-        <p class="muted">Each journey is tailor-made to your needs and intentions. You choose the
-          ceremonies and modalities that resonate most, ensuring an experience that aligns with your
-          highest path — so you can raise your vibration, expand your consciousness, and integrate
-          on the deepest level.</p>
-      </div>
-    </div>
-  </section>
 
-  <!-- Modalities -->
-  <section class="on-dark pad" id="modalities">
-    <div class="wrap">
-      <div class="sec-head" data-reveal>
-        <p class="eyebrow">A Holistic Approach</p>
-        <h2>Transformational healing modalities</h2>
-        <p>Woven together and offered with reverence, guided by trained facilitators in a container
-          of safety and love.</p>
-      </div>
-      <div class="feature-grid">
-        <article class="feature" data-reveal>
-          <span class="k">Sacred Plant Medicines</span>
-          <h3>The <em>Medicines</em></h3>
-          <p>Bufo, Kambo, Rapéh, Mushrooms, and San Pedro — each an ancient ally with its own
-            spirit, purpose, and wisdom.</p>
+      <div class="events-grid">
+
+        <!-- Bufo Practitioner Training -->
+        <article class="ev-card" data-reveal>
+          <div class="ev-card__media">
+            <span class="ev-tag">Training</span>
+            <img src="../assets/images/pages/training-hero.webp" alt="Practitioner training in the jungle" loading="lazy" />
+          </div>
+          <div class="ev-card__body">
+            <h3>Bufo <em>Practitioner</em> Training</h3>
+            <p class="ev-card__desc">Step into the path of sacred service. A certified, immersive
+              training in the safe and reverent facilitation of Bufo / 5-MeO-DMT.</p>
+            <ul class="ev-meta">
+              <li><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>March 6–18, 2027</li>
+              <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>13-Day Immersion</li>
+              <li><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Puerto Morelos, Mexico</li>
+            </ul>
+            <a class="ev-cta ev-cta--solid" href="bufo-training.html#begin">Apply Now</a>
+          </div>
         </article>
-        <article class="feature" data-reveal data-reveal-delay="1">
-          <span class="k">Mind &amp; Body</span>
-          <h3>Somatic <em>Practices</em></h3>
-          <p>Yoga, meditation, breathwork, sound healing, and ice therapy to regulate the nervous
-            system and open the body.</p>
+
+        <!-- Liberation Program -->
+        <article class="ev-card" data-reveal data-reveal-delay="1">
+          <div class="ev-card__media">
+            <span class="ev-tag">Program</span>
+            <img src="../assets/images/pages/liberation-hero.webp" alt="A candlelit healing ceremony" loading="lazy" />
+          </div>
+          <div class="ev-card__body">
+            <h3>The <em>Liberation</em> Program</h3>
+            <p class="ev-card__desc">An eight-week journey from unconscious conditioning to conscious,
+              aligned living — awareness, deep healing, sacred medicine, and integration.</p>
+            <ul class="ev-meta">
+              <li><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span class="tbd">Dates to be announced</span></li>
+              <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>8 Weeks · Guided Cohort</li>
+              <li><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Online &amp; In-Person</li>
+            </ul>
+            <a class="ev-cta ev-cta--solid" href="liberation-program.html#begin">Apply Now</a>
+          </div>
         </article>
-        <article class="feature" data-reveal data-reveal-delay="2">
-          <span class="k">Spirit</span>
-          <h3>Sacred <em>Connection</em></h3>
-          <p>Prayer and ceremony honoring the spirits and ancestors of the land, anchoring the work
-            in the sacred.</p>
+
+        <!-- Private Ceremony -->
+        <article class="ev-card" data-reveal data-reveal-delay="2">
+          <div class="ev-card__media">
+            <span class="ev-tag">Ceremony</span>
+            <img src="../assets/images/pages/ceremonies-hero.webp" alt="An intimate one-on-one private ceremony" loading="lazy" />
+          </div>
+          <div class="ev-card__body">
+            <h3>Private <em>Ceremony</em></h3>
+            <p class="ev-card__desc">The ancient medicines — Bufo, Kambo, and Rapéh — held one soul at
+              a time, with the option of a full private medicine retreat in Tulum.</p>
+            <ul class="ev-meta">
+              <li><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Dates Flexible · By Arrangement</li>
+              <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Bufo · Kambo · Rapéh</li>
+              <li><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Tulum, Mexico</li>
+            </ul>
+            <a class="ev-cta ev-cta--quiet" href="private-ceremonies.html">Learn More</a>
+          </div>
         </article>
-      </div>
-    </div>
-  </section>
 
-  <!-- What's included -->
-  <section class="section--light pad" id="included">
-    <div class="wrap">
-      <div class="sec-head" data-reveal>
-        <p class="eyebrow">All-Inclusive</p>
-        <h2>Everything held, so you can simply arrive</h2>
-        <p>From the moment you land to the moment you leave, every detail is cared for — allowing you
-          to focus solely on your healing.</p>
       </div>
-      <ul class="checklist" data-reveal data-reveal-delay="1">
-        <li>Round-trip private shuttle service</li>
-        <li>Vegetarian-friendly meals prepared with intention</li>
-        <li>All ceremonies &amp; sessions, tailored to your journey</li>
-        <li>Daily yoga, sound healing &amp; meditation</li>
-        <li>Private room with king bed &amp; rooftop plunge pool</li>
-        <li>Access to rooftop pool, yoga shala &amp; full gym</li>
-        <li>Holistic therapies — ice therapy, sound healing, Reiki</li>
-        <li>One additional healing modality of your choice</li>
-      </ul>
-    </div>
-  </section>
 
-  <!-- Itinerary -->
-  <section class="on-dark pad" id="itinerary">
-    <div class="wrap">
-      <div class="sec-head centered" data-reveal>
-        <p class="eyebrow centered">Sample Journey</p>
-        <h2>Six days of transformation</h2>
-        <p>A rhythm of ceremony, integration, and rest — shaped around you. Dates are flexible and
-          arranged privately.</p>
-      </div>
-      <div class="timeline">
-        <div class="timeline__item" data-reveal>
-          <div class="timeline__day">Day One<small>Arrival</small></div>
-          <div><h3>Arrival in Tulum</h3><p>Private shuttle from the airport, a welcome dinner, and settling into your sanctuary.</p></div>
-        </div>
-        <div class="timeline__item" data-reveal>
-          <div class="timeline__day">Day Two<small>Opening</small></div>
-          <div><h3>Opening Ceremony &amp; Kambo</h3><p>Prayer and offerings to the land, a microdose of Bufo to connect with Spirit, and a Kambo ceremony for deep cleansing. Evening sound bath.</p></div>
-        </div>
-        <div class="timeline__item" data-reveal>
-          <div class="timeline__day">Day Three<small>Integration</small></div>
-          <div><h3>Integration &amp; Exploration</h3><p>Morning meditation, breathwork, and yoga. Integration with Mambe, then free time to explore Tulum or rest.</p></div>
-        </div>
-        <div class="timeline__item" data-reveal>
-          <div class="timeline__day">Day Four<small>Journey</small></div>
-          <div><h3>Deep Journey — Bufo &amp; Mushrooms</h3><p>Voice toning and sound healing, afternoon breathwork, and an evening mushroom ceremony with integration.</p></div>
-        </div>
-        <div class="timeline__item" data-reveal>
-          <div class="timeline__day">Day Five<small>Restoration</small></div>
-          <div><h3>Restoration &amp; Reflection</h3><p>A slow morning, an integration session and your chosen healing modality, and time at the ocean, cenotes, or sacred sites.</p></div>
-        </div>
-        <div class="timeline__item" data-reveal>
-          <div class="timeline__day">Day Six<small>Closing</small></div>
-          <div><h3>Closing Ceremony &amp; Farewell</h3><p>A closing ceremony and gratitude offerings, breakfast at a local favorite, and a shuttle to the airport.</p></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Accommodations -->
-  <section class="section--light split pad" id="accommodations">
-    <div class="wrap">
-      <div class="split__img" data-reveal>
-        <img src="../assets/images/hero-botanical.webp" alt="Lush tropical foliage of the Tulum retreat setting" />
-        <span class="cap">Tulum &middot; Your Sanctuary</span>
-      </div>
-      <div data-reveal data-reveal-delay="1">
-        <p class="eyebrow">Luxury Accommodations</p>
-        <h2>A serene sanctuary to <em>return</em> to</h2>
-        <p>Rest in a beautiful private condo with a king-size bed and access to a private plunge pool
-          on the penthouse rooftop. The space opens onto a large rooftop pool, green space, a yoga
-          shala, and a full gym.</p>
-        <p class="muted">Available for singles, couples, or friends seeking a shared healing
-          experience — comfort and tranquility to hold you between journeys.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Detox option -->
-  <section class="on-dark pad" id="detox">
-    <div class="wrap">
-      <div class="sec-head" data-reveal>
-        <p class="eyebrow">Optional Add-On</p>
-        <h2>The Detox Wellness Retreat</h2>
-        <p>For those seeking a deeper cleanse and renewal — a comprehensive experience to restore
-          balance, clear blockages, and revitalize your energy.</p>
-      </div>
-      <ul class="checklist" data-reveal data-reveal-delay="1">
-        <li>Ocean detox to cleanse your energy &amp; aura</li>
-        <li>Sacred cenote purification ritual</li>
-        <li>Fresh, plant-based detox diet</li>
-        <li>Lymphatic massage for toxin elimination</li>
-        <li>Temazcal — ancient Mayan sweat lodge</li>
-        <li>Steam &amp; sauna sessions</li>
-        <li>Cold plunge to boost circulation &amp; immunity</li>
-        <li>Kambo — sacred Amazonian ceremonial cleanse</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- Investment -->
-  <section class="section--light pad" id="investment">
-    <div class="wrap">
-      <div class="sec-head centered" data-reveal>
-        <p class="eyebrow centered">Investment for Transformation</p>
-        <h2>Your private retreat</h2>
-      </div>
-      <div class="price-grid" data-reveal data-reveal-delay="1">
-        <article class="price-card">
-          <div class="tier">Single Participant</div>
-          <div class="amt">$2,999<small> USD</small></div>
-          <div class="note">A fully private, tailored journey for one.</div>
-        </article>
-        <article class="price-card">
-          <div class="tier">Couple</div>
-          <div class="amt">$5,499<small> USD</small></div>
-          <div class="note">Shared healing for two, side by side.</div>
-        </article>
-      </div>
-      <p class="muted" data-reveal data-reveal-delay="2" style="text-align:center; max-width:60ch; margin:2rem auto 0;">
-        Flights are not included. Dates are flexible and tailored to your availability. Setting and
-        diet are essential parts of this journey — before, during, and after, you are fully supported.
-      </p>
+      <p class="ev-note" data-reveal>Don't see a date that works? <a href="../index.html#contact">Reach out</a> — private
+        ceremonies and retreats are arranged around your schedule.</p>
     </div>
   </section>
 
@@ -268,13 +226,13 @@
   <section class="cta-band pad" id="begin">
     <div class="cta-band__media" aria-hidden="true"><img src="../assets/images/pages/retreats-cta.webp" alt="" loading="lazy" /></div>
     <div class="wrap">
-      <p class="eyebrow centered" data-reveal>Begin Your Journey</p>
-      <h2 data-reveal data-reveal-delay="1">Ready to answer the <em>call?</em></h2>
-      <p data-reveal data-reveal-delay="2">Reach out to inquire about availability or to customize your retreat.
-        To begin, complete the health screening — your safety and readiness are honored every step of the way.</p>
+      <p class="eyebrow centered" data-reveal>Answer the Call</p>
+      <h2 data-reveal data-reveal-delay="1">Not sure where to <em>begin?</em></h2>
+      <p data-reveal data-reveal-delay="2">Tell us where you are on your journey and we'll help you find the right
+        offering — from a single ceremony to the full eight-week path.</p>
       <div class="cta-band__actions" data-reveal data-reveal-delay="3">
         <a class="btn btn--solid" href="../index.html#contact">Inquire Now</a>
-        <a class="btn" href="../index.html#contact">Health Screening</a>
+        <a class="btn" href="membership.html">Become a Member</a>
       </div>
     </div>
   </section>
@@ -291,8 +249,8 @@
         <h4>Explore</h4>
         <ul>
           <li><a href="retreats.html">Retreats</a></li>
-          <li><a href="bufo-training.html">Trainings</a></li>
-          <li><a href="programs.html">Programs</a></li>
+          <li><a href="bufo-training.html">Practitioner Training</a></li>
+          <li><a href="liberation-program.html">Liberation Program</a></li>
           <li><a href="private-ceremonies.html">Sacred Offerings</a></li>
         </ul>
       </div>
@@ -302,7 +260,6 @@
           <li><a href="membership.html">Membership</a></li>
           <li><a href="../index.html#testimonials">Testimonials</a></li>
           <li><a href="about.html">About Blaine</a></li>
-          <li><a href="../index.html#shop">Shop</a></li>
           <li><a href="../index.html#contact">Contact</a></li>
         </ul>
       </div>
@@ -312,7 +269,7 @@
           <li><a href="#">Instagram</a></li>
           <li><a href="#">Facebook</a></li>
           <li><a href="mailto:hello@tigersoulretreats.com">Email Us</a></li>
-          <li><a href="../index.html#shop">Newsletter</a></li>
+          <li><a href="../index.html#newsletter">Newsletter</a></li>
         </ul>
       </div>
     </div>
