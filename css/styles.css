@@ -152,6 +152,9 @@ p { margin: 0 0 1.2em; }
 .btn:hover { color: var(--forest-950); }
 .btn:hover::before { transform: scaleX(1); }
 .btn--dark { --tc: var(--forest-950); }
+/* .btn's text defaults to cream for dark sections. On a light section the outline
+   variant would be cream-on-cream — invisible until hover fills it gold. */
+.section--light .btn:not(.btn--solid) { --tc: var(--forest-950); }
 .btn--solid { background: var(--gold); color: var(--forest-950); }
 .btn--solid::before { background: var(--forest-950); }
 .btn--solid:hover { color: var(--gold); }
