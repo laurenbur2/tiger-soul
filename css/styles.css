@@ -697,6 +697,7 @@ section { position: relative; }
 .page-hero h1 .n { font-style: normal; display: block; font-size: 0.44em; letter-spacing: 0.02em; opacity: 0.95; }
 .page-hero__sub { margin: 1.3rem auto 0; max-width: 46ch; font-size: 1.06rem; opacity: 0.94; text-shadow: 0 1px 20px rgba(8,14,10,0.6); }
 .page-hero__meta { margin-top: 1.5rem; font-size: 0.64rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--champagne); }
+.page-hero__cta { margin-top: clamp(1.6rem, 3vw, 2.4rem); }
 
 /* Lead paragraph block */
 .lead-block { max-width: 760px; }
