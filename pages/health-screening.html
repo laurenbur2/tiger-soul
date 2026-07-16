@@ -64,52 +64,55 @@
     .hs-steps h3{ font-size:.98rem; margin:0; color:var(--ink); line-height:1.35; }
     .hs-steps p{ margin:.3rem 0 0; font-size:.82rem; line-height:1.55; color:var(--ink-soft); }
 
-    /* The screening form */
-    .hs-form{ max-width:760px; margin:clamp(1.6rem,3vw,2.4rem) auto 0; }
+    /* ---- The screening form ----------------------------------------
+       One continuous surface. Section headings with a hairline rule, and
+       fields on underlines rather than boxes — a stack of bordered cards
+       reads as choppy at 43 questions.
+       ---------------------------------------------------------------- */
+    .hs-form{ max-width:640px; margin:clamp(1.4rem,2.6vw,2rem) auto 0; }
 
-    .hs-set{
-      border:1px solid rgba(21,21,15,.1); border-radius:10px; background:#fffdf8;
-      padding:clamp(1.4rem,2.6vw,2rem); margin:0 0 clamp(1rem,2vw,1.5rem);
-    }
+    .hs-set{ border:0; padding:0; margin:0 0 clamp(2.8rem,5.5vw,4.2rem); }
+    .hs-set:last-of-type{ margin-bottom:0; }
+
     .hs-legend{
-      font-family:var(--font-display); font-size:1.35rem; font-style:italic;
-      color:var(--gold-deep); padding:0 .5rem; margin-left:-.5rem;
+      float:left; width:100%;
+      font-family:var(--font-display); font-style:italic;
+      font-size:clamp(1.35rem,2.1vw,1.7rem); color:var(--gold-deep);
+      padding:0 0 .65rem; margin:0;
+      border-bottom:1px solid rgba(198,167,105,.4);
     }
-    .hs-blurb{ font-size:.86rem; color:var(--ink-soft); margin:.2rem 0 1.4rem; }
+    .hs-blurb{ clear:both; font-size:.84rem; line-height:1.6; color:var(--ink-soft);
+      margin:.95rem 0 clamp(1.6rem,3vw,2.2rem); }
 
-    .hs-field{ margin-bottom:1.3rem; }
+    .hs-field{ margin-bottom:clamp(1.5rem,2.6vw,2rem); }
     .hs-field:last-child{ margin-bottom:0; }
     .hs-field label{
-      display:block; font-size:.88rem; line-height:1.5; color:var(--ink); margin-bottom:.5rem;
+      display:block; font-size:.92rem; line-height:1.6; color:var(--ink); margin-bottom:.55rem;
     }
-    .req{ color:var(--gold-deep); margin-left:.25em; }
+    .req{ color:var(--gold-deep); margin-left:.2em; }
 
-    .hs-field input, .hs-field textarea{
+    .hs-field input, .hs-field textarea, .hs-field select{
       width:100%; font-family:var(--font-sans); font-size:.95rem; color:var(--ink);
-      background:var(--cream); border:1px solid rgba(21,21,15,.18); border-radius:6px;
-      padding:.75em .9em; transition:border-color .3s var(--ease), box-shadow .3s var(--ease);
+      background:transparent; border:0; border-bottom:1px solid rgba(21,21,15,.22);
+      border-radius:0; padding:.5em 0;
+      transition:border-color .3s var(--ease), box-shadow .3s var(--ease);
     }
-    .hs-field textarea{ resize:vertical; min-height:3.2em; line-height:1.55; }
-    .hs-field input:focus, .hs-field textarea:focus{
-      outline:none; border-color:var(--gold-deep); box-shadow:0 0 0 3px rgba(198,167,105,.22);
+    .hs-field textarea{ resize:vertical; min-height:2.6em; line-height:1.6; }
+    .hs-field select{
+      appearance:none; cursor:pointer;
+      background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a3813f' stroke-width='2'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e");
+      background-repeat:no-repeat; background-position:right .1em center; background-size:1em;
+      padding-right:2em;
     }
+    .hs-field input:focus, .hs-field textarea:focus, .hs-field select:focus{
+      outline:none; border-bottom-color:var(--gold-deep);
+      box-shadow:0 1px 0 0 var(--gold-deep);
+    }
+    .hs-field input::placeholder, .hs-field textarea::placeholder{ color:rgba(21,21,15,.3); }
 
-    .hs-choices{ display:grid; grid-template-columns:repeat(2,1fr); gap:.7rem; }
-    @media (max-width:560px){ .hs-choices{ grid-template-columns:1fr; } }
-    .hs-choice{
-      display:flex; align-items:center; gap:.7rem; cursor:pointer;
-      border:1px solid rgba(21,21,15,.14); border-radius:8px; padding:.8em 1em;
-      font-size:.9rem; transition:border-color .3s var(--ease), background .3s var(--ease);
-    }
-    .hs-choice:hover{ border-color:var(--gold-deep); background:rgba(198,167,105,.06); }
-    .hs-choice input{ accent-color:var(--gold-deep); width:16px; height:16px; flex:none; }
+    .hs-submit{ text-align:center; margin-top:clamp(2.4rem,4.5vw,3.4rem);
+      padding-top:clamp(1.8rem,3vw,2.4rem); border-top:1px solid rgba(21,21,15,.1); }
 
-    .hs-submit{ text-align:center; margin-top:clamp(1.4rem,2.6vw,2rem); }
-    .hs-submit .btn[disabled]{ opacity:.45; cursor:not-allowed; pointer-events:none; }
-    .hs-submit__note{
-      font-size:.84rem; color:var(--ink-soft); margin:1rem auto 0; max-width:46ch; line-height:1.6;
-    }
-    .hs-submit__note a{ color:var(--gold-deep); border-bottom:1px solid rgba(163,129,63,.4); }
   </style>
 </head>
 <body>
@@ -206,26 +209,22 @@
         <h2>Begin your screening</h2>
       </div>
 
-      <!-- The questions below are the client's real screening, mirrored from the live
-           Squarespace form at tigersoulretreats.com/medical-health-screening.
-           SUBMISSION IS DEACTIVATED ON PURPOSE: no backend has been chosen yet, and
-           health answers must not be collected until one is. The submit button is
-           disabled and the form has no action. Wire it up (Supabase or a form service,
-           with access locked down) before enabling. -->
-      <div class="hs-notice" data-reveal>
-        <p><strong>This form is not live yet.</strong> It's here so you can read and edit the questions.
-          Submissions aren't being collected — to book or apply today, use the
-          <a href="mailto:hello@tigersoulretreats.com?subject=Health%20Screening%20%E2%80%94%20Application">email link below</a>.</p>
-      </div>
-
-      <form class="hs-form" id="screeningForm" novalidate>
+      <!-- Submission is not wired yet — client is connecting this to Resend.
+           onsubmit returns false so an un-wired submit can't GET 43 answers of
+           medical history into the URL as query params. -->
+      <form class="hs-form" id="screeningForm" novalidate onsubmit="return false;">
         <fieldset class="hs-set">
-          <legend class="hs-legend">Which offering is this for?<span class="req" aria-hidden="true">*</span></legend>
-          <div class="hs-choices">
-            <label class="hs-choice" for="offering-1"><input type="checkbox" id="offering-1" name="offering" value="Private Kambo Ceremony" /> <span>Private Kambo Ceremony</span></label>
-            <label class="hs-choice" for="offering-2"><input type="checkbox" id="offering-2" name="offering" value="Private Bufo Ceremony" /> <span>Private Bufo Ceremony</span></label>
-            <label class="hs-choice" for="offering-3"><input type="checkbox" id="offering-3" name="offering" value="Bufo Practitioner Training" /> <span>Bufo Practitioner Training</span></label>
-            <label class="hs-choice" for="offering-4"><input type="checkbox" id="offering-4" name="offering" value="Medicine Retreat" /> <span>Medicine Retreat</span></label>
+          <legend class="hs-legend">Which offering is this for?</legend>
+          <div class="hs-field">
+            <label for="offering">Choose the offering you're applying for<span class="req" aria-hidden="true">*</span></label>
+            <select id="offering" name="offering">
+              <option value="" selected>Choose an offering&hellip;</option>
+              <option value="Private Ceremony">Private Ceremony</option>
+              <option value="Private Medicine Retreat">Private Medicine Retreat</option>
+              <option value="Bufo Practitioner Training">Bufo Practitioner Training</option>
+              <option value="The Liberation Program">The Liberation Program</option>
+              <option value="Other">Other</option>
+            </select>
           </div>
         </fieldset>
 
@@ -444,10 +443,7 @@
       </form>
 
       <div class="hs-submit" data-reveal>
-        <button class="btn btn--solid" type="button" disabled aria-describedby="hsSubmitNote">Submit Screening</button>
-        <p class="hs-submit__note" id="hsSubmitNote">Submission opens once the form is connected. In the
-          meantime, <a href="mailto:hello@tigersoulretreats.com?subject=Health%20Screening%20%E2%80%94%20Application">email us</a>
-          and we'll walk you through it personally.</p>
+        <button class="btn btn--solid" type="submit">Submit Screening</button>
       </div>
 
       <p class="muted" data-reveal data-reveal-delay="2" style="text-align:center; max-width:60ch; margin:2rem auto 0;">
