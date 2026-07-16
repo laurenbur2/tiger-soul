@@ -45,19 +45,24 @@
     }
     .hs-mission em{ font-style:italic; color:var(--gold-deep); }
 
-    /* Three steps as one tight band */
+    /* Three steps — a light step-by-step strip, not a green band */
     .hs-steps{
-      list-style:none; margin:0; padding:clamp(1.4rem,2.6vw,2rem) 0;
+      list-style:none; margin:0; padding:clamp(1.4rem,2.6vw,1.9rem) 0 clamp(1.6rem,3vw,2.2rem);
+      border-top:1px solid rgba(21,21,15,.1);
       display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(1.2rem,2.6vw,2.4rem);
     }
-    @media (max-width:760px){ .hs-steps{ grid-template-columns:1fr; gap:1.3rem; } }
-    .hs-steps li{ display:grid; grid-template-columns:auto 1fr; gap:.2rem .9rem; align-items:baseline; }
+    @media (max-width:760px){ .hs-steps{ grid-template-columns:1fr; gap:1.4rem; } }
+    .hs-steps li{ display:grid; grid-template-columns:auto 1fr; gap:.15rem .75rem; align-items:baseline; }
     .hs-steps .n{
-      grid-row:1 / span 2; font-family:var(--font-display); font-style:italic;
-      font-size:1.9rem; line-height:1; color:var(--gold-light);
+      grid-row:1 / span 2;
+      display:flex; align-items:center; justify-content:center;
+      width:1.55rem; height:1.55rem; flex:none;
+      background:var(--gold); border-radius:50%;
+      font-family:var(--font-sans); font-size:.68rem; font-weight:500;
+      color:var(--forest-950); line-height:1;
     }
-    .hs-steps h3{ font-size:1.02rem; margin:0; color:var(--cream); line-height:1.3; }
-    .hs-steps p{ margin:.25rem 0 0; font-size:.82rem; line-height:1.55; color:rgba(246,241,231,.66); }
+    .hs-steps h3{ font-size:.98rem; margin:0; color:var(--ink); line-height:1.35; }
+    .hs-steps p{ margin:.3rem 0 0; font-size:.82rem; line-height:1.55; color:var(--ink-soft); }
 
     /* The screening form */
     .hs-form{ max-width:760px; margin:clamp(1.6rem,3vw,2.4rem) auto 0; }
@@ -155,14 +160,13 @@
     </div>
   </section>
 
-  <!-- Why we ask + mission (kept tight — the form is the point of this page) -->
+  <!-- Health & safety + mission, kept short -->
   <section class="section--light" id="welcome">
     <div class="wrap hs-intro">
-      <p class="eyebrow centered" data-reveal>Why We Ask</p>
-      <p class="lead" data-reveal data-reveal-delay="1">Thank you for your interest in applying. This screening tells us
-        whether the medicines are safe for your body — certain heart conditions, medications, and
-        mental health histories make them genuinely dangerous. Answer honestly; nothing you share is
-        held against your application, and only the facilitators read it.</p>
+      <p class="eyebrow centered" data-reveal>Health &amp; Safety</p>
+      <p class="lead" data-reveal data-reveal-delay="1">We take your health and safety seriously. These are powerful
+        medicines, and some conditions and medications aren't safe with them — so we ask before we begin. Only the
+        facilitators read your answers.</p>
       <p class="hs-mission" data-reveal data-reveal-delay="2">
         <span class="k">Our Mission</span>
         Reduce unnecessary suffering by helping people heal <em>emotionally, mentally, physically, and
@@ -172,7 +176,7 @@
   </section>
 
   <!-- The three steps -->
-  <section class="on-dark" id="next">
+  <section class="section--light" id="next">
     <div class="wrap">
       <ol class="hs-steps" data-reveal>
         <li>
