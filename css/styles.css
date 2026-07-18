@@ -609,6 +609,12 @@ section { position: relative; }
 .testi .who { margin-top: auto; font-size: 0.66rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold-light); }
 .testi .who span { display: block; font-family: var(--font-sans); letter-spacing: 0.02em; text-transform: none; color: rgba(246,241,231,0.7); font-size: 0.86rem; margin-top: 0.3rem; }
 
+/* Testimonials — full-page grid */
+.testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.2rem, 2.2vw, 1.8rem); }
+.testi-grid .testi { flex: initial; }
+@media (max-width: 940px) { .testi-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 620px) { .testi-grid { grid-template-columns: 1fr; } }
+
 /* About Blaine */
 .about-teaser { background: var(--cream); color: var(--ink); overflow: hidden; }
 .about-teaser .btn { --tc: var(--forest-950); border-color: var(--gold-deep); }
