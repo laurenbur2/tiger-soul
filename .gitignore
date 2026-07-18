@@ -12,6 +12,8 @@ server.js
 node_modules/
 .DS_Store
 *.mp4
+# ...except the web-optimized testimonial videos, which the site serves
+!assets/videos/testimonial-*.mp4
 /Toady-toad.jpg
 /song-of-tranquility.jpg
 .gstack/
