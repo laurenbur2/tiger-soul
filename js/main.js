@@ -172,6 +172,28 @@
     });
   }
 
+  /* ---------- Photo gallery: arrow-scroll ---------- */
+  document.querySelectorAll(".gallery").forEach((g) => {
+    const track = g.querySelector(".gallery__track");
+    const prev = g.querySelector(".gallery__nav--prev");
+    const next = g.querySelector(".gallery__nav--next");
+    if (!track) return;
+    const step = () => Math.max(track.clientWidth * 0.8, 320);
+    prev && prev.addEventListener("click", () => track.scrollBy({ left: -step(), behavior: "smooth" }));
+    next && next.addEventListener("click", () => track.scrollBy({ left: step(), behavior: "smooth" }));
+    // drag to scroll (desktop)
+    let down = false, startX = 0, startScroll = 0;
+    track.addEventListener("pointerdown", (e) => {
+      down = true; startX = e.clientX; startScroll = track.scrollLeft; track.setPointerCapture(e.pointerId);
+    });
+    track.addEventListener("pointermove", (e) => {
+      if (down) track.scrollLeft = startScroll - (e.clientX - startX);
+    });
+    const end = () => { down = false; };
+    track.addEventListener("pointerup", end);
+    track.addEventListener("pointercancel", end);
+  });
+
   /* ---------- Testimonials: drag / wheel to scroll horizontally ---------- */
   const track = document.getElementById("testiTrack");
   if (track) {
