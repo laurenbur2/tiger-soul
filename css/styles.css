@@ -609,11 +609,17 @@ section { position: relative; }
 .testi .who { margin-top: auto; font-size: 0.66rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold-light); }
 .testi .who span { display: block; font-family: var(--font-sans); letter-spacing: 0.02em; text-transform: none; color: rgba(246,241,231,0.7); font-size: 0.86rem; margin-top: 0.3rem; }
 
-/* Testimonials — full-page grid */
-.testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.2rem, 2.2vw, 1.8rem); }
-.testi-grid .testi { flex: initial; }
-@media (max-width: 940px) { .testi-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 620px) { .testi-grid { grid-template-columns: 1fr; } }
+/* Testimonials — decorative quote mark (replaces star rating) */
+.testi__mark { display: block; font-family: var(--font-display); font-size: 3rem; line-height: 0.5; color: var(--gold-light); opacity: 0.6; margin-bottom: 1rem; }
+.testi blockquote p { margin: 0 0 0.9em; }
+.testi blockquote p:last-child { margin-bottom: 0; }
+
+/* Testimonials — full-page masonry (handles long, uneven stories) */
+.testi-grid { columns: 3; column-gap: clamp(1.2rem, 2.2vw, 1.8rem); }
+.testi-grid .testi { flex: initial; display: block; break-inside: avoid; margin-bottom: clamp(1.2rem, 2.2vw, 1.8rem); }
+.testi-grid .testi blockquote { font-size: clamp(1.02rem, 1.35vw, 1.16rem); line-height: 1.5; }
+@media (max-width: 940px) { .testi-grid { columns: 2; } }
+@media (max-width: 620px) { .testi-grid { columns: 1; } }
 
 /* About Blaine */
 .about-teaser { background: var(--cream); color: var(--ink); overflow: hidden; }
