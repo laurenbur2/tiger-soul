@@ -134,6 +134,44 @@
     }, HOLD);
   }
 
+  /* ---------- Testimonial modal: read full review ---------- */
+  const testiModal = document.getElementById("testiModal");
+  if (testiModal) {
+    const mBody = testiModal.querySelector(".modal__body");
+    const mWho = testiModal.querySelector("#testiModalWho");
+    let lastFocus = null;
+
+    function openTesti(card) {
+      const full = card.querySelector(".testi__full");
+      const who = card.querySelector(".who");
+      mBody.innerHTML = full ? full.innerHTML : "";
+      mWho.innerHTML = who ? who.innerHTML : "";
+      testiModal.querySelector(".modal__panel").scrollTop = 0;
+      lastFocus = document.activeElement;
+      testiModal.classList.add("open");
+      testiModal.setAttribute("aria-hidden", "false");
+      body.classList.add("no-scroll");
+      const c = testiModal.querySelector(".modal__close");
+      c && c.focus();
+    }
+    function closeTesti() {
+      testiModal.classList.remove("open");
+      testiModal.setAttribute("aria-hidden", "true");
+      body.classList.remove("no-scroll");
+      lastFocus && lastFocus.focus();
+    }
+
+    document.querySelectorAll(".testi__more").forEach((btn) =>
+      btn.addEventListener("click", () => openTesti(btn.closest(".testi")))
+    );
+    testiModal.querySelectorAll("[data-modal-close]").forEach((el) =>
+      el.addEventListener("click", closeTesti)
+    );
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && testiModal.classList.contains("open")) closeTesti();
+    });
+  }
+
   /* ---------- Testimonials: drag / wheel to scroll horizontally ---------- */
   const track = document.getElementById("testiTrack");
   if (track) {

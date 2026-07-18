@@ -77,39 +77,47 @@
       <div class="testi-grid">
         <article class="testi" data-reveal>
           <span class="testi__mark" aria-hidden="true">&ldquo;</span>
-          <blockquote>
+          <blockquote>Blaine, with all his experience and care, guided me through the most amazing journey of my life. My life is completely changed for good and I will never forget that day in Tulum.</blockquote>
+          <div class="who">Bufo Ceremony <span>Yuba Odavic</span></div>
+          <button class="testi__more" type="button">Read full review <span class="arw">&rarr;</span></button>
+          <div class="testi__full" hidden>
             <p>I have to admit that I was little reluctant and afraid to do Bufo. Even though my previous sessions with different types of plant medicine was nothing but loving, inspiring and above all positive, I was still holding on to try Bufo.</p>
             <p>Everything changed when I met Blaine and felt his energy and good intentions. When I finally felt that it's the right moment I put aside all fears and came with open mind and heart for the Bufo ceremony.</p>
             <p>Blaine, with all his experience and care, guided me through the most amazing journey of my life. He also helped me afterwards to process and understand everything that was presented to me. I'm forever grateful to meet Blaine and the powerful medicine he shared with me. My life is completely changed for good and I will never forget that day in Tulum.</p>
             <p>Since then, Blaine worked with many of my friends and all of them had extremely positive feedback. Thank you Blaine for everything.</p>
-          </blockquote>
-          <div class="who">Bufo Ceremony <span>Yuba Odavic</span></div>
+          </div>
         </article>
 
         <article class="testi" data-reveal>
           <span class="testi__mark" aria-hidden="true">&ldquo;</span>
-          <blockquote>
-            <p>My experience with bufo medicine was the catalyst for my deep healing to begin. The way Blaine holds the space so beautifully for you to feel safe and loved which is something I desperately needed to be able to let myself be seen and held by both the medicine and Blaine. I have such deep gratitude for my entire experience.</p>
-          </blockquote>
+          <blockquote>The way Blaine holds the space so beautifully for you to feel safe and loved &mdash; something I desperately needed to let myself be seen and held.</blockquote>
           <div class="who">Bufo Ceremony <span>Charity &middot; Canada</span></div>
+          <button class="testi__more" type="button">Read full review <span class="arw">&rarr;</span></button>
+          <div class="testi__full" hidden>
+            <p>My experience with bufo medicine was the catalyst for my deep healing to begin. The way Blaine holds the space so beautifully for you to feel safe and loved which is something I desperately needed to be able to let myself be seen and held by both the medicine and Blaine. I have such deep gratitude for my entire experience.</p>
+          </div>
         </article>
 
         <article class="testi" data-reveal>
           <span class="testi__mark" aria-hidden="true">&ldquo;</span>
-          <blockquote>
+          <blockquote>Right after I used the medicine I went through an ego death and emerged into pure bliss, ecstasy, and pure love.</blockquote>
+          <div class="who">Bufo Ceremony <span>Janine Kerner &middot; August 2022</span></div>
+          <button class="testi__more" type="button">Read full review <span class="arw">&rarr;</span></button>
+          <div class="testi__full" hidden>
             <p>In August 2022, I went on a Bufo journey. My facilitator, Blaine, was amazing! This experience was life changing for me. Right after I used the medicine I went through an ego death and emerged into pure bliss, ecstasy, and pure love. My journey lead me through every cell in my body, filling them all with love and healing and releasing any trauma and stuck energy. I was everywhere and nowhere at once.</p>
             <p>In everything and of nothing at the same time. The freedom and release I gained from that journey is still with me today. Thank you to the facilitator, Blaine, who lovingly, genuinely, and non-judgementally held the space for me to experience this journey!</p>
-          </blockquote>
-          <div class="who">Bufo Ceremony <span>Janine Kerner &middot; August 2022</span></div>
+          </div>
         </article>
 
         <article class="testi" data-reveal>
           <span class="testi__mark" aria-hidden="true">&ldquo;</span>
-          <blockquote>
+          <blockquote>I would call Blaine a supportive magician the way he is leading a ceremony. I believe Bufo can change the world in a good way.</blockquote>
+          <div class="who">Bufo Ceremony <span>Pavel Chapkin &middot; Canada</span></div>
+          <button class="testi__more" type="button">Read full review <span class="arw">&rarr;</span></button>
+          <div class="testi__full" hidden>
             <p>Few years ago on one of the aya ceremony, I met my future friend Blaine. Very fast we get along and spent a lot of time hiking in the mountains. I witnessed his beautiful soul rapidly growing in the direction of awakening with his strong, solid foundation and kind heart. I trust him a lot. This is the reason why I didn't even think and say "Please" when he offered to me the amazing bufo medicine he was trained for a while in Mexico. Bufo is the life changing medicine with an extremely deep healing and incredible integration process.</p>
             <p>I would call Blaine a supportive magician the way he is leading a ceremony. I heard many "Thank you" from my other friends I recommended to Blaine. Looking forward for the opportunity to do a Bufo with Blaine again. This time with my daughter. I believe, Bufo can change the world in a good way.</p>
-          </blockquote>
-          <div class="who">Bufo Ceremony <span>Pavel Chapkin &middot; Canada</span></div>
+          </div>
         </article>
       </div>
     </div>
@@ -164,6 +172,17 @@
       </div>
     </div>
   </footer>
+
+  <!-- Testimonial modal -->
+  <div class="modal" id="testiModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="testiModalWho">
+    <div class="modal__backdrop" data-modal-close></div>
+    <div class="modal__panel" role="document">
+      <button class="modal__close" type="button" data-modal-close aria-label="Close">&times;</button>
+      <span class="testi__mark" aria-hidden="true">&ldquo;</span>
+      <div class="modal__body" id="testiModalBody"></div>
+      <div class="who" id="testiModalWho"></div>
+    </div>
+  </div>
 
   <script src="../js/main.js"></script>
 </body>
