@@ -251,8 +251,8 @@ p { margin: 0 0 1.2em; }
   gap: 0.35rem;
   transition: opacity 0.4s var(--ease);
 }
-.brand img { height: 54px; width: auto; filter: drop-shadow(0 2px 10px rgba(0,0,0,0.35)); transition: height 0.4s var(--ease); }
-.header.solid .brand img { height: 46px; }
+.brand img { height: 66px; width: auto; filter: drop-shadow(0 2px 10px rgba(0,0,0,0.35)); transition: height 0.4s var(--ease); }
+.header.solid .brand img { height: 56px; }
 .brand .brand-word {
   font-family: var(--font-display);
   font-style: italic;
@@ -984,7 +984,7 @@ section { position: relative; }
 @media (max-width: 720px) {
   :root { --header-h: 68px; --bar-h: 0px; }
   .brand .brand-sub { display: none; }
-  .brand img { height: 42px; }
+  .brand img { height: 50px; }
 
   /* Announcement: one tidy line */
   .announce { padding-inline: 1rem; font-size: 0.54rem; letter-spacing: 0.16em; }
