@@ -88,7 +88,11 @@
 
   /* ---------- Scroll reveal ---------- */
   const revealEls = document.querySelectorAll("[data-reveal]");
-  if ("IntersectionObserver" in window) {
+  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (prefersReduced || !("IntersectionObserver" in window)) {
+    // No animation (or no support) — show everything straight away.
+    revealEls.forEach((el) => el.classList.add("in"));
+  } else {
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -98,11 +102,24 @@
           }
         });
       },
-      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+      // Reveal just before an element enters the viewport so there's no
+      // blank gap as you scroll down to it.
+      { threshold: 0, rootMargin: "0px 0px 15% 0px" }
     );
     revealEls.forEach((el) => io.observe(el));
-  } else {
-    revealEls.forEach((el) => el.classList.add("in"));
+
+    // Failsafe: never let content stay stuck hidden. Once the page has
+    // loaded, reveal anything at or near the top of the page even if the
+    // observer's first pass missed it.
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        revealEls.forEach((el) => {
+          if (el.getBoundingClientRect().top < window.innerHeight * 1.15) {
+            el.classList.add("in");
+          }
+        });
+      }, 400);
+    });
   }
 
   /* ---------- Hero carousel: slow crossfade ---------- */
