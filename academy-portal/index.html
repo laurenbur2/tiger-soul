@@ -20,11 +20,13 @@
     :root {
       --forest-950: #0f1c14;
       --forest-900: #15271c;
-      --forest-850: #1a2e21;
       --gold: #c6a769;
       --gold-light: #e6cf9d;
       --gold-deep: #a3813f;
       --cream: #f6f1e7;
+      --cream-2: #efe8d8;
+      --ink: #15150f;
+      --ink-soft: #3a3a30;
       --font-display: "Cormorant Garamond", "Times New Roman", serif;
       --font-sans: "Jost", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -34,27 +36,26 @@
     body {
       font-family: var(--font-sans);
       font-weight: 300;
-      color: var(--cream);
-      background: var(--forest-950);
+      color: var(--ink);
+      background: var(--cream);
       line-height: 1.7;
       min-height: 100vh;
       min-height: 100svh;
       display: flex;
-      padding: clamp(2.2rem, 5vw, 3.5rem) clamp(1.5rem, 5vw, 3rem);
+      padding: clamp(2.2rem, 5vw, 3.5rem) clamp(1.4rem, 5vw, 3rem);
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
       position: relative;
       overflow-x: hidden;
     }
-    /* ambient depth */
+    /* soft warm wash, very subtle — matches the site's light sections */
     body::before {
       content: "";
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(120% 90% at 50% -10%, rgba(198,167,105,0.16), transparent 55%),
-        radial-gradient(100% 80% at 50% 120%, rgba(15,28,20,0.9), transparent 60%),
-        linear-gradient(180deg, var(--forest-900), var(--forest-950));
+        radial-gradient(90% 60% at 50% -5%, rgba(198,167,105,0.14), transparent 60%),
+        linear-gradient(180deg, #f8f3ea, var(--cream) 40%, var(--cream-2));
       z-index: 0;
     }
     img { max-width: 100%; display: block; }
@@ -62,18 +63,18 @@
     .portal {
       position: relative;
       z-index: 1;
-      width: min(100%, 540px);
+      width: min(100%, 500px);
       margin: auto;
       text-align: center;
     }
 
     .portal__logo {
-      width: clamp(190px, 46vw, 280px);
-      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
-      border: 1px solid rgba(198,167,105,0.45);
+      width: clamp(150px, 40vw, 210px);
+      margin: 0 auto clamp(1.6rem, 3.5vw, 2.2rem);
+      border: 1px solid rgba(163,129,63,0.4);
       border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 30px 70px -34px rgba(0,0,0,0.75);
+      box-shadow: 0 26px 60px -30px rgba(15,28,20,0.4);
     }
     .portal__logo img { width: 100%; height: auto; }
 
@@ -83,11 +84,11 @@
       font-size: 0.72rem;
       letter-spacing: 0.42em;
       text-transform: uppercase;
-      color: var(--gold-light);
+      color: var(--gold-deep);
       display: inline-flex;
       align-items: center;
       gap: 0.9em;
-      margin-bottom: 1.4rem;
+      margin-bottom: 1.3rem;
     }
     .eyebrow::before, .eyebrow::after {
       content: "";
@@ -99,18 +100,19 @@
     h1 {
       font-family: var(--font-display);
       font-weight: 400;
-      line-height: 1.05;
+      line-height: 1.04;
       letter-spacing: 0.01em;
-      font-size: clamp(2.3rem, 7vw, 3.4rem);
-      margin-bottom: 1rem;
+      font-size: clamp(2.3rem, 7vw, 3.3rem);
+      color: var(--ink);
+      margin-bottom: 0.9rem;
     }
 
     .meta {
-      font-size: 0.74rem;
+      font-size: 0.72rem;
       letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: rgba(246,241,231,0.6);
-      margin-bottom: 1.8rem;
+      color: rgba(58,58,48,0.62);
+      margin-bottom: 1.7rem;
     }
 
     .lead {
@@ -118,41 +120,47 @@
       font-size: clamp(1.15rem, 2vw, 1.4rem);
       font-weight: 300;
       line-height: 1.5;
-      color: rgba(246,241,231,0.88);
-      max-width: 42ch;
+      color: var(--ink-soft);
+      max-width: 40ch;
       margin: 0 auto clamp(2rem, 4vw, 2.6rem);
     }
 
-    .rule {
-      width: 44px; height: 1px;
-      background: var(--gold);
-      opacity: 0.55;
-      margin: 0 auto clamp(1.8rem, 3.5vw, 2.4rem);
+    /* deposit card — mirrors the site's featured price card */
+    .card {
+      background: #fffdf8;
+      border: 1px solid var(--gold);
+      border-radius: 4px;
+      padding: clamp(2rem, 5vw, 2.8rem) clamp(1.6rem, 5vw, 2.6rem);
+      box-shadow: 0 30px 70px -38px rgba(15,28,20,0.4);
     }
-
-    .amount {
-      margin-bottom: clamp(1.8rem, 3.5vw, 2.3rem);
-    }
-    .amount__label {
+    .card__label {
       font-size: 0.66rem;
       letter-spacing: 0.34em;
       text-transform: uppercase;
-      color: var(--gold-light);
-      margin-bottom: 0.4rem;
+      color: var(--gold-deep);
+      margin-bottom: 0.5rem;
     }
-    .amount__value {
+    .card__amount {
       font-family: var(--font-display);
-      font-size: clamp(3rem, 9vw, 4.4rem);
+      font-size: clamp(2.9rem, 9vw, 4rem);
       line-height: 1;
-      color: var(--cream);
+      color: var(--ink);
+      margin-bottom: 0.5rem;
     }
-    .amount__value small {
+    .card__amount small {
       font-size: 0.28em;
       letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: rgba(246,241,231,0.6);
+      color: rgba(58,58,48,0.6);
       vertical-align: middle;
       margin-left: 0.4em;
+    }
+    .card__note {
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+      opacity: 0.85;
+      max-width: 34ch;
+      margin: 0 auto clamp(1.7rem, 3.5vw, 2.1rem);
     }
 
     .btn {
@@ -160,9 +168,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 0.7em;
       width: 100%;
-      max-width: 380px;
       padding: 1.15em 2em;
       font-family: var(--font-sans);
       font-weight: 400;
@@ -175,7 +181,7 @@
       border-radius: 2px;
       overflow: hidden;
       transition: color 0.5s var(--ease), box-shadow 0.5s var(--ease), transform 0.5s var(--ease);
-      box-shadow: 0 18px 40px -20px rgba(198,167,105,0.6);
+      box-shadow: 0 16px 34px -18px rgba(163,129,63,0.55);
     }
     .btn::before {
       content: "";
@@ -190,32 +196,31 @@
     .btn span { position: relative; z-index: 1; }
     .btn:hover { color: var(--gold-light); transform: translateY(-2px); }
     .btn:hover::before { transform: scaleX(1); transform-origin: left; }
-    .btn:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 3px; }
+    .btn:focus-visible { outline: 2px solid var(--gold-deep); outline-offset: 3px; }
 
     .secure {
-      font-size: 0.64rem;
+      font-size: 0.62rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: rgba(246,241,231,0.5);
+      color: rgba(58,58,48,0.55);
       margin-top: 1.1rem;
       display: inline-flex;
       align-items: center;
       gap: 0.6em;
     }
-    .secure svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.6; opacity: 0.8; }
+    .secure svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.7; opacity: 0.85; }
 
     .disclaimer {
-      margin-top: clamp(2.4rem, 5vw, 3.4rem);
+      margin-top: clamp(2rem, 4.5vw, 3rem);
       font-size: 0.7rem;
       line-height: 1.65;
       letter-spacing: 0.02em;
-      color: rgba(246,241,231,0.4);
-      max-width: 48ch;
+      color: rgba(58,58,48,0.5);
+      max-width: 46ch;
       margin-left: auto;
       margin-right: auto;
     }
 
-    /* gentle entrance */
     @media (prefers-reduced-motion: no-preference) {
       .portal > * { opacity: 0; transform: translateY(14px); animation: rise 0.9s var(--ease) forwards; }
       .portal__logo { animation-delay: 0.05s; }
@@ -223,13 +228,10 @@
       h1 { animation-delay: 0.24s; }
       .meta { animation-delay: 0.32s; }
       .lead { animation-delay: 0.4s; }
-      .rule { animation-delay: 0.46s; }
-      .amount { animation-delay: 0.52s; }
-      .btn-wrap { animation-delay: 0.6s; }
-      .disclaimer { animation-delay: 0.72s; }
+      .card { animation-delay: 0.5s; }
+      .disclaimer { animation-delay: 0.64s; }
       @keyframes rise { to { opacity: 1; transform: none; } }
     }
-    .btn-wrap { display: flex; flex-direction: column; align-items: center; }
   </style>
 </head>
 <body>
@@ -245,14 +247,10 @@
     <p class="lead">Reserve your place in the next training cohort. Your deposit secures your spot
       and is applied in full toward your tuition.</p>
 
-    <div class="rule"></div>
-
-    <div class="amount">
-      <p class="amount__label">Training Deposit</p>
-      <p class="amount__value">$1,500<small>USD</small></p>
-    </div>
-
-    <div class="btn-wrap">
+    <div class="card">
+      <p class="card__label">Training Deposit</p>
+      <p class="card__amount">$1,500<small>USD</small></p>
+      <p class="card__note">A one-time deposit to hold your place. We'll reach out personally with your next steps.</p>
       <a class="btn" href="https://buy.stripe.com/14A4gBggz3BHcYtg7O9oc00" target="_blank" rel="noopener">
         <span>Pay Deposit Securely</span>
       </a>
