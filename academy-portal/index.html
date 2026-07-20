@@ -37,6 +37,7 @@
       --gold-light: #e6cf9d;
       --gold-bright: #f0dcb0;
       --gold-deep: #a3813f;
+      --champagne: #d8c4a0;
       --cream: #f6f1e7;
       --ink: #15150f;
       --ink-soft: #3a3a30;
@@ -96,27 +97,29 @@
     /* ---- brand lockup (gold on dark) ---- */
     .lockup { margin-bottom: clamp(1.2rem, 2.6vw, 1.7rem); }
     .lockup__mark {
-      width: clamp(46px, 9vw, 60px);
-      margin: 0 auto 0.65rem;
+      width: clamp(72px, 13vw, 96px);
+      margin: 0 auto 0.7rem;
       filter: drop-shadow(0 8px 20px rgba(0,0,0,0.45));
     }
     .lockup__word {
       font-family: var(--font-display);
-      font-weight: 500;
-      font-size: clamp(1.45rem, 3.8vw, 1.8rem);
-      letter-spacing: 0.06em;
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(1.75rem, 4.4vw, 2.2rem);
+      letter-spacing: 0.02em;
       line-height: 1;
-      color: var(--cream);
-      margin-bottom: 0.4rem;
+      color: var(--gold-light);
+      margin-bottom: 0.5rem;
     }
     .lockup__sub {
       font-family: var(--font-sans);
       font-weight: 400;
-      font-size: 0.66rem;
-      letter-spacing: 0.5em;
+      font-size: 0.64rem;
+      letter-spacing: 0.44em;
       text-transform: uppercase;
-      color: var(--gold-light);
-      text-indent: 0.5em;
+      color: var(--champagne);
+      opacity: 0.9;
+      text-indent: 0.44em;
     }
 
     h1 {
