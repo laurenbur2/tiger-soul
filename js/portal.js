@@ -149,10 +149,10 @@
       img: HERO
     },
     {
-      type: "program", tag: "8-Week Program", name: "Integration Circle — Cohort III",
+      type: "program", tag: "9-Week Program", name: "Integration Circle — Cohort III",
       start: future(4), nights: 0, place: "Online · Thursdays 6pm PT",
       status: "confirmed", statusLabel: "In progress",
-      desc: "Weekly live integration calls with the circle. You're in week 3 of 8.",
+      desc: "Weekly live integration calls with the circle. You're in week 3 of 9.",
       img: IMG + "retreats-cta.webp"
     },
     {
