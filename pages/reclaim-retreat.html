@@ -30,15 +30,36 @@
     .section--light .timeline__intent { color: var(--gold-deep); }
     .on-dark .timeline__intent { color: var(--gold-light); }
 
-    /* Before / after the retreat — two stacked blocks in one band. */
-    .around-block + .around-block { margin-top: clamp(2.2rem, 4vw, 3.4rem); }
-    .around-block h3 { font-size: clamp(1.5rem, 2.4vw, 1.9rem); margin: 0 0 0.5rem; }
-    .around-block h3 span {
-      display: block; font-family: var(--font-sans); font-size: 0.62rem;
-      letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold-light);
-      margin-top: 0.5rem;
+    /* The full arc — three phases, the retreat itself raised in the middle. */
+    .arcflow { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1rem, 1.8vw, 1.6rem); }
+    .arcflow__phase {
+      display: flex; flex-direction: column;
+      padding: clamp(1.7rem, 2.4vw, 2.4rem) clamp(1.3rem, 1.9vw, 1.9rem);
+      border: 1px solid rgba(198,167,105,0.2);
+      background: rgba(11,18,13,0.3);
+      transition: transform 0.5s var(--ease), border-color 0.5s var(--ease);
     }
-    .around-block > p { max-width: 60ch; margin: 0 0 1.4rem; color: rgba(246,241,231,0.72); }
+    .arcflow__phase:hover { transform: translateY(-5px); border-color: rgba(198,167,105,0.5); }
+    .arcflow__phase--centre { border-color: rgba(198,167,105,0.5); background: rgba(198,167,105,0.055); }
+    .arcflow__num {
+      font-family: var(--font-display); font-style: italic; font-size: 2.3rem;
+      line-height: 1; color: rgba(198,167,105,0.45);
+    }
+    .arcflow__phase--centre .arcflow__num { color: var(--gold-light); }
+    .arcflow__when {
+      display: block; font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--gold-light); margin: 1rem 0 0.45rem;
+    }
+    .arcflow__phase h3 { font-size: clamp(1.3rem, 1.9vw, 1.6rem); margin: 0 0 0.6rem; }
+    .arcflow__phase h3 em { font-style: italic; color: var(--gold-light); }
+    .arcflow__phase > p { font-size: 0.92rem; color: rgba(246,241,231,0.7); margin: 0 0 1.3rem; }
+    .arcflow__list { list-style: none; margin: auto 0 0; padding: 0; }
+    .arcflow__list li {
+      position: relative; font-size: 0.86rem; color: rgba(246,241,231,0.82);
+      padding: 0.62rem 0 0.62rem 1.15rem; border-top: 1px solid rgba(198,167,105,0.13);
+    }
+    .arcflow__list li::before { content: "—"; position: absolute; left: 0; color: rgba(198,167,105,0.55); }
+    @media (max-width: 900px) { .arcflow { grid-template-columns: 1fr; } }
 
     /* Ceremony cards carry a gold hairline so the rites read apart from the
        meals and the outings at a glance. */
@@ -350,40 +371,58 @@
   <!-- Before and after -->
   <section class="on-dark pad" id="around">
     <div class="wrap">
-      <div class="sec-head" data-reveal>
-        <p class="eyebrow">Before &amp; After</p>
+      <div class="sec-head centered" data-reveal>
+        <p class="eyebrow centered">The Full Arc</p>
         <h2>The four days are the middle, <em>not the whole thing</em></h2>
-        <p>The work starts weeks before you land and carries on for a month after you leave. That's
-          what separates a powerful experience from a lasting change — and it's included, not an
-          add-on.</p>
+        <p>The work starts weeks before you fly and carries on for a month after you land back home.
+          All of it is included.</p>
       </div>
 
-      <div class="around-block" data-reveal data-reveal-delay="1">
-        <h3>Before Tulum <span>Preparation &amp; education</span></h3>
-        <p>You won't arrive cold. Everyone is screened, prepared, and taught what they're walking into,
-          so the first day in Tulum isn't the first time you've thought about any of it.</p>
-        <ul class="checklist">
-          <li>A health screening and intake review before you're confirmed</li>
-          <li>A one-to-one call with your facilitator</li>
-          <li>A preparation guide — food, substances, medications, and rest</li>
-          <li>Education on Bufo and rapé: what they are, what to expect, how we hold safety</li>
-          <li>A group welcome call, so you know the faces before you land</li>
-          <li>Intention work, so you arrive knowing what you came for</li>
-        </ul>
-      </div>
+      <div class="arcflow">
+        <article class="arcflow__phase" data-reveal>
+          <span class="arcflow__num">I</span>
+          <span class="arcflow__when">The weeks before</span>
+          <h3><em>Preparation</em> &amp; education</h3>
+          <p>You won't arrive cold. Everyone is screened, prepared, and taught what they're walking
+            into, so the first day in Tulum isn't the first time you've thought about any of it.</p>
+          <ul class="arcflow__list">
+            <li>Health screening and intake review</li>
+            <li>A one-to-one call with your facilitator</li>
+            <li>Preparation guide — food, substances, medication, rest</li>
+            <li>Education on Bufo and rapé, and how safety is held</li>
+            <li>A group welcome call before you fly</li>
+          </ul>
+        </article>
 
-      <div class="around-block" data-reveal data-reveal-delay="2">
-        <h3>After Tulum <span>Integration</span></h3>
-        <p>In a few weeks you'll be back in the same rooms with the same people, and that's where this
-          actually gets decided. So we stay with you — as a group, and one to one.</p>
-        <ul class="checklist">
-          <li>A personal check-in soon after the retreat</li>
-          <li>A group integration call about a week later</li>
-          <li>A second group call at twenty-eight days</li>
-          <li>Guided reflection and journaling practices</li>
-          <li>A personal thirty-day commitment plan</li>
-          <li>Ongoing connection with the Tiger Soul community</li>
-        </ul>
+        <article class="arcflow__phase arcflow__phase--centre" data-reveal data-reveal-delay="1">
+          <span class="arcflow__num">II</span>
+          <span class="arcflow__when">December 4–7</span>
+          <h3>The four days in <em>Tulum</em></h3>
+          <p>Arrival, surrender, embodiment, return — a private villa, a small group, and fifteen
+            held experiences from the opening ceremony to the farewell breakfast.</p>
+          <ul class="arcflow__list">
+            <li>Opening ceremony, land offering, rapé</li>
+            <li>Sound healing and introductory Bufo</li>
+            <li>The Bufo ceremony</li>
+            <li>Cenote, coast, and celebration dinner</li>
+            <li>Closing reflection and keepsake</li>
+          </ul>
+        </article>
+
+        <article class="arcflow__phase" data-reveal data-reveal-delay="2">
+          <span class="arcflow__num">III</span>
+          <span class="arcflow__when">The month after</span>
+          <h3><em>Integration</em>, together</h3>
+          <p>In a few weeks you'll be back in the same rooms with the same people, and that's where
+            this actually gets decided. So we stay with you — as a group, and one to one.</p>
+          <ul class="arcflow__list">
+            <li>A personal check-in soon after the retreat</li>
+            <li>Group integration call, about a week later</li>
+            <li>A second group call at twenty-eight days</li>
+            <li>A personal thirty-day commitment plan</li>
+            <li>Ongoing connection with the Tiger Soul community</li>
+          </ul>
+        </article>
       </div>
     </div>
   </section>
