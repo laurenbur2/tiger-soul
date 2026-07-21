@@ -25,12 +25,13 @@
 
   <style>
     /* ── Itinerary ───────────────────────────────────────────────
-       Four days, collapsed. The whole retreat reads in one screen; open a
-       day for the hour-by-hour. Native details/summary, same accordion
-       pattern as the FAQ page. Ceremonies carry a ✦. */
+       The dark centre of the page. Four days collapsed — the whole retreat
+       reads in one screen; open a day for the hour-by-hour. Native
+       details/summary, same accordion pattern as the FAQ page.
+       Ceremonies carry a ✦. */
     .itin { max-width: 880px; margin: 0 auto; }
-    .itin__day { border-top: 1px solid rgba(21,21,15,0.14); }
-    .itin__day:last-child { border-bottom: 1px solid rgba(21,21,15,0.14); }
+    .itin__day { border-top: 1px solid rgba(198,167,105,0.28); }
+    .itin__day:last-child { border-bottom: 1px solid rgba(198,167,105,0.28); }
 
     .itin__day > summary {
       display: grid; grid-template-columns: 9rem 1fr auto; align-items: center;
@@ -39,12 +40,12 @@
       transition: color 0.3s var(--ease);
     }
     .itin__day > summary::-webkit-details-marker { display: none; }
-    .itin__day > summary:hover .itin__title { color: var(--gold-deep); }
-    .itin__day > summary:focus-visible { outline: 2px solid var(--gold-deep); outline-offset: 3px; }
+    .itin__day > summary:hover .itin__title { color: var(--gold-light); }
+    .itin__day > summary:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 3px; }
 
     .itin__num {
       font-family: var(--font-display); font-style: italic;
-      font-size: clamp(1.15rem, 1.7vw, 1.4rem); color: var(--gold-deep); line-height: 1.1;
+      font-size: clamp(1.15rem, 1.7vw, 1.4rem); color: var(--gold-light); line-height: 1.1;
     }
     .itin__num small {
       display: block; font-family: var(--font-sans); font-style: normal; font-size: 0.56rem;
@@ -52,14 +53,14 @@
     }
     .itin__title {
       font-family: var(--font-display); font-size: clamp(1.15rem, 1.9vw, 1.45rem);
-      color: var(--ink); transition: color 0.3s var(--ease);
+      color: var(--cream); transition: color 0.3s var(--ease);
     }
     .itin__title em {
       display: block; font-family: var(--font-sans); font-style: normal;
-      font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.3rem;
+      font-size: 0.85rem; color: rgba(246,241,231,0.66); margin-top: 0.3rem;
     }
     .itin__ico { flex: none; position: relative; width: 14px; height: 14px; transition: transform 0.35s var(--ease); }
-    .itin__ico::before, .itin__ico::after { content: ""; position: absolute; background: var(--gold-deep); }
+    .itin__ico::before, .itin__ico::after { content: ""; position: absolute; background: var(--gold-light); }
     .itin__ico::before { top: 6px; left: 0; width: 14px; height: 1.5px; }
     .itin__ico::after { left: 6px; top: 0; width: 1.5px; height: 14px; }
     .itin__day[open] .itin__ico { transform: rotate(135deg); }
@@ -70,25 +71,25 @@
     .itin__items li {
       display: grid; grid-template-columns: 9rem 1fr; gap: clamp(1rem, 2vw, 2rem);
       padding: 0.72rem 0;
-      border-top: 1px solid rgba(21,21,15,0.08);
+      border-top: 1px solid rgba(198,167,105,0.14);
     }
     .itin__when {
       font-size: 0.6rem; letter-spacing: 0.26em; text-transform: uppercase;
-      color: var(--gold-deep); opacity: 0.85; padding-top: 0.4rem;
+      color: var(--gold-light); opacity: 0.8; padding-top: 0.4rem;
     }
     .itin__items h4 {
       font-family: var(--font-display); font-weight: 400; font-size: 1.08rem;
       margin: 0 0 0.15rem; letter-spacing: 0.01em;
     }
     .itin__items li.is-rite h4::before {
-      content: "✦"; color: var(--gold-deep); font-size: 0.62em;
+      content: "✦"; color: var(--gold-light); font-size: 0.62em;
       margin-right: 0.5em; vertical-align: 0.15em;
     }
-    .itin__items p { margin: 0; font-size: 0.9rem; color: var(--ink-soft); max-width: 62ch; }
+    .itin__items p { margin: 0; font-size: 0.9rem; color: rgba(246,241,231,0.7); max-width: 62ch; }
 
     .itin__intent {
       font-family: var(--font-display); font-style: italic; font-size: 1rem;
-      color: var(--gold-deep); margin: 0 0 clamp(1.1rem, 2vw, 1.5rem);
+      color: var(--gold-light); margin: 0 0 clamp(1.1rem, 2vw, 1.5rem);
       padding-left: calc(9rem + clamp(1rem, 2vw, 2rem));
     }
     @media (max-width: 640px) {
@@ -99,8 +100,8 @@
       .itin__intent { padding-left: 0; }
     }
 
-    /* The full arc — three phases, the retreat itself raised in the middle. */
-    .arcflow { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1rem, 1.8vw, 1.6rem); }
+    /* Preparation and integration — the two phases either side of Tulum. */
+    .arcflow { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(1.2rem, 2.4vw, 2.2rem); max-width: 900px; margin: 0 auto; }
     .arcflow__phase {
       display: flex; flex-direction: column;
       padding: clamp(1.7rem, 2.4vw, 2.4rem) clamp(1.3rem, 1.9vw, 1.9rem);
@@ -128,7 +129,7 @@
       padding: 0.62rem 0 0.62rem 1.15rem; border-top: 1px solid rgba(198,167,105,0.13);
     }
     .arcflow__list li::before { content: "—"; position: absolute; left: 0; color: rgba(198,167,105,0.55); }
-    @media (max-width: 900px) { .arcflow { grid-template-columns: 1fr; } }
+    @media (max-width: 760px) { .arcflow { grid-template-columns: 1fr; } }
 
     /* Figures under the inclusions list — same pattern as the Liberation Program. */
     .stat-row {
@@ -199,44 +200,28 @@
     </div>
   </section>
 
-  <!-- Intro -->
-  <section class="section--light pad" id="intro">
-    <div class="wrap">
-      <div class="lead-block centered" data-reveal>
-        <p class="eyebrow centered">A Four-Day Immersion</p>
-        <p class="lead">Leave behind the noise of everyday life and enter a sacred journey designed to
-          bring you back to your truth.</p>
-        <p class="muted">Set within the jungle, turquoise water, and ancient land of Tulum, the Reclamation
-          Retreat is an intimate four-day experience of ceremony, conscious connection, embodied
-          healing, natural beauty, and meaningful integration. Every element has been chosen to
-          support a complete arc — arrival, surrender, embodiment, return — and to give you somewhere
-          to put what you find.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- The setting -->
-  <section class="on-dark split pad" id="setting">
+  <!-- What this is -->
+  <section class="section--light split pad" id="intro">
     <div class="wrap">
       <div class="split__img" data-reveal>
-        <img src="../assets/images/pages/tulum-jungle.webp" alt="The jungle surrounding Tulum, México" loading="lazy" />
+        <img src="../assets/images/pages/tulum-jungle.webp" alt="The jungle surrounding Tulum, México" />
         <span class="cap">Tulum &middot; Quintana Roo</span>
       </div>
       <div data-reveal data-reveal-delay="1">
-        <p class="eyebrow">The Setting</p>
-        <h2>A private villa, held by the <em>jungle</em></h2>
-        <p>For four days the villa belongs to us. It's where we sleep, where we eat, where ceremony is
-          held, and where you rest afterward — no lobbies, no strangers, no need to leave the container
-          to find a quiet corner.</p>
-        <p class="muted">Around it: jungle, turquoise water, cenotes, and land that has held ceremony far
-          longer than any of us. We step out into it for the meals and the water, and come back to the
-          villa each time.</p>
+        <p class="eyebrow">A Four-Day Immersion</p>
+        <h2>Leave the noise behind, and come back to your <em>truth</em></h2>
+        <p>An intimate four-day experience of ceremony, conscious connection, embodied healing, and
+          meaningful integration &mdash; set in the jungle, turquoise water, and ancient land of Tulum.
+          Every element is chosen to support one arc: arrival, surrender, embodiment, return.</p>
+        <p class="muted">For four days a private villa belongs to us. It's where we sleep, where we eat,
+          where ceremony is held, and where you rest afterward &mdash; no lobbies, no strangers, no need
+          to leave the container to find a quiet corner.</p>
       </div>
     </div>
   </section>
 
   <!-- The itinerary -->
-  <section class="section--light pad" id="itinerary">
+  <section class="on-dark pad" id="itinerary">
     <div class="wrap">
       <div class="sec-head centered" data-reveal>
         <p class="eyebrow centered">The Itinerary</p>
@@ -314,12 +299,40 @@
     </div>
   </section>
 
+  <!-- What's included -->
+  <section class="section--light pad" id="included">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <p class="eyebrow">What's Included</p>
+        <h2>Everything held, so you can simply <em>arrive</em></h2>
+        <p>From the moment you land to the moment you fly home, every detail is cared for &mdash; so
+          your only work is the work you came to do.</p>
+      </div>
+      <ul class="checklist" data-reveal data-reveal-delay="1">
+        <li>Four days and three nights at our private villa</li>
+        <li>All ceremonies &mdash; Bufo, rap&eacute;, and sound healing</li>
+        <li>Trained one-to-one facilitation throughout</li>
+        <li>Every meal, from the welcome dinner to the farewell breakfast</li>
+        <li>Movement, breathwork, and sound each morning</li>
+        <li>The cenote, the coast, and transport to each</li>
+        <li>Unhurried rest, and a villa that stays quiet after ceremony</li>
+        <li>A Tiger Soul keepsake to carry home</li>
+      </ul>
+      <div class="stat-row" data-reveal data-reveal-delay="2">
+        <div class="stat"><b>4</b><span>Days in Tulum</span></div>
+        <div class="stat"><b>1</b><span>Private Villa</span></div>
+        <div class="stat"><b>2</b><span>Sacred Medicines</span></div>
+        <div class="stat"><b>1</b><span>New Beginning</span></div>
+      </div>
+    </div>
+  </section>
+
   <!-- Before and after -->
   <section class="on-dark pad" id="around">
     <div class="wrap">
       <div class="sec-head centered" data-reveal>
         <p class="eyebrow centered">Preparation &amp; Integration</p>
-        <h2>Held before, during, and <em>after</em></h2>
+        <h2>Held long before, and long <em>after</em></h2>
         <p>You're prepared for weeks before you fly, and supported for a month after you land back
           home. All of it is included.</p>
       </div>
@@ -340,23 +353,8 @@
           </ul>
         </article>
 
-        <article class="arcflow__phase arcflow__phase--centre" data-reveal data-reveal-delay="1">
+        <article class="arcflow__phase" data-reveal data-reveal-delay="1">
           <span class="arcflow__num">II</span>
-          <span class="arcflow__when">December 4–7</span>
-          <h3>The four days in <em>Tulum</em></h3>
-          <p>Arrival, surrender, embodiment, return — a private villa, a small group, and fifteen
-            held experiences from the opening ceremony to the farewell breakfast.</p>
-          <ul class="arcflow__list">
-            <li>Opening ceremony, land offering, rapé</li>
-            <li>Sound healing and introductory Bufo</li>
-            <li>The Bufo ceremony</li>
-            <li>Cenote, coast, and celebration dinner</li>
-            <li>Closing reflection and keepsake</li>
-          </ul>
-        </article>
-
-        <article class="arcflow__phase" data-reveal data-reveal-delay="2">
-          <span class="arcflow__num">III</span>
           <span class="arcflow__when">The month after</span>
           <h3><em>Integration</em>, together</h3>
           <p>In a few weeks you'll be back in the same rooms with the same people, and that's where
@@ -373,38 +371,8 @@
     </div>
   </section>
 
-  <!-- What's included -->
-  <section class="section--light pad" id="included">
-    <div class="wrap">
-      <div class="sec-head" data-reveal>
-        <p class="eyebrow">What's Included</p>
-        <h2>Everything held, so you can simply <em>arrive</em></h2>
-        <p>From the moment you land to the last integration call, every detail is cared for &mdash; so
-          your only work is the work you came to do.</p>
-      </div>
-      <ul class="checklist" data-reveal data-reveal-delay="1">
-        <li>Four days and three nights at our private villa</li>
-        <li>All ceremonies &mdash; Bufo, rap&eacute;, and sound healing</li>
-        <li>Trained one-to-one facilitation throughout</li>
-        <li>Every meal, from the welcome dinner to the farewell breakfast</li>
-        <li>The cenote, the coast, and transport to each</li>
-        <li>Health screening and preparation before you fly</li>
-        <li>A group welcome call and a one-to-one prep call</li>
-        <li>Two group integration calls after the retreat</li>
-        <li>A personal thirty-day commitment plan</li>
-        <li>A Tiger Soul keepsake to carry home</li>
-      </ul>
-      <div class="stat-row" data-reveal data-reveal-delay="2">
-        <div class="stat"><b>4</b><span>Days in Tulum</span></div>
-        <div class="stat"><b>1</b><span>Private Villa</span></div>
-        <div class="stat"><b>2</b><span>Sacred Medicines</span></div>
-        <div class="stat"><b>1</b><span>New Beginning</span></div>
-      </div>
-    </div>
-  </section>
-
   <!-- Photo gallery -->
-  <section class="on-dark pad" id="gallery">
+  <section class="section--light pad" id="gallery">
     <div class="wrap">
       <div class="sec-head centered" data-reveal>
         <p class="eyebrow centered">Past Gatherings</p>
@@ -427,32 +395,18 @@
     </div>
   </section>
 
-  <!-- Invitation -->
-  <section class="section--light pad" id="invitation">
-    <div class="wrap">
-      <div class="lead-block centered" data-reveal>
-        <p class="eyebrow centered">Your Invitation</p>
-        <p class="lead">This retreat is for people who can feel that something in them is ready to
-          change.</p>
-        <p class="muted">For those ready to step away from the noise, meet themselves honestly, and
-          reconnect with the strength and freedom that have been waiting underneath. If you've read this
-          far and something in you already answered, that's usually the answer.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA band -->
+  <!-- Begin -->
   <section class="cta-band pad" id="begin">
     <div class="cta-band__media" aria-hidden="true"><img src="../assets/images/pages/tulum-cenote.webp" alt="" loading="lazy" /></div>
     <div class="wrap">
-      <p class="eyebrow centered" data-reveal>Begin</p>
-      <h2 data-reveal data-reveal-delay="1">Come home to <em>yourself</em></h2>
-      <p data-reveal data-reveal-delay="2">Spaces are limited and held with care. Reach out to claim yours — every
-        journey begins with a simple health screening, so your safety and readiness are honored from
-        the start.</p>
+      <p class="eyebrow centered" data-reveal>Your Invitation</p>
+      <h2 data-reveal data-reveal-delay="1">For those ready to come back to <em>themselves</em></h2>
+      <p data-reveal data-reveal-delay="2">This retreat is for people who can feel that something in them is ready to
+        change. Spaces are limited and held with care &mdash; every journey begins with a simple health
+        screening, so your safety and readiness are honored from the start.</p>
       <div class="cta-band__actions" data-reveal data-reveal-delay="3">
-        <a class="btn btn--solid" href="contact.html">Contact Us</a>
-        <a class="btn" href="health-screening.html">Apply Here</a>
+        <a class="btn btn--solid" href="health-screening.html">Apply Here</a>
+        <a class="btn" href="contact.html">Contact Us</a>
       </div>
     </div>
   </section>
