@@ -101,6 +101,43 @@
 
       a { text-decoration: none !important; color: inherit !important; }
     }
+
+    /* Week Five opens the Tulum itinerary in a dialog. */
+    .lp-itin-cta {
+      display: flex; width: fit-content; align-items: center; gap: 0.6em; margin-top: 0.9rem;
+      padding: 0.7em 1.3em; border: 1px solid rgba(198,167,105,0.55); border-radius: 999px;
+      background: none; cursor: pointer; color: var(--gold-light);
+      font-family: var(--font-sans); font-size: 0.63rem; font-weight: 500;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      transition: background 0.4s var(--ease), color 0.4s var(--ease), border-color 0.4s var(--ease);
+    }
+    .lp-itin-cta .arw { transition: transform 0.4s var(--ease); }
+    .lp-itin-cta:hover { background: var(--gold); border-color: var(--gold); color: var(--forest-950); }
+    .lp-itin-cta:hover .arw { transform: translateX(4px); }
+    .section--light .lp-itin-cta { color: var(--gold-deep); border-color: rgba(163,129,63,0.5); }
+    .section--light .lp-itin-cta:hover { color: var(--forest-950); }
+
+    .modal__panel--wide { max-width: 720px; }
+    .lp-itin__head { margin-bottom: clamp(1.4rem, 2.6vw, 2rem); }
+    .lp-itin__head .eyebrow { margin-bottom: 0.7rem; }
+    .lp-itin__head h3 { font-size: clamp(1.5rem, 2.6vw, 2rem); margin: 0 0 0.5rem; }
+    .lp-itin__head p { font-size: 0.92rem; color: rgba(246,241,231,0.72); margin: 0; }
+    .lp-itin__day { padding: clamp(0.9rem, 1.8vw, 1.2rem) 0; border-top: 1px solid rgba(198,167,105,0.18); }
+    .lp-itin__day h4 {
+      font-family: var(--font-display); font-weight: 400; font-size: 1.18rem;
+      color: var(--cream); margin: 0 0 0.4rem;
+    }
+    .lp-itin__day h4 span {
+      display: block; font-family: var(--font-sans); font-size: 0.56rem;
+      letter-spacing: 0.26em; text-transform: uppercase; color: var(--gold-light);
+      margin-bottom: 0.35rem;
+    }
+    .lp-itin__day p { font-size: 0.9rem; line-height: 1.65; color: rgba(246,241,231,0.72); margin: 0; }
+    .lp-itin__note {
+      margin: clamp(1.3rem, 2.4vw, 1.8rem) 0 0; padding-top: 1.2rem;
+      border-top: 1px solid rgba(198,167,105,0.18);
+      font-size: 0.78rem; line-height: 1.6; color: rgba(246,241,231,0.55);
+    }
   </style>
 </head>
 <body>
@@ -269,6 +306,9 @@
             <p>The one week we spend together in person — in Tulum, Mexico, November 15&ndash;19 — ceremony
               held in a sacred container, with the preparation of the first four weeks behind you.</p>
             <span class="lp-week__phase">Movement II · The Retreat</span>
+            <button class="lp-itin-cta" type="button" id="lpItinOpen" aria-haspopup="dialog">
+              View the retreat itinerary <span class="arw" aria-hidden="true">&rarr;</span>
+            </button>
           </div>
         </div>
 
@@ -448,6 +488,95 @@
     </div>
   </footer>
 
+
+  <!-- Week Five: the Tulum itinerary -->
+  <div class="modal" id="lpItinModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="lpItinTitle">
+    <div class="modal__backdrop" data-modal-close></div>
+    <div class="modal__panel modal__panel--wide" role="document">
+      <button class="modal__close" type="button" data-modal-close aria-label="Close">&times;</button>
+
+      <div class="lp-itin__head">
+        <p class="eyebrow">Week Five &middot; In Person</p>
+        <h3 id="lpItinTitle">The Tulum Liberation Experience</h3>
+        <p>Five days of ceremony, connection, and reflection at a private villa in Tulum &mdash;
+          jungle, cenotes, and the Caribbean, November 15&ndash;19.</p>
+      </div>
+
+      <div class="lp-itin__day">
+        <h4><span>Day One &middot; Arrival</span>Opening the sacred space</h4>
+        <p>Arrive at the villa, settle in, and meet the group over a chef-prepared dinner. The Opening
+          Ceremony follows: what called you here, your intention for the week, and the agreements that
+          hold the container. We honour the land with an offering, and close the night with a
+          traditional rap&eacute; ceremony.</p>
+      </div>
+
+      <div class="lp-itin__day">
+        <h4><span>Day Two &middot; Purification</span>Kambo, and a first meeting with Bufo</h4>
+        <p>A guided Kambo ceremony in the morning, then spacious time to rest and let it settle. In the
+          afternoon, teaching on Bufo and the ceremonial process, followed by a carefully facilitated
+          introductory session with immersive sound healing. Pool, sunshine, and rest, then dinner and
+          an integration circle.</p>
+      </div>
+
+      <div class="lp-itin__day">
+        <h4><span>Day Three &middot; Surrender</span>Breathwork and the Bufo ceremony</h4>
+        <p>Gentle movement to wake the body, then an extended breathwork journey to open the breath and
+          steady the mind. The afternoon holds the central ceremony of the retreat, each person held
+          individually, with unhurried time afterward to rest and reflect. Dinner and a second
+          integration circle in the evening.</p>
+      </div>
+
+      <div class="lp-itin__day">
+        <h4><span>Day Four &middot; Rebirth</span>Cenote, Temazcal, and the sea</h4>
+        <p>A morning at one of the Yucat&aacute;n's sacred cenotes &mdash; ancient stone, jungle, and clear
+          freshwater. Rest at the villa, then a traditional Temazcal by the Caribbean: heat, darkness,
+          prayer, song, and release. We enter the ocean afterward to cool the body and complete the
+          passage. Dinner, a final circle, and the Closing Ceremony.</p>
+      </div>
+
+      <div class="lp-itin__day">
+        <h4><span>Day Five &middot; Departure</span>New beginnings</h4>
+        <p>Breakfast and a last morning together before goodbyes. You leave with practices, insights, a
+          changed relationship with yourself, and the bonds formed here. The retreat ends; the work of
+          liberation continues.</p>
+      </div>
+
+      <p class="lp-itin__note">All ceremonial activities are optional and subject to individual health
+        screening, informed consent, facilitator approval, and our established safety protocols.</p>
+    </div>
+  </div>
+
   <script src="../js/main.js"></script>
+  <script>
+    // Week Five itinerary dialog
+    (function () {
+      var modal = document.getElementById("lpItinModal");
+      var open = document.getElementById("lpItinOpen");
+      if (!modal || !open) return;
+      var last = null;
+      function show() {
+        last = document.activeElement;
+        modal.querySelector(".modal__panel").scrollTop = 0;
+        modal.classList.add("open");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.classList.add("no-scroll");
+        modal.querySelector(".modal__close").focus();
+      }
+      function hide() {
+        modal.classList.remove("open");
+        modal.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("no-scroll");
+        last && last.focus();
+      }
+      open.addEventListener("click", show);
+      modal.querySelectorAll("[data-modal-close]").forEach(function (el) {
+        el.addEventListener("click", hide);
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && modal.classList.contains("open")) hide();
+      });
+    })();
+  </script>
+
 </body>
 </html>
