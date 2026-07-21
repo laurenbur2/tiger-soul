@@ -24,11 +24,58 @@
   <link rel="stylesheet" href="../css/styles.css" />
 
   <style>
-    /* Day entries carry more than one paragraph — the base rule zeroes margins. */
-    .timeline__item p + p { margin-top: 0.7rem; }
-    .timeline__intent { font-family: var(--font-display); font-style: italic; font-size: 1.02rem; }
-    .section--light .timeline__intent { color: var(--gold-deep); }
-    .on-dark .timeline__intent { color: var(--gold-light); }
+    /* ── Itinerary ───────────────────────────────────────────────
+       A schedule, not a card grid: hairline rows, a time column, and
+       a gold rule under each day. Ceremonies carry a ✦ before the title. */
+    .itin { max-width: 900px; margin: 0 auto; }
+    .itin__day + .itin__day { margin-top: clamp(2.8rem, 5vw, 4.6rem); }
+
+    .itin__head {
+      display: grid; grid-template-columns: 9.5rem 1fr; gap: clamp(1rem, 2vw, 2rem);
+      padding-bottom: clamp(0.9rem, 1.6vw, 1.3rem);
+      border-bottom: 1px solid rgba(198,167,105,0.5);
+    }
+    .itin__num {
+      font-family: var(--font-display); font-style: italic;
+      font-size: clamp(1.25rem, 1.8vw, 1.5rem); color: var(--gold-deep); line-height: 1.1;
+    }
+    .itin__num small {
+      display: block; font-family: var(--font-sans); font-style: normal; font-size: 0.58rem;
+      letter-spacing: 0.26em; text-transform: uppercase; opacity: 0.75; margin-top: 0.35rem;
+    }
+    .itin__head h3 { font-size: clamp(1.3rem, 2.1vw, 1.7rem); margin: 0 0 0.4rem; }
+    .itin__head p { margin: 0; font-size: 0.95rem; color: var(--ink-soft); max-width: 58ch; }
+
+    .itin__items { list-style: none; margin: 0; padding: 0; }
+    .itin__items li {
+      display: grid; grid-template-columns: 9.5rem 1fr; gap: clamp(1rem, 2vw, 2rem);
+      padding: clamp(0.95rem, 1.5vw, 1.25rem) 0;
+      border-bottom: 1px solid rgba(21,21,15,0.09);
+    }
+    .itin__when {
+      font-size: 0.6rem; letter-spacing: 0.26em; text-transform: uppercase;
+      color: var(--gold-deep); opacity: 0.85; padding-top: 0.4rem;
+    }
+    .itin__items h4 {
+      font-family: var(--font-display); font-weight: 400; font-size: 1.14rem;
+      margin: 0 0 0.3rem; letter-spacing: 0.01em;
+    }
+    .itin__items li.is-rite h4::before {
+      content: "✦"; color: var(--gold-deep); font-size: 0.62em;
+      margin-right: 0.5em; vertical-align: 0.15em;
+    }
+    .itin__items p { margin: 0; font-size: 0.9rem; color: var(--ink-soft); max-width: 62ch; }
+
+    .itin__intent {
+      font-family: var(--font-display); font-style: italic; font-size: 1.02rem;
+      color: var(--gold-deep); margin: clamp(1rem, 1.8vw, 1.4rem) 0 0;
+      padding-left: calc(9.5rem + clamp(1rem, 2vw, 2rem));
+    }
+    @media (max-width: 640px) {
+      .itin__head, .itin__items li { grid-template-columns: 1fr; gap: 0.35rem; }
+      .itin__when { padding-top: 0; }
+      .itin__intent { padding-left: 0; }
+    }
 
     /* The full arc — three phases, the retreat itself raised in the middle. */
     .arcflow { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1rem, 1.8vw, 1.6rem); }
@@ -61,9 +108,6 @@
     .arcflow__list li::before { content: "—"; position: absolute; left: 0; color: rgba(198,167,105,0.55); }
     @media (max-width: 900px) { .arcflow { grid-template-columns: 1fr; } }
 
-    /* Ceremony cards carry a gold hairline so the rites read apart from the
-       meals and the outings at a glance. */
-    .section--light .feature--rite { border-top: 2px solid var(--gold); }
   </style>
 </head>
 <body>
@@ -128,111 +172,8 @@
         <p class="muted">Set within the jungle, turquoise water, and ancient land of Tulum, the Reclaim
           Retreat is an intimate four-day experience of ceremony, conscious connection, embodied
           healing, natural beauty, and meaningful integration. Every element has been chosen to
-          support a complete arc — and to give you somewhere to put what you find.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- The arc -->
-  <section class="on-dark pad" id="arc">
-    <div class="wrap">
-      <div class="sec-head" data-reveal>
-        <p class="eyebrow">The Arc</p>
-        <h2>Arrival. Surrender. Embodiment. <em>Return.</em></h2>
-        <p>This is more than a break from ordinary life. It is time to step away from old patterns,
-          reconnect with what matters, and go home with more clarity, freedom, and purpose than you
-          came with.</p>
-      </div>
-      <ul class="checklist" data-reveal data-reveal-delay="1">
-        <li>A private villa in Tulum, ours alone for the four days</li>
-        <li>A small group, held closely from arrival to farewell</li>
-        <li>One-to-one Bufo ceremony with trained facilitators</li>
-        <li>Sound healing, breathwork, and embodied movement</li>
-        <li>Jungle dining, a cenote swim, and sunset on the coast</li>
-        <li>Preparation before you fly, integration for a month after</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- The four days -->
-  <section class="section--light pad" id="days">
-    <div class="wrap">
-      <div class="sec-head centered" data-reveal>
-        <p class="eyebrow centered">The Four Days</p>
-        <h2>How the journey unfolds</h2>
-        <p>Each day has its own work. Nothing is rushed, and nothing is asked of you before you're
-          ready for it.</p>
-      </div>
-      <div class="timeline">
-
-        <div class="timeline__item" data-reveal>
-          <div class="timeline__day">Day One<small>Arrival</small></div>
-          <div>
-            <h3>Sacred grounding</h3>
-            <p>You'll arrive to a private villa that becomes our home, our ceremony space, and our
-              place of rest. The afternoon is deliberately open — settle in, meet the people walking
-              beside you, and let your nervous system catch up with your body. In the evening we
-              gather for our first meal together at Tierra, inside Holistika.</p>
-            <p>Back at the villa we hold the Opening Ceremony: what called you here, what you're ready
-              to release, the intention you're carrying in. We set the agreements that protect the
-              container, honour the land with an offering, and close with a traditional rapé ceremony
-              to quiet the mind and release the travel.</p>
-            <p class="timeline__intent">The intention: safety, trust, and a body, mind, and spirit
-              ready for what comes next.</p>
-          </div>
-        </div>
-
-        <div class="timeline__item" data-reveal>
-          <div class="timeline__day">Day Two<small>Surrender</small></div>
-          <div>
-            <h3>The journey within</h3>
-            <p>The heart of the retreat, protected from the outside world so no one has to hurry
-              through their own experience. We begin with gentle movement, light nourishment, and a
-              practice to reconnect with why you came, then move into an immersive sound journey
-              alongside a carefully facilitated introductory Bufo experience. Afterward the villa
-              becomes a sanctuary — rest, swim, journal, or ask for a one-to-one check-in.</p>
-            <p>In the afternoon we enter the central Bufo ceremony. Each person is held individually
-              while the group holds a field of presence and prayer around them. Nothing is demanded and
-              nothing is promised — our work is to make the safest, most respectful room possible for
-              you to meet your own truth. The evening stays quiet: familiar food, private support, or a
-              gentle integration circle.</p>
-            <p class="timeline__intent">The intention: a protected space to surrender, release, and
-              meet who you are underneath it all.</p>
-          </div>
-        </div>
-
-        <div class="timeline__item" data-reveal>
-          <div class="timeline__day">Day Three<small>Embodiment</small></div>
-          <div>
-            <h3>Nature, nourishment, celebration</h3>
-            <p>After the depth of ceremony, this day brings it into the body and into your life. The
-              morning begins slowly at the villa — tea, fresh fruit, restorative movement, then
-              breathwork and reflection around three questions: what did the experience reveal, what
-              are you ready to leave behind, and how will you live differently when you get home.</p>
-            <p>From there we head out — brunch at Raw Love, then Cenote Corazón to swim and let cool
-              water bring you back into your body. The afternoon at the villa is unhurried, and as the
-              light softens we drive to the coast for sunset before our celebration dinner at Casa
-              Banana. This is where the retreat turns from inner work to gratitude and celebration.</p>
-            <p class="timeline__intent">The intention: turn insight into embodiment, and choose what
-              you're committing to.</p>
-          </div>
-        </div>
-
-        <div class="timeline__item" data-reveal>
-          <div class="timeline__day">Day Four<small>Return</small></div>
-          <div>
-            <h3>Anchoring &amp; farewell</h3>
-            <p>The last morning is slow. After packing, we travel together to MOTMOT at KAN Tulum for
-              a farewell breakfast beside the property's private cenote. Each person offers one final
-              reflection and one word for what they're taking home.</p>
-            <p>You'll leave with a personal integration commitment, continued guidance, a Tiger Soul
-              keepsake, and a blessing for the road. One last group photograph, and then the airport.
-              The retreat ends here. The integration is only starting.</p>
-            <p class="timeline__intent">The intention: completion, anchoring, and a clear sense of what
-              comes next.</p>
-          </div>
-        </div>
-
+          support a complete arc — arrival, surrender, embodiment, return — and to give you somewhere
+          to put what you find.</p>
       </div>
     </div>
   </section>
@@ -257,112 +198,231 @@
     </div>
   </section>
 
-  <!-- Where we gather -->
-  <section class="section--light pad" id="places">
+  <!-- The itinerary -->
+  <section class="section--light pad" id="itinerary">
     <div class="wrap">
       <div class="sec-head centered" data-reveal>
-        <p class="eyebrow centered">Everything Included</p>
-        <h2>Every ceremony, meal, and moment</h2>
-        <p>Fifteen distinct experiences across four days — ceremony, movement, nourishment, water, and
-          rest, in the order you'll meet them.</p>
+        <p class="eyebrow centered">The Itinerary</p>
+        <h2>How the four days unfold</h2>
+        <p>Every ceremony, meal, and moment, in the order you'll meet them. Nothing is rushed, and
+          nothing is asked of you before you're ready for it.</p>
       </div>
-      <div class="feature-grid">
 
-        <article class="feature feature--rite" data-reveal>
-          <span class="k">Day One &middot; Dinner</span>
-          <h3>Tierra at <em>Holistika</em></h3>
-          <p>Vibrant plant-based food inside one of Tulum's most loved jungle wellness spaces. Lush
-            paths, art, and a slower pace — the first meal that tells your body the retreat has begun.</p>
-        </article>
-        <article class="feature feature--rite" data-reveal data-reveal-delay="1">
-          <span class="k">Day One &middot; Ceremony</span>
-          <h3>The <em>Opening</em> Ceremony</h3>
-          <p>Each person names what called them here, what they're ready to release, and the intention
-            they're carrying. We set the agreements that hold the container for the four days.</p>
-        </article>
-        <article class="feature feature--rite" data-reveal data-reveal-delay="2">
-          <span class="k">Day One &middot; Offering</span>
-          <h3>Honouring the <em>land</em></h3>
-          <p>Before any ceremonial work, we make an offering and ask permission — of the land, the
-            medicine, and each other. Prayer and intention open the retreat properly.</p>
-        </article>
+      <div class="itin">
 
-        <article class="feature feature--rite" data-reveal>
-          <span class="k">Day One &middot; Medicine</span>
-          <h3><em>Rapé</em> grounding ceremony</h3>
-          <p>A traditional rapé ceremony to close the first night — quieting the mind, releasing the
-            travel, and setting you down fully before the day ahead.</p>
-        </article>
-        <article class="feature" data-reveal data-reveal-delay="1">
-          <span class="k">Day Two &middot; Morning</span>
-          <h3>Movement &amp; <em>nourishment</em></h3>
-          <p>Gentle embodied movement to wake the body and release tension, fresh-pressed juice and
-            light food, and a guided practice to reconnect with why you came.</p>
-        </article>
-        <article class="feature feature--rite" data-reveal data-reveal-delay="2">
-          <span class="k">Day Two &middot; Medicine</span>
-          <h3>Sound healing &amp; <em>introductory Bufo</em></h3>
-          <p>Crystal bowls, voice, and percussion alongside a carefully facilitated first Bufo
-            experience — met according to your own readiness and consent, never rushed.</p>
-        </article>
+        <div class="itin__day" data-reveal>
+          <div class="itin__head">
+            <span class="itin__num">Day One<small>Arrival</small></span>
+            <div>
+              <h3>Sacred grounding</h3>
+              <p>Enter the space, meet your community, set your intention. Nothing is asked of you
+                today but arriving.</p>
+            </div>
+          </div>
+          <ul class="itin__items">
+            <li>
+              <span class="itin__when">Afternoon</span>
+              <div>
+                <h4>Arrival at the villa</h4>
+                <p>A private villa that becomes our home, our ceremony space, and our place of rest.
+                  Settle in, meet the people walking beside you, sit by the pool, and let your nervous
+                  system catch up with your body.</p>
+              </div>
+            </li>
+            <li>
+              <span class="itin__when">Evening</span>
+              <div>
+                <h4>Welcome dinner &mdash; Tierra at Holistika</h4>
+                <p>Vibrant plant-based food inside one of Tulum's most loved jungle wellness spaces.
+                  The first meal that tells your body the retreat has begun.</p>
+              </div>
+            </li>
+            <li class="is-rite">
+              <span class="itin__when">Night</span>
+              <div>
+                <h4>The Opening Ceremony</h4>
+                <p>Each person names what called them here, what they're ready to release, and the
+                  intention they're carrying. We set the agreements that hold the container.</p>
+              </div>
+            </li>
+            <li class="is-rite">
+              <span class="itin__when">Night</span>
+              <div>
+                <h4>Honouring the land</h4>
+                <p>An offering and a request for permission &mdash; of the land, the medicine, and each
+                  other &mdash; before any ceremonial work begins.</p>
+              </div>
+            </li>
+            <li class="is-rite">
+              <span class="itin__when">Night</span>
+              <div>
+                <h4>Rap&eacute; grounding ceremony</h4>
+                <p>A traditional rap&eacute; ceremony to close the first night: quieting the mind,
+                  releasing the travel, and setting you down before the day ahead.</p>
+              </div>
+            </li>
+          </ul>
+          <p class="itin__intent">The intention: safety, trust, and a body, mind, and spirit ready for
+            what comes next.</p>
+        </div>
 
-        <article class="feature" data-reveal>
-          <span class="k">Day Two &middot; Midday</span>
-          <h3>The <em>sacred pause</em></h3>
-          <p>The villa becomes a sanctuary — rest by the pool, journal, swim, or take a private
-            facilitator check-in. Stillness is where the morning gets heard.</p>
-        </article>
-        <article class="feature feature--rite" data-reveal data-reveal-delay="1">
-          <span class="k">Day Two &middot; The Centre</span>
-          <h3>The <em>Bufo</em> ceremony</h3>
-          <p>The heart of the retreat. You're held individually while the group holds a field of
-            presence and prayer. Nothing demanded, nothing promised — just the safest room we can make
-            for you to meet your own truth.</p>
-        </article>
-        <article class="feature feature--rite" data-reveal data-reveal-delay="2">
-          <span class="k">Day Two &middot; Evening</span>
-          <h3>The <em>integration</em> circle</h3>
-          <p>Comforting food, a quiet villa, and a gentle circle for those who want it. Whatever you
-            share is witnessed without analysis, interruption, or advice.</p>
-        </article>
+        <div class="itin__day" data-reveal>
+          <div class="itin__head">
+            <span class="itin__num">Day Two<small>Surrender</small></span>
+            <div>
+              <h3>The journey within</h3>
+              <p>The heart of the retreat. The whole day is protected from the outside world so no one
+                has to hurry through their own experience.</p>
+            </div>
+          </div>
+          <ul class="itin__items">
+            <li>
+              <span class="itin__when">Morning</span>
+              <div>
+                <h4>Movement &amp; nourishment</h4>
+                <p>Gentle embodied movement to wake the body and release tension, fresh-pressed juice
+                  and light food, and a guided practice to reconnect with why you came.</p>
+              </div>
+            </li>
+            <li class="is-rite">
+              <span class="itin__when">Late morning</span>
+              <div>
+                <h4>Sound healing &amp; introductory Bufo</h4>
+                <p>Crystal bowls, voice, and percussion alongside a carefully facilitated first Bufo
+                  experience &mdash; met according to your own readiness and consent, never rushed.</p>
+              </div>
+            </li>
+            <li>
+              <span class="itin__when">Midday</span>
+              <div>
+                <h4>The sacred pause</h4>
+                <p>The villa becomes a sanctuary. Rest by the pool, journal, swim, or take a private
+                  facilitator check-in. Stillness is where the morning gets heard.</p>
+              </div>
+            </li>
+            <li class="is-rite">
+              <span class="itin__when">Afternoon</span>
+              <div>
+                <h4>The Bufo ceremony</h4>
+                <p>You're held individually while the group holds a field of presence and prayer.
+                  Nothing demanded, nothing promised &mdash; just the safest, most respectful room we can
+                  make for you to meet your own truth.</p>
+              </div>
+            </li>
+            <li>
+              <span class="itin__when">Evening</span>
+              <div>
+                <h4>Grounding &amp; the integration circle</h4>
+                <p>Comforting food, a quiet villa, and a gentle circle for those who want it. Whatever
+                  you share is witnessed without analysis, interruption, or advice.</p>
+              </div>
+            </li>
+          </ul>
+          <p class="itin__intent">The intention: a protected space to surrender, release, and meet who
+            you are underneath it all.</p>
+        </div>
 
-        <article class="feature" data-reveal>
-          <span class="k">Day Three &middot; Morning</span>
-          <h3>Fascia release &amp; <em>breathwork</em></h3>
-          <p>Restorative movement to reconnect with the body, then breathwork and guided reflection on
-            what the experience revealed and what you're ready to leave behind.</p>
-        </article>
-        <article class="feature" data-reveal data-reveal-delay="1">
-          <span class="k">Day Three &middot; Brunch</span>
-          <h3>Raw <em>Love</em></h3>
-          <p>Smoothie bowls, superfoods, and fresh plant-based cooking in a relaxed tropical setting.
-            Nourishment as pleasure and self-respect, not discipline.</p>
-        </article>
-        <article class="feature" data-reveal data-reveal-delay="2">
-          <span class="k">Day Three &middot; Water</span>
-          <h3>Cenote <em>Corazón</em></h3>
-          <p>A heart-shaped freshwater cenote in the Yucatán. Cool, clear, and culturally sacred — a
-            place to swim, float, and land back in your body.</p>
-        </article>
+        <div class="itin__day" data-reveal>
+          <div class="itin__head">
+            <span class="itin__num">Day Three<small>Embodiment</small></span>
+            <div>
+              <h3>Nature, nourishment, celebration</h3>
+              <p>Bringing the experience back into the body, and back into life. We're not chasing
+                another peak &mdash; we're starting to live what's already been shown.</p>
+            </div>
+          </div>
+          <ul class="itin__items">
+            <li>
+              <span class="itin__when">Morning</span>
+              <div>
+                <h4>Fascia release &amp; breathwork</h4>
+                <p>Restorative movement to reconnect with the body, then breathwork and guided
+                  reflection: what did the experience reveal, what are you ready to leave behind, and
+                  how will you live differently at home.</p>
+              </div>
+            </li>
+            <li>
+              <span class="itin__when">Late morning</span>
+              <div>
+                <h4>Conscious brunch &mdash; Raw Love</h4>
+                <p>Smoothie bowls, superfoods, and fresh plant-based cooking in a relaxed tropical
+                  setting. Nourishment as pleasure and self-respect, not discipline.</p>
+              </div>
+            </li>
+            <li>
+              <span class="itin__when">Midday</span>
+              <div>
+                <h4>Cenote Coraz&oacute;n</h4>
+                <p>A heart-shaped freshwater cenote in the Yucat&aacute;n. Cool, clear, and culturally
+                  sacred &mdash; a place to swim, float, and land back in your body.</p>
+              </div>
+            </li>
+            <li>
+              <span class="itin__when">Afternoon</span>
+              <div>
+                <h4>Rest &amp; private integration</h4>
+                <p>An unhurried return to the villa &mdash; rest, journal, connect, or take a one-to-one
+                  integration check-in.</p>
+              </div>
+            </li>
+            <li>
+              <span class="itin__when">Sunset</span>
+              <div>
+                <h4>The Tulum coast</h4>
+                <p>Bare feet in the sand and the horizon wide open &mdash; a threshold between who you've
+                  been and who you're choosing to be.</p>
+              </div>
+            </li>
+            <li>
+              <span class="itin__when">Evening</span>
+              <div>
+                <h4>Celebration dinner &mdash; Casa Banana</h4>
+                <p>A MICHELIN Guide&ndash;recognized Tulum institution: Argentinian influence, open-fire
+                  cooking, and an intimate jungle room for our final night together.</p>
+              </div>
+            </li>
+          </ul>
+          <p class="itin__intent">The intention: turn insight into embodiment, and choose what you're
+            committing to.</p>
+        </div>
 
-        <article class="feature" data-reveal>
-          <span class="k">Day Three &middot; Sunset</span>
-          <h3>The Tulum <em>coast</em></h3>
-          <p>Bare feet in the sand and the horizon wide open — a threshold between who you've been and
-            who you're choosing to be.</p>
-        </article>
-        <article class="feature" data-reveal data-reveal-delay="1">
-          <span class="k">Day Three &middot; Celebration</span>
-          <h3>Casa <em>Banana</em></h3>
-          <p>A MICHELIN Guide–recognized Tulum institution — Argentinian influence, open-fire cooking,
-            and an intimate jungle room for our celebration dinner.</p>
-        </article>
-        <article class="feature" data-reveal data-reveal-delay="2">
-          <span class="k">Day Four &middot; Farewell</span>
-          <h3>MOTMOT at <em>KAN Tulum</em></h3>
-          <p>Modern Mexican cooking beside a private cenote. One final reflection, one word for what
-            you're taking home, and your Tiger Soul keepsake before the airport.</p>
-        </article>
+        <div class="itin__day" data-reveal>
+          <div class="itin__head">
+            <span class="itin__num">Day Four<small>Return</small></span>
+            <div>
+              <h3>Anchoring &amp; farewell</h3>
+              <p>Honour the journey, celebrate the connection, carry it forward. The retreat ends here;
+                the integration is only starting.</p>
+            </div>
+          </div>
+          <ul class="itin__items">
+            <li>
+              <span class="itin__when">Morning</span>
+              <div>
+                <h4>Farewell breakfast &mdash; MOTMOT at KAN Tulum</h4>
+                <p>Modern Mexican cooking beside a private cenote, hidden in the jungle. A last quiet
+                  hour together before the world comes back.</p>
+              </div>
+            </li>
+            <li class="is-rite">
+              <span class="itin__when">Morning</span>
+              <div>
+                <h4>Closing reflection</h4>
+                <p>One final reflection and one word for what you're taking home, then your personal
+                  integration commitment, a Tiger Soul keepsake, and a blessing for the road.</p>
+              </div>
+            </li>
+            <li>
+              <span class="itin__when">Midday</span>
+              <div>
+                <h4>Group photograph &amp; departures</h4>
+                <p>One last photograph together, goodbyes, and transfers to the airport.</p>
+              </div>
+            </li>
+          </ul>
+          <p class="itin__intent">The intention: completion, anchoring, and a clear sense of what comes
+            next.</p>
+        </div>
 
       </div>
     </div>
