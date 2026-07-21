@@ -117,7 +117,15 @@
     .section--light .lp-itin-cta { color: var(--gold-deep); border-color: rgba(163,129,63,0.5); }
     .section--light .lp-itin-cta:hover { color: var(--forest-950); }
 
+    /* Same faint Shipibo icaro pattern the dark sections carry. */
     .modal__panel--wide { max-width: 720px; }
+    .modal__panel--wide::before {
+      content: ""; position: absolute; inset: 0; z-index: 0;
+      background: url("../assets/images/shipibo-pattern.png") repeat;
+      background-size: 300px; opacity: 0.05; pointer-events: none;
+    }
+    .modal__panel--wide > * { position: relative; z-index: 1; }
+    .modal__panel--wide > .modal__close { position: absolute; z-index: 2; }
     .lp-itin__head { margin-bottom: clamp(1.4rem, 2.6vw, 2rem); }
     .lp-itin__head .eyebrow { margin-bottom: 0.7rem; }
     .lp-itin__head h3 { font-size: clamp(1.5rem, 2.6vw, 2rem); margin: 0 0 0.5rem; color: var(--cream); }
