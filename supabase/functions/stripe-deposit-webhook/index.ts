@@ -5,15 +5,18 @@
 // branded "deposit received" email through Resend.
 //
 // Required environment variables (set as Supabase secrets, see README):
-//   STRIPE_SECRET_KEY       sk_live_...    (your Stripe secret key)
 //   STRIPE_WEBHOOK_SECRET   whsec_...      (from the Stripe webhook you create)
 //   RESEND_API_KEY          re_...         (from Resend)
 //   RESEND_FROM             e.g.  Tiger Soul Academy <academy@tigersoulacademy.com>
 //   RESEND_REPLY_TO         (optional) an inbox you actually read, e.g. hello@tigersoulretreats.com
+//
+// Note: no Stripe API key is needed. We only *verify* the webhook signature
+// (which uses STRIPE_WEBHOOK_SECRET); we never call the Stripe API.
 
 import Stripe from "npm:stripe@^17";
 
-const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, {
+// The SDK requires some key to construct; it is unused for signature verification.
+const stripe = new Stripe("sk_unused_signature_verification_only", {
   apiVersion: "2024-06-20",
 });
 // Deno needs the async SubtleCrypto signature verifier
@@ -27,12 +30,18 @@ Deno.serve(async (req) => {
 
   if (!signature) return new Response("Missing signature", { status: 400 });
 
+  const webhookSecret = Deno.env.get("STRIPE_WEBHOOK_SECRET");
+  if (!webhookSecret) {
+    console.error("STRIPE_WEBHOOK_SECRET is not set");
+    return new Response("Server not configured", { status: 500 });
+  }
+
   let event: Stripe.Event;
   try {
     event = await stripe.webhooks.constructEventAsync(
       body,
       signature,
-      Deno.env.get("STRIPE_WEBHOOK_SECRET")!,
+      webhookSecret,
       undefined,
       cryptoProvider,
     );

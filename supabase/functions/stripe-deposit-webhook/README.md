@@ -21,26 +21,25 @@ code is already written in `index.ts`.
 
 ## 2. Stripe (the trigger)
 
-1. Get your **Secret key**: Stripe → Developers → API keys → Secret key (`sk_live_...`).
-2. Create the **webhook**: Stripe → Developers → Webhooks → Add endpoint.
+1. Create the **webhook**: Stripe → Developers → Webhooks → Add endpoint.
    - Endpoint URL (from step 3 below):
      `https://<your-project-ref>.supabase.co/functions/v1/stripe-deposit-webhook`
    - Events to send: **`checkout.session.completed`**
    - After creating it, copy the **Signing secret** (`whsec_...`).
-3. (Recommended) On the Payment Link, turn on **collect customer name** so the email
+2. (Recommended) On the Payment Link, turn on **collect customer name** so the email
    can greet them by first name. Stripe → Payment Links → your link → Edit →
    "Collect customers' names". Without it, the email opens with "Dear there,".
 
 ## 3. Supabase (running the function)
 
-Requires the Supabase CLI (`brew install supabase/tap/supabase`) and being logged in
-(`supabase login`), then link the project (`supabase link --project-ref <ref>`).
+Project: **Tiger Soul** org, ref `werkohszkcytdvljafha`.
+No `supabase link` needed (avoids the DB password prompt) — pass `--project-ref`.
+Note: this function needs **no Stripe API key**; it only verifies the webhook signature.
 
 Set the secrets:
 
 ```bash
-supabase secrets set \
-  STRIPE_SECRET_KEY="sk_live_..." \
+supabase secrets set --project-ref werkohszkcytdvljafha \
   STRIPE_WEBHOOK_SECRET="whsec_..." \
   RESEND_API_KEY="re_..." \
   RESEND_FROM="Tiger Soul Academy <academy@tigersoulacademy.com>" \
@@ -51,7 +50,7 @@ Deploy the function. It must be public (Stripe calls it unauthenticated; we veri
 the Stripe signature ourselves):
 
 ```bash
-supabase functions deploy stripe-deposit-webhook --no-verify-jwt
+supabase functions deploy stripe-deposit-webhook --project-ref werkohszkcytdvljafha --no-verify-jwt
 ```
 
 The deployed URL is what you paste into the Stripe webhook in step 2.
