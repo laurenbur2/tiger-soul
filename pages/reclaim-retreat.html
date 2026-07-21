@@ -29,6 +29,16 @@
     .timeline__intent { font-family: var(--font-display); font-style: italic; font-size: 1.02rem; }
     .section--light .timeline__intent { color: var(--gold-deep); }
     .on-dark .timeline__intent { color: var(--gold-light); }
+
+    /* Before / after the retreat — two stacked blocks in one band. */
+    .around-block + .around-block { margin-top: clamp(2.2rem, 4vw, 3.4rem); }
+    .around-block h3 { font-size: clamp(1.5rem, 2.4vw, 1.9rem); margin: 0 0 0.5rem; }
+    .around-block h3 span {
+      display: block; font-family: var(--font-sans); font-size: 0.62rem;
+      letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold-light);
+      margin-top: 0.5rem;
+    }
+    .around-block > p { max-width: 60ch; margin: 0 0 1.4rem; color: rgba(246,241,231,0.72); }
   </style>
 </head>
 <body>
@@ -114,7 +124,7 @@
         <li>One-to-one Bufo ceremony with trained facilitators</li>
         <li>Sound healing, breathwork, and embodied movement</li>
         <li>Jungle dining, a cenote swim, and sunset on the coast</li>
-        <li>Integration that continues for a month after you leave</li>
+        <li>Preparation before you fly, integration for a month after</li>
       </ul>
     </div>
   </section>
@@ -271,24 +281,44 @@
     </div>
   </section>
 
-  <!-- The journey continues -->
-  <section class="on-dark pad" id="after">
+  <!-- Before and after -->
+  <section class="on-dark pad" id="around">
     <div class="wrap">
       <div class="sec-head" data-reveal>
-        <p class="eyebrow">After Tulum</p>
-        <h2>The journey continues</h2>
-        <p>Transformation doesn't end when the ceremony closes. In a few weeks you'll be back in the
-          same rooms with the same people, and that's where this actually gets decided. So we stay with
-          you.</p>
+        <p class="eyebrow">Before &amp; After</p>
+        <h2>The four days are the middle, <em>not the whole thing</em></h2>
+        <p>The work starts weeks before you land and carries on for a month after you leave. That's
+          what separates a powerful experience from a lasting change — and it's included, not an
+          add-on.</p>
       </div>
-      <ul class="checklist" data-reveal data-reveal-delay="1">
-        <li>A personal check-in soon after the retreat</li>
-        <li>A group integration session about a week later</li>
-        <li>A second gathering at twenty-eight days</li>
-        <li>Guided reflection and journaling practices</li>
-        <li>A personal thirty-day commitment plan</li>
-        <li>Ongoing connection with the Tiger Soul community</li>
-      </ul>
+
+      <div class="around-block" data-reveal data-reveal-delay="1">
+        <h3>Before Tulum <span>Preparation &amp; education</span></h3>
+        <p>You won't arrive cold. Everyone is screened, prepared, and taught what they're walking into,
+          so the first day in Tulum isn't the first time you've thought about any of it.</p>
+        <ul class="checklist">
+          <li>A health screening and intake review before you're confirmed</li>
+          <li>A one-to-one call with your facilitator</li>
+          <li>A preparation guide — food, substances, medications, and rest</li>
+          <li>Education on Bufo and rapé: what they are, what to expect, how we hold safety</li>
+          <li>A group welcome call, so you know the faces before you land</li>
+          <li>Intention work, so you arrive knowing what you came for</li>
+        </ul>
+      </div>
+
+      <div class="around-block" data-reveal data-reveal-delay="2">
+        <h3>After Tulum <span>Integration</span></h3>
+        <p>In a few weeks you'll be back in the same rooms with the same people, and that's where this
+          actually gets decided. So we stay with you — as a group, and one to one.</p>
+        <ul class="checklist">
+          <li>A personal check-in soon after the retreat</li>
+          <li>A group integration call about a week later</li>
+          <li>A second group call at twenty-eight days</li>
+          <li>Guided reflection and journaling practices</li>
+          <li>A personal thirty-day commitment plan</li>
+          <li>Ongoing connection with the Tiger Soul community</li>
+        </ul>
+      </div>
     </div>
   </section>
 
