@@ -130,6 +130,21 @@
     .arcflow__list li::before { content: "—"; position: absolute; left: 0; color: rgba(198,167,105,0.55); }
     @media (max-width: 900px) { .arcflow { grid-template-columns: 1fr; } }
 
+    /* Figures under the inclusions list — same pattern as the Liberation Program. */
+    .stat-row {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 0.9rem 2.4rem;
+      margin-top: 2.4rem; padding-top: 2rem; border-top: 1px solid rgba(21,21,15,0.12);
+    }
+    .stat-row .stat { text-align: center; }
+    .stat-row .stat b {
+      display: block; font-family: var(--font-display); font-size: 2rem;
+      color: var(--gold-deep); line-height: 1; font-weight: 400;
+    }
+    .stat-row .stat span {
+      font-size: 0.6rem; letter-spacing: 0.24em; text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+
   </style>
 </head>
 <body>
@@ -354,6 +369,60 @@
             <li>Ongoing connection with the Tiger Soul community</li>
           </ul>
         </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- What's included -->
+  <section class="section--light pad" id="included">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <p class="eyebrow">What's Included</p>
+        <h2>Everything held, so you can simply <em>arrive</em></h2>
+        <p>From the moment you land to the last integration call, every detail is cared for &mdash; so
+          your only work is the work you came to do.</p>
+      </div>
+      <ul class="checklist" data-reveal data-reveal-delay="1">
+        <li>Four days and three nights at our private villa</li>
+        <li>All ceremonies &mdash; Bufo, rap&eacute;, and sound healing</li>
+        <li>Trained one-to-one facilitation throughout</li>
+        <li>Every meal, from the welcome dinner to the farewell breakfast</li>
+        <li>The cenote, the coast, and transport to each</li>
+        <li>Health screening and preparation before you fly</li>
+        <li>A group welcome call and a one-to-one prep call</li>
+        <li>Two group integration calls after the retreat</li>
+        <li>A personal thirty-day commitment plan</li>
+        <li>A Tiger Soul keepsake to carry home</li>
+      </ul>
+      <div class="stat-row" data-reveal data-reveal-delay="2">
+        <div class="stat"><b>4</b><span>Days in Tulum</span></div>
+        <div class="stat"><b>1</b><span>Private Villa</span></div>
+        <div class="stat"><b>2</b><span>Sacred Medicines</span></div>
+        <div class="stat"><b>1</b><span>New Beginning</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Photo gallery -->
+  <section class="on-dark pad" id="gallery">
+    <div class="wrap">
+      <div class="sec-head centered" data-reveal>
+        <p class="eyebrow centered">Past Gatherings</p>
+        <h2>From retreats in the past</h2>
+      </div>
+      <div class="gallery" data-reveal data-reveal-delay="1">
+        <button class="gallery__nav gallery__nav--prev" type="button" aria-label="Previous photos">&lsaquo;</button>
+        <div class="gallery__track">
+          <figure class="gallery__item"><img src="../assets/images/gallery/liberation-03.jpg" alt="A moment from a Tiger Soul retreat" loading="lazy" /></figure>
+          <figure class="gallery__item"><img src="../assets/images/gallery/liberation-06.jpg" alt="A moment from a Tiger Soul retreat" loading="lazy" /></figure>
+          <figure class="gallery__item"><img src="../assets/images/gallery/liberation-01.jpg" alt="A moment from a Tiger Soul retreat" loading="lazy" /></figure>
+          <figure class="gallery__item"><img src="../assets/images/gallery/liberation-08.jpg" alt="A moment from a Tiger Soul retreat" loading="lazy" /></figure>
+          <figure class="gallery__item"><img src="../assets/images/gallery/liberation-04.jpg" alt="A moment from a Tiger Soul retreat" loading="lazy" /></figure>
+          <figure class="gallery__item"><img src="../assets/images/gallery/liberation-07.jpg" alt="A moment from a Tiger Soul retreat" loading="lazy" /></figure>
+          <figure class="gallery__item"><img src="../assets/images/gallery/liberation-02.jpg" alt="A moment from a Tiger Soul retreat" loading="lazy" /></figure>
+          <figure class="gallery__item"><img src="../assets/images/gallery/liberation-05.jpg" alt="A moment from a Tiger Soul retreat" loading="lazy" /></figure>
+        </div>
+        <button class="gallery__nav gallery__nav--next" type="button" aria-label="Next photos">&rsaquo;</button>
       </div>
     </div>
   </section>
