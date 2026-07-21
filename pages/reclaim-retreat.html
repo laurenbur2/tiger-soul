@@ -39,6 +39,10 @@
       margin-top: 0.5rem;
     }
     .around-block > p { max-width: 60ch; margin: 0 0 1.4rem; color: rgba(246,241,231,0.72); }
+
+    /* Ceremony cards carry a gold hairline so the rites read apart from the
+       meals and the outings at a glance. */
+    .section--light .feature--rite { border-top: 2px solid var(--gold); }
   </style>
 </head>
 <body>
@@ -236,16 +240,76 @@
   <section class="section--light pad" id="places">
     <div class="wrap">
       <div class="sec-head centered" data-reveal>
-        <p class="eyebrow centered">Where We Gather</p>
-        <h2>Tulum, chosen carefully</h2>
-        <p>Every place we visit was picked for what it does for the group at that point in the journey.</p>
+        <p class="eyebrow centered">Everything Included</p>
+        <h2>Every ceremony, meal, and moment</h2>
+        <p>Fifteen distinct experiences across four days — ceremony, movement, nourishment, water, and
+          rest, in the order you'll meet them.</p>
       </div>
       <div class="feature-grid">
-        <article class="feature" data-reveal>
+
+        <article class="feature feature--rite" data-reveal>
           <span class="k">Day One &middot; Dinner</span>
           <h3>Tierra at <em>Holistika</em></h3>
           <p>Vibrant plant-based food inside one of Tulum's most loved jungle wellness spaces. Lush
             paths, art, and a slower pace — the first meal that tells your body the retreat has begun.</p>
+        </article>
+        <article class="feature feature--rite" data-reveal data-reveal-delay="1">
+          <span class="k">Day One &middot; Ceremony</span>
+          <h3>The <em>Opening</em> Ceremony</h3>
+          <p>Each person names what called them here, what they're ready to release, and the intention
+            they're carrying. We set the agreements that hold the container for the four days.</p>
+        </article>
+        <article class="feature feature--rite" data-reveal data-reveal-delay="2">
+          <span class="k">Day One &middot; Offering</span>
+          <h3>Honouring the <em>land</em></h3>
+          <p>Before any ceremonial work, we make an offering and ask permission — of the land, the
+            medicine, and each other. Prayer and intention open the retreat properly.</p>
+        </article>
+
+        <article class="feature feature--rite" data-reveal>
+          <span class="k">Day One &middot; Medicine</span>
+          <h3><em>Rapé</em> grounding ceremony</h3>
+          <p>A traditional rapé ceremony to close the first night — quieting the mind, releasing the
+            travel, and setting you down fully before the day ahead.</p>
+        </article>
+        <article class="feature" data-reveal data-reveal-delay="1">
+          <span class="k">Day Two &middot; Morning</span>
+          <h3>Movement &amp; <em>nourishment</em></h3>
+          <p>Gentle embodied movement to wake the body and release tension, fresh-pressed juice and
+            light food, and a guided practice to reconnect with why you came.</p>
+        </article>
+        <article class="feature feature--rite" data-reveal data-reveal-delay="2">
+          <span class="k">Day Two &middot; Medicine</span>
+          <h3>Sound healing &amp; <em>introductory Bufo</em></h3>
+          <p>Crystal bowls, voice, and percussion alongside a carefully facilitated first Bufo
+            experience — met according to your own readiness and consent, never rushed.</p>
+        </article>
+
+        <article class="feature" data-reveal>
+          <span class="k">Day Two &middot; Midday</span>
+          <h3>The <em>sacred pause</em></h3>
+          <p>The villa becomes a sanctuary — rest by the pool, journal, swim, or take a private
+            facilitator check-in. Stillness is where the morning gets heard.</p>
+        </article>
+        <article class="feature feature--rite" data-reveal data-reveal-delay="1">
+          <span class="k">Day Two &middot; The Centre</span>
+          <h3>The <em>Bufo</em> ceremony</h3>
+          <p>The heart of the retreat. You're held individually while the group holds a field of
+            presence and prayer. Nothing demanded, nothing promised — just the safest room we can make
+            for you to meet your own truth.</p>
+        </article>
+        <article class="feature feature--rite" data-reveal data-reveal-delay="2">
+          <span class="k">Day Two &middot; Evening</span>
+          <h3>The <em>integration</em> circle</h3>
+          <p>Comforting food, a quiet villa, and a gentle circle for those who want it. Whatever you
+            share is witnessed without analysis, interruption, or advice.</p>
+        </article>
+
+        <article class="feature" data-reveal>
+          <span class="k">Day Three &middot; Morning</span>
+          <h3>Fascia release &amp; <em>breathwork</em></h3>
+          <p>Restorative movement to reconnect with the body, then breathwork and guided reflection on
+            what the experience revealed and what you're ready to leave behind.</p>
         </article>
         <article class="feature" data-reveal data-reveal-delay="1">
           <span class="k">Day Three &middot; Brunch</span>
@@ -259,6 +323,7 @@
           <p>A heart-shaped freshwater cenote in the Yucatán. Cool, clear, and culturally sacred — a
             place to swim, float, and land back in your body.</p>
         </article>
+
         <article class="feature" data-reveal>
           <span class="k">Day Three &middot; Sunset</span>
           <h3>The Tulum <em>coast</em></h3>
@@ -274,9 +339,10 @@
         <article class="feature" data-reveal data-reveal-delay="2">
           <span class="k">Day Four &middot; Farewell</span>
           <h3>MOTMOT at <em>KAN Tulum</em></h3>
-          <p>Modern Mexican cooking beside a private cenote, hidden in the jungle. A last quiet hour
-            together before the world comes back.</p>
+          <p>Modern Mexican cooking beside a private cenote. One final reflection, one word for what
+            you're taking home, and your Tiger Soul keepsake before the airport.</p>
         </article>
+
       </div>
     </div>
   </section>
