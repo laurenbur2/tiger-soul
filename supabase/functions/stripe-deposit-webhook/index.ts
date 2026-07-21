@@ -8,8 +8,8 @@
 //   STRIPE_SECRET_KEY       sk_live_...    (your Stripe secret key)
 //   STRIPE_WEBHOOK_SECRET   whsec_...      (from the Stripe webhook you create)
 //   RESEND_API_KEY          re_...         (from Resend)
-//   RESEND_FROM             e.g.  Tiger Soul Academy <academy@tigersoulretreats.com>
-//   RESEND_REPLY_TO         (optional) e.g. hello@tigersoulretreats.com
+//   RESEND_FROM             e.g.  Tiger Soul Academy <academy@tigersoulacademy.com>
+//   RESEND_REPLY_TO         (optional) an inbox you actually read, e.g. hello@tigersoulretreats.com
 
 import Stripe from "npm:stripe@^17";
 

@@ -13,10 +13,10 @@ code is already written in `index.ts`.
 ## 1. Resend (sending the email)
 
 1. Create an account at https://resend.com
-2. **Add & verify `tigersoulretreats.com`** (Resend → Domains → Add Domain).
+2. **Add & verify `tigersoulacademy.com`** (Resend → Domains → Add Domain).
    Resend gives you DNS records (SPF, DKIM, and usually a return-path). Add them at
    your domain registrar/DNS. Wait for "Verified" (minutes to a couple hours).
-   - Sending from: `academy@tigersoulretreats.com`
+   - Sending from: `academy@tigersoulacademy.com`
 3. **Create an API key** (Resend → API Keys). Copy it (`re_...`).
 
 ## 2. Stripe (the trigger)
@@ -43,7 +43,7 @@ supabase secrets set \
   STRIPE_SECRET_KEY="sk_live_..." \
   STRIPE_WEBHOOK_SECRET="whsec_..." \
   RESEND_API_KEY="re_..." \
-  RESEND_FROM="Tiger Soul Academy <academy@tigersoulretreats.com>" \
+  RESEND_FROM="Tiger Soul Academy <academy@tigersoulacademy.com>" \
   RESEND_REPLY_TO="hello@tigersoulretreats.com"
 ```
 
