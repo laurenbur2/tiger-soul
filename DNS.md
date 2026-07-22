@@ -65,3 +65,25 @@ dig +short TXT resend._domainkey.tigersoulretreats.com
 
 Nameservers should be GoDaddy's; MX must still be ProtonMail. Send a test to hello@
 and submit both website forms.
+
+## Launch: pointing the domain at GitHub Pages
+
+Swap the four Squarespace A records for these, and repoint `www`. Do this only
+when the new site is ready to take over — the MX, SPF, DKIM and DMARC rows above
+are untouched by this, so email keeps working throughout.
+
+| Type | Host | Value |
+|---|---|---|
+| A | `@` | `185.199.108.153` |
+| A | `@` | `185.199.109.153` |
+| A | `@` | `185.199.110.153` |
+| A | `@` | `185.199.111.153` |
+| CNAME | `www` | `laurenbur2.github.io` |
+
+Then GitHub → repo Settings → Pages → Custom domain → `tigersoulretreats.com`,
+and tick **Enforce HTTPS**. The certificate takes a few minutes to issue; a
+browser warning inside that window is expected, not a failure.
+
+The `www` CNAME matters more than it looks: every URL Google has indexed is on
+`www.tigersoulretreats.com`, and GitHub Pages issues a real 301 from `www` to the
+apex. Leave it out and the whole indexed site dead-ends.
