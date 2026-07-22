@@ -194,6 +194,27 @@
     track.addEventListener("pointercancel", end);
   });
 
+  /* ---------- Card strips: arrow-scroll ----------
+     No drag handler here — these cards hold buttons and video controls that
+     need their clicks. */
+  document.querySelectorAll(".hscroll").forEach((s) => {
+    const track = s.querySelector(".hscroll__track");
+    const prev = s.querySelector(".hscroll__nav--prev");
+    const next = s.querySelector(".hscroll__nav--next");
+    if (!track) return;
+    const step = () => Math.max(track.clientWidth * 0.8, 300);
+    const sync = () => {
+      const max = track.scrollWidth - track.clientWidth - 2;
+      prev && (prev.style.visibility = track.scrollLeft > 2 ? "visible" : "hidden");
+      next && (next.style.visibility = track.scrollLeft < max ? "visible" : "hidden");
+    };
+    prev && prev.addEventListener("click", () => track.scrollBy({ left: -step(), behavior: "smooth" }));
+    next && next.addEventListener("click", () => track.scrollBy({ left: step(), behavior: "smooth" }));
+    track.addEventListener("scroll", sync, { passive: true });
+    window.addEventListener("resize", sync);
+    sync();
+  });
+
   /* ---------- Testimonials: drag / wheel to scroll horizontally ---------- */
   const track = document.getElementById("testiTrack");
   if (track) {

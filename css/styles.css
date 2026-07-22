@@ -614,9 +614,22 @@ section { position: relative; }
 .testi blockquote p { margin: 0 0 0.9em; }
 .testi blockquote p:last-child { margin-bottom: 0; }
 
-/* Testimonials — full-page grid of highlight cards */
-.testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.2rem, 2.2vw, 1.8rem); align-items: stretch; }
-.testi-grid .testi { flex: initial; }
+/* Horizontal card strip — arrows plus native scroll, no drag handler so the
+   controls inside the cards (read more, video scrubber) still take clicks. */
+.hscroll { position: relative; margin-top: clamp(1.6rem, 3vw, 2.6rem); }
+.hscroll__track {
+  display: flex; gap: clamp(1.2rem, 2.2vw, 1.8rem); align-items: stretch;
+  overflow-x: auto; scroll-behavior: smooth; scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch; padding-bottom: 10px;
+}
+.hscroll__track > * { flex: 0 0 auto; scroll-snap-align: start; }
+.hscroll__track::-webkit-scrollbar { height: 6px; }
+.hscroll__track::-webkit-scrollbar-track { background: rgba(198,167,105,.08); }
+.hscroll__track::-webkit-scrollbar-thumb { background: rgba(198,167,105,.4); border-radius: 3px; }
+
+/* Testimonials — full-page strip of highlight cards */
+.hscroll__track .testi { width: min(84vw, 400px); }
+.hscroll__track .video-testi { width: min(70vw, 300px); }
 .testi__more {
   margin-top: 1.5rem; align-self: flex-start; background: none; border: 0; padding: 0; cursor: pointer;
   font-family: var(--font-sans); font-size: 0.66rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-light);
@@ -625,18 +638,13 @@ section { position: relative; }
 .testi__more .arw { transition: transform .25s ease; }
 .testi__more:hover { color: var(--gold); }
 .testi__more:hover .arw { transform: translateX(4px); }
-@media (max-width: 940px) { .testi-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 620px) { .testi-grid { grid-template-columns: 1fr; } }
 
 /* Video testimonials */
-.video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.2rem, 2.5vw, 2rem); margin-top: clamp(2rem, 4vw, 3rem); }
 .video-testi { margin: 0; }
 .video-testi video {
   width: 100%; aspect-ratio: 9 / 16; object-fit: cover; display: block; background: #000;
   border: 1px solid rgba(198,167,105,0.22);
 }
-@media (max-width: 900px) { .video-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 560px) { .video-grid { grid-template-columns: 1fr; max-width: 380px; margin-inline: auto; } }
 
 /* Photo gallery — horizontal scroll filmstrip */
 .gallery { position: relative; margin-top: clamp(1.6rem, 3vw, 2.6rem); }
@@ -651,17 +659,17 @@ section { position: relative; }
   flex: 0 0 auto; margin: 0; height: clamp(260px, 40vh, 440px); scroll-snap-align: center; overflow: hidden;
 }
 .gallery__item img { height: 100%; width: auto; max-width: none; display: block; object-fit: cover; box-shadow: inset 0 0 0 1px rgba(198,167,105,.2); }
-.gallery__nav {
+.gallery__nav, .hscroll__nav {
   position: absolute; top: 50%; transform: translateY(-50%); z-index: 3;
   width: 46px; height: 46px; border-radius: 50%; border: 1px solid rgba(198,167,105,.55);
   background: rgba(11,18,13,.55); color: var(--gold-light); cursor: pointer;
   display: grid; place-items: center; font-size: 1.4rem; line-height: 1; padding-bottom: 3px;
   backdrop-filter: blur(4px); transition: background .2s ease, color .2s ease;
 }
-.gallery__nav:hover { background: var(--gold-deep); color: var(--cream); }
-.gallery__nav--prev { left: 6px; }
-.gallery__nav--next { right: 6px; }
-@media (max-width: 720px) { .gallery__nav { display: none; } }
+.gallery__nav:hover, .hscroll__nav:hover { background: var(--gold-deep); color: var(--cream); }
+.gallery__nav--prev, .hscroll__nav--prev { left: -6px; }
+.gallery__nav--next, .hscroll__nav--next { right: -6px; }
+@media (max-width: 720px) { .gallery__nav, .hscroll__nav { display: none; } }
 
 /* Testimonial modal */
 .modal {
