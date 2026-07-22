@@ -1,38 +1,20 @@
 # Tiger Soul — follow-ups
 
-## 1. Flatten URLs to match what Google already indexed
+Site went live on GitHub Pages 2026-07-22. These are what's left.
 
-**Why:** the old Squarespace site used clean URLs (`/about`, `/retreats`,
-`/medical-health-screening`). The new site serves `/pages/about.html` and puts a
-redirect stub at the old path. Every visitor arriving from a search result takes
-an extra hop, and a meta-refresh passes ranking signal more weakly than a real
-301 — which GitHub Pages cannot issue.
+## 1. Tick "Enforce HTTPS"
 
-**The fix:** make the old URL the real page. `/about/index.html` becomes the
-actual About page rather than a stub pointing at `/pages/about.html`. The URLs
-Google has indexed then resolve directly — no redirect, no signal loss.
-
-**Scope:** ~20 pages. Move each `pages/x.html` to `<old-slug>/index.html`, fix
-the relative asset paths (`../assets` becomes `../assets` still, since both are
-one level deep — verify), update internal links, regenerate sitemap.xml, and
-keep stubs only where the old slug and new page genuinely differ (e.g.
-`/bufo-preparation` and `/about-bufo` both land on the Bufo page).
-
-**Watch out for:** pages with no old-Squarespace equivalent (liberation-program,
-reclamation-retreat, renewal-retreat, faq, thank-you pages) — those pick a clean
-slug of their own. And `pages/health-screening.html` is linked from the forms'
-redirect target in `js/forms.js`, so that path is referenced in code, not just
-markup.
-
-**Do it after** the launch has settled and Search Console shows the new URLs
-indexed — changing URLs twice in a fortnight is worse than either state.
+GitHub → repo Settings → Pages → **Enforce HTTPS**. The certificate is issued and
+covers both `www.tigersoulretreats.com` and the apex; the box just hasn't been
+ticked. Until it is, `http://` requests are served over plain HTTP rather than
+redirected to `https://`.
 
 ## 2. Rotate the Resend API key to a domain-scoped one
 
-The live key (`tiger-soul-forms`) was shown in a screenshot and is in shell
-history. Resend's "create key restricted to one domain" form was erroring on
-2026-07-22; an all-domains key was rejected deliberately because the Resend
-account holds domains for unrelated projects.
+The live key (`tiger-soul-forms`) appeared in a screenshot and is in shell history.
+Resend's "restrict this key to one domain" form was erroring on 2026-07-22, and an
+all-domains key was refused on purpose — that Resend account holds domains for
+unrelated projects, so an unscoped key could send mail as any of them.
 
 Retry the domain-scoped key. When it works:
 
@@ -40,15 +22,30 @@ Retry the domain-scoped key. When it works:
 read "k?Paste Resend key: " && supabase secrets set --project-ref werkohszkcytdvljafha RESEND_API_KEY="$k"
 ```
 
-Then test both forms before deleting the old key in Resend.
+Test both forms before deleting the old key in Resend.
 
-## 3. Cancel Squarespace
+## 3. Google Search Console
 
-Only after the new site is confirmed live over HTTPS and clicked through. DNS no
-longer depends on Squarespace, so this is now safe — but their servers are what
-rendered the old site, so don't cancel until you're sure you won't want it back.
+Submit `https://www.tigersoulretreats.com/sitemap.xml` and request indexing on the
+main pages. Cuts the post-migration recrawl from weeks to days.
 
-## 4. Google Search Console
+Note the property must be the **www** host — that is the canonical one now.
 
-Submit `https://tigersoulretreats.com/sitemap.xml` and request indexing on the
-main pages. Speeds recrawl from weeks to days after the migration.
+## 4. Cancel Squarespace
+
+Only after clicking through every page and both forms yourself, including on a
+phone. DNS no longer depends on Squarespace, so this is safe whenever you're
+ready — but their servers are the only way back to the old site.
+
+---
+
+## Done
+
+- Contact form and health screening wired to Resend, with confirmations to the
+  sender and a thank-you page each
+- DNS moved from Squarespace to GoDaddy, ProtonMail intact
+- New site live on the domain
+- URLs flattened to the slugs Google already indexed (`/about`, not
+  `/pages/about.html`) — 12 old URLs are now real pages with no redirect
+- `www` made canonical, which killed the redirect loop that cached Squarespace
+  redirects were causing in returning visitors' browsers
