@@ -209,9 +209,10 @@
         <h2>Begin your screening</h2>
       </div>
 
-      <!-- Submission is not wired yet — client is connecting this to Resend.
-           onsubmit returns false so an un-wired submit can't GET 43 answers of
-           medical history into the URL as query params. -->
+      <!-- Submitted by js/forms.js to the `health-screening` Edge Function,
+           which emails the screening through Resend. No `action`/`method`, and
+           onsubmit returns false, so a submit that outran the script can never
+           GET 43 answers of medical history into the URL as query params. -->
       <form class="hs-form" id="screeningForm" novalidate onsubmit="return false;">
         <fieldset class="hs-set">
           <legend class="hs-legend">Which offering is this for?</legend>
@@ -442,7 +443,9 @@
 
       </form>
 
-      <div class="hs-submit" data-reveal>
+      <!-- The button sits outside the <form> for layout; data-form tells
+           js/forms.js which form it submits. -->
+      <div class="hs-submit" data-reveal data-form="screeningForm">
         <button class="btn btn--solid" type="submit">Submit Screening</button>
       </div>
 
@@ -501,5 +504,6 @@
   </footer>
 
   <script src="../js/main.js"></script>
+  <script src="../js/forms.js"></script>
 </body>
 </html>

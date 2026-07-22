@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Application Received — Tiger Soul Medicine Retreats</title>
+  <meta name="description" content="Your health screening has reached Tiger Soul and your application is open." />
+  <!-- Nothing to index: this page is only ever reached by submitting a form. -->
+  <meta name="robots" content="noindex" />
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/logo/favicon-32.png" />
+  <link rel="apple-touch-icon" href="../assets/images/logo/favicon-180.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../css/styles.css" />
+
+  <style>
+    /* ============================================================
+       THANK YOU — a single quiet screen after a form is sent
+       ============================================================ */
+    .ty{
+      min-height:100svh; display:grid; place-items:center;
+      padding:calc(var(--header-h) + 3rem) 1.4rem 4rem;
+      position:relative; isolation:isolate; overflow:hidden;
+    }
+    .ty__media{ position:absolute; inset:0; z-index:-2; }
+    .ty__media img{ width:100%; height:100%; object-fit:cover; }
+    .ty__media::after{
+      content:""; position:absolute; inset:0;
+      background:linear-gradient(180deg, rgba(10,20,14,.86), rgba(10,20,14,.94));
+    }
+
+    .ty__inner{ max-width:60ch; text-align:center; }
+    .ty h1{
+      font-size:clamp(2.4rem,6vw,3.8rem); line-height:1.1; color:var(--cream); margin:0 0 1.3rem;
+    }
+    .ty h1 em{ font-style:italic; color:var(--gold); }
+    .ty__lead{
+      font-size:clamp(1.02rem,1.5vw,1.18rem); line-height:1.7;
+      color:rgba(250,247,240,.82); margin:0 0 1.1rem;
+    }
+    .ty__lead:last-of-type{ margin-bottom:2.2rem; }
+
+    /* What happens next — a small numbered strip, same language as the
+       screening steps but on dark. */
+    .ty__next{
+      list-style:none; margin:2.4rem 0 2.6rem; padding:1.9rem 0 0;
+      border-top:1px solid rgba(198,167,105,.28);
+      display:grid; grid-template-columns:repeat(3,1fr); gap:1.6rem; text-align:left;
+    }
+    @media (max-width:700px){ .ty__next{ grid-template-columns:1fr; gap:1.2rem; } }
+    .ty__next li{ display:grid; grid-template-columns:auto 1fr; gap:.15rem .7rem; align-items:baseline; }
+    .ty__next .n{
+      grid-row:1 / span 2; display:flex; align-items:center; justify-content:center;
+      width:1.5rem; height:1.5rem; flex:none; border-radius:50%;
+      background:var(--gold); color:var(--forest-950);
+      font-family:var(--font-sans); font-size:.66rem; line-height:1;
+    }
+    .ty__next h2{ margin:0; font-size:.98rem; line-height:1.35; color:var(--cream); }
+    .ty__next p{ margin:.3rem 0 0; font-size:.82rem; line-height:1.55; color:rgba(250,247,240,.62); }
+
+    .ty__actions{ display:flex; gap:.9rem; justify-content:center; flex-wrap:wrap; }
+    .ty__note{
+      margin:2.2rem 0 0; font-size:.8rem; line-height:1.6; color:rgba(250,247,240,.5);
+    }
+    .ty__note a{ color:var(--gold); border-bottom:1px solid rgba(198,167,105,.45); }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header" id="header">
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navOverlay">
+      <span class="bars"><span></span><span></span><span></span></span>
+      <span>Menu</span>
+    </button>
+    <a class="brand" href="../index.html" aria-label="Tiger Soul Medicine Retreats — home">
+      <img src="../assets/images/logo/tiger-mark.png" alt="" />
+      <span class="brand-word">Tiger Soul</span>
+      <span class="brand-sub">Medicine Retreats</span>
+    </a>
+  </header>
+
+  <!-- Full-screen menu overlay -->
+  <nav class="nav-overlay" id="navOverlay" aria-hidden="true">
+    <div class="nav-top">
+      <span class="nav-brand">Tiger Soul</span>
+      <button class="nav-close" id="navClose" aria-label="Close menu"><span>Close</span><span class="x"></span></button>
+    </div>
+    <div class="nav-main">
+      <ul class="nav-list">
+        <li><a href="retreats.html"><span class="lbl">Retreats<span class="lbl-it">immersive</span></span></a></li>
+        <li><a href="sacred-medicines.html"><span class="lbl">Sacred Offerings<span class="lbl-it">medicine</span></span></a></li>
+        <li><a href="testimonials.html"><span class="lbl">Testimonials<span class="lbl-it">stories</span></span></a></li>
+        <li><a href="about.html"><span class="lbl">About<span class="lbl-it">the founder</span></span></a></li>
+        <li><a href="contact.html"><span class="lbl">Contact<span class="lbl-it">begin</span></span></a></li>
+      </ul>
+    </div>
+    <div class="nav-foot">
+      <div><div class="col-label">Answer the Call</div><a href="mailto:hello@tigersoulretreats.com">hello@tigersoulretreats.com</a></div>
+      <div class="nav-socials"><a href="#">Instagram</a><a href="#">Facebook</a><a href="#">Newsletter</a></div>
+    </div>
+  </nav>
+
+  <!-- Thank you -->
+  <section class="ty">
+    <div class="ty__media">
+      <img src="../assets/images/pages/tulum-cenote.webp" alt="" />
+    </div>
+    <div class="ty__inner">
+      <p class="eyebrow centered" data-reveal>Application Received</p>
+      <h1 data-reveal data-reveal-delay="1">Thank you for <em>beginning</em></h1>
+      <p class="ty__lead" data-reveal data-reveal-delay="2">
+        Your health screening reached us and your application is open. What you shared stays
+        between you and the facilitators holding your ceremony.
+      </p>
+      <p class="ty__lead" data-reveal data-reveal-delay="3">
+        Answering these questions honestly takes something. We don't take that lightly.
+      </p>
+
+      <ol class="ty__next" data-reveal data-reveal-delay="4">
+        <li>
+          <span class="n">1</span>
+          <h2>We read it</h2>
+          <p>A facilitator reviews your screening in full, usually within a few days.</p>
+        </li>
+        <li>
+          <span class="n">2</span>
+          <h2>We talk</h2>
+          <p>We reach out to arrange a personal conversation about what you're carrying.</p>
+        </li>
+        <li>
+          <span class="n">3</span>
+          <h2>You reserve your place</h2>
+          <p>If you're cleared for the work, we handle payment and send everything you need to prepare.</p>
+        </li>
+      </ol>
+
+      <div class="ty__actions" data-reveal data-reveal-delay="5">
+        <a class="btn btn--solid" href="faq.html">Read the FAQ</a>
+        <a class="btn" href="../index.html">Back to Home</a>
+      </div>
+
+      <p class="ty__note" data-reveal data-reveal-delay="6">
+        A confirmation email is on its way. If anything about your health changes before we speak,
+        tell us at <a href="mailto:hello@tigersoulretreats.com">hello@tigersoulretreats.com</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" id="contact">
+    <div class="wrap">
+      <div class="footer__brand">
+        <img src="../assets/images/logo/logo-full.png" alt="Tiger Soul Medicine Retreats" />
+        <p>Sacred plant medicine, retreats, and practitioner trainings for those ready to live in the
+          spirit with courage, compassion, and connection.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="retreats.html">Retreats</a></li>
+          <li><a href="bufo-training.html">Practitioner Training</a></li>
+          <li><a href="liberation-program.html">Liberation Program</a></li>
+          <li><a href="sacred-medicines.html">Sacred Offerings</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Discover</h4>
+        <ul>
+          <li><a href="testimonials.html">Testimonials</a></li>
+          <li><a href="about.html">About Blaine</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="mailto:hello@tigersoulretreats.com">Email Us</a></li>
+          <li><a href="../index.html#newsletter">Newsletter</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="footer__bottom">
+        <span>&copy; 2026 Tiger Soul Medicine Retreats. All rights reserved.</span>
+        <span class="footer__disclaimer">Tiger Soul is a spiritual community; our ceremonies are a spiritual practice and the sacred medicines
+          sacraments of that belief. Not medical treatment or advice; participation is voluntary and at your own
+          responsibility. Consult a physician first.</span>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

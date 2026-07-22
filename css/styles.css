@@ -1037,3 +1037,20 @@ section { position: relative; }
 @media (max-width: 400px) {
   .announce b { font-size: 0.52rem; letter-spacing: 0.12em; }
 }
+
+/* ============================================================
+   FORM STATUS — the line js/forms.js writes above a submit button
+   ============================================================ */
+.form-status {
+  margin: 0 0 0.9rem;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+.form-status:empty { display: none; }
+.form-status--error { color: #8c2f2f; }
+.form-status--error::before { content: "⚠ "; }
+
+/* Sending: the button dims but keeps its size, so nothing shifts. */
+.btn[disabled] { opacity: 0.55; cursor: progress; pointer-events: none; }

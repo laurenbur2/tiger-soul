@@ -181,11 +181,12 @@
 
       <!-- Right: the form -->
       <div class="ct-main" data-reveal data-reveal-delay="1">
-        <!-- Submission is not wired yet — client is connecting this to Resend.
-             The button is live-looking but inert until then. -->
-        <!-- onsubmit returns false so an un-wired submit can't GET the visitor's
-             email and phone into the URL as query params. Replace with the
-             Resend handler when connecting. -->
+        <!-- Submitted by js/forms.js to the `contact-form` Edge Function, which
+             emails the enquiry through Resend. No `action`/`method`: a submit
+             that outran the script must never GET the visitor's email and
+             phone into the URL as query params. `onsubmit="return false"` stays
+             as the belt-and-braces version of that: it only cancels the native
+             submit, the JS listener still fires. -->
         <form class="ct-form" id="contactForm" novalidate onsubmit="return false;">
           <div class="ct-row">
             <div class="ct-field">
@@ -282,5 +283,6 @@
   </footer>
 
   <script src="../js/main.js"></script>
+  <script src="../js/forms.js"></script>
 </body>
 </html>
