@@ -17,3 +17,9 @@ node_modules/
 /Toady-toad.jpg
 /song-of-tranquility.jpg
 .gstack/
+
+# Supabase CLI scratch
+supabase/.temp/
+
+# Wrangler local cache
+.wrangler/
