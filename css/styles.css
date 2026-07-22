@@ -888,6 +888,14 @@ section { position: relative; }
 .price-card .amt { font-family: var(--font-display); font-size: clamp(2.1rem, 4vw, 3rem); margin: 0.5rem 0 0.3rem; }
 .price-card .amt small { font-size: 0.42em; letter-spacing: 0.1em; opacity: 0.7; }
 .price-card .note { font-size: 0.84rem; opacity: 0.72; }
+/* Quiet italic line under the price cards */
+.price-plans {
+  margin: clamp(1.1rem, 2vw, 1.6rem) auto 0; text-align: center;
+  font-family: var(--font-display); font-style: italic;
+  font-size: clamp(1rem, 1.3vw, 1.15rem); color: var(--gold-deep);
+}
+.on-dark .price-plans { color: var(--gold-light); }
+
 /* One tier, one card — keeps it centered instead of stranded in a 2-col grid. */
 .price-grid--single { grid-template-columns: 1fr; max-width: 420px; }
 @media (max-width: 560px) { .price-grid { grid-template-columns: 1fr; } }
