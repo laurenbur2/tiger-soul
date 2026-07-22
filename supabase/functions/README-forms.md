@@ -25,18 +25,59 @@ and adding DNS records, which only you can do.
 The Academy already sends from `tigersoulacademy.com`. These forms send from the
 retreats domain, so it needs verifying too.
 
+### Where the DNS records go
+
+The domain is **registered at GoDaddy but its DNS is served by Squarespace**
+(`ns01–04.squarespacedns.com`). GoDaddy's DNS tab is therefore read-only and
+editing there does nothing. Records go in **Squarespace → Settings → Domains →
+tigersoulretreats.com → DNS Settings**.
+
+What's already live on the apex, and must not be disturbed:
+
+| Record | Value | What it's for |
+|---|---|---|
+| `A` @ | 198.185.159.x / 198.49.23.x | Squarespace website |
+| `CNAME` www | `ext-sq.squarespace.com` | Squarespace website |
+| `MX` @ | `mail.protonmail.ch` (10), `mailsec.protonmail.ch` (20) | **hello@ inbox — ProtonMail** |
+| `TXT` @ | `v=spf1 include:_spf.protonmail.ch ~all` | ProtonMail SPF |
+
+> **A domain may have only one SPF record on the apex.** Adding a second breaks
+> mail delivery for hello@. Resend doesn't need one — its SPF goes on the `send`
+> subdomain (below), so the ProtonMail line stays exactly as it is.
+
+### Steps
+
 1. Resend → **Domains** → **Add Domain** → `tigersoulretreats.com`
-2. Resend gives you DNS records (SPF, DKIM, usually a return-path). Add them at
-   whoever hosts DNS for `tigersoulretreats.com`.
-3. Wait for **Verified** (minutes to a couple of hours).
+2. Resend shows three or four records. They land on *subdomains*, so none of them
+   collide with what's above:
+
+   | Type | Host | Value |
+   |---|---|---|
+   | `MX` | `send` | `feedback-smtp.<region>.amazonses.com` (priority 10) |
+   | `TXT` | `send` | `v=spf1 include:amazonses.com ~all` |
+   | `TXT` | `resend._domainkey` | the long `p=MIGfMA0…` key Resend generates |
+   | `TXT` | `_dmarc` *(optional)* | `v=DMARC1; p=none;` |
+
+   Copy the values from Resend — the DKIM key is generated per domain, so the one
+   above is a shape, not a value to paste.
+3. Add them in **Squarespace's DNS Settings**, then hit **Verify** in Resend. Wait
+   for **Verified** (minutes to a couple of hours).
 4. Resend → **API Keys** → create one if you don't already have the key you used
    for the Academy. Either key works — it's the domain that has to be verified,
    not the key.
 
-Sending address: `forms@tigersoulretreats.com` (no inbox required — it's send-only).
+Sending address: `forms@tigersoulretreats.com` (no inbox required — it's send-only,
+and the ProtonMail MX keeps handling everything arriving at hello@).
 
 > Until the domain is verified, Resend rejects the send and the form shows
-> "We couldn't send that just now." That's the expected failure, not a bug.
+> "That didn't send." That's the expected failure, not a bug.
+
+### When the site moves off Squarespace
+
+Squarespace serves the DNS *because* there's a Squarespace subscription. Cancelling
+it takes the nameservers down with it — website, ProtonMail, and these Resend
+records all at once. So before cancelling, move DNS to GoDaddy (or Cloudflare) and
+re-create every record above there first, then cancel.
 
 ## 2. Supabase — set the secrets
 
