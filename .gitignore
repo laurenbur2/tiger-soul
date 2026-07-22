@@ -28,3 +28,6 @@ supabase/.temp/
 # published. GitHub Pages serves anything committed to this repo.
 "The Tiger Soul Liberation Program /"
 *.docx
+
+# Local email preview, never published
+_email-preview.html
