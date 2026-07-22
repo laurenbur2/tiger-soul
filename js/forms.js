@@ -146,7 +146,7 @@
   wire({
     formId: "contactForm",
     endpoint: "contact-form",
-    redirect: "thank-you.html",
+    redirect: "/thank-you/",
     required: ["firstName", "lastName", "email", "message"],
     busyLabel: "Sending…"
   });
@@ -154,7 +154,7 @@
   wire({
     formId: "screeningForm",
     endpoint: "health-screening",
-    redirect: "thank-you-screening.html",
+    redirect: "/thank-you-screening/",
     required: ["offering", "q5", "q6", "q8", "q9"],
     busyLabel: "Submitting…"
   });

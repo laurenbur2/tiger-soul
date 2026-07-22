@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ — Tiger Soul Medicine Retreats</title>
+  <meta name="description" content="Common questions about Tiger Soul — how to apply, the health screening, where ceremonies are held, the medicines we work with, and what to expect." />
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/logo/favicon-32.png" />
+  <link rel="apple-touch-icon" href="../assets/images/logo/favicon-180.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Tiger Soul Medicine Retreats" />
+  <meta property="og:title" content="FAQ — Tiger Soul Medicine Retreats" />
+  <meta property="og:description" content="Common questions about applying, the health screening, the medicines, and what to expect." />
+  <meta property="og:url" content="https://tigersoulretreats.com/faq/" />
+  <meta property="og:image" content="https://tigersoulretreats.com/assets/images/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://tigersoulretreats.com/assets/images/og-image.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/styles.css" />
+  <style>
+    /* ============================================================
+       FAQ — accordion (native details/summary, no JS needed)
+       ============================================================ */
+    .faq-intro{ max-width:58ch; margin:0 auto clamp(1.6rem,3vw,2.4rem); text-align:center; }
+    .faq-intro p{ color:var(--ink-soft); margin:0; }
+
+    .faq-acc{ max-width:820px; margin:0 auto; }
+    .faq-q{ border-top:1px solid rgba(21,21,15,.12); }
+    .faq-q:last-child{ border-bottom:1px solid rgba(21,21,15,.12); }
+    .faq-q > summary{
+      display:flex; align-items:center; justify-content:space-between; gap:1.5rem;
+      cursor:pointer; list-style:none; padding:clamp(1.1rem,2vw,1.4rem) 0;
+      font-family:var(--font-display); font-size:clamp(1.05rem,1.7vw,1.25rem);
+      color:var(--ink); transition:color .3s var(--ease);
+    }
+    .faq-q > summary::-webkit-details-marker{ display:none; }
+    .faq-q > summary:hover{ color:var(--gold-deep); }
+    .faq-q > summary:focus-visible{ outline:2px solid var(--gold-deep); outline-offset:3px; }
+    .faq-q__ico{ flex:none; position:relative; width:14px; height:14px; transition:transform .35s var(--ease); }
+    .faq-q__ico::before, .faq-q__ico::after{ content:""; position:absolute; background:var(--gold-deep); }
+    .faq-q__ico::before{ top:6px; left:0; width:14px; height:1.5px; }
+    .faq-q__ico::after{ left:6px; top:0; width:1.5px; height:14px; }
+    .faq-q[open] .faq-q__ico{ transform:rotate(135deg); }
+    .faq-q__a{
+      padding:0 0 clamp(1.1rem,2vw,1.4rem); margin:0;
+      font-size:.94rem; line-height:1.7; color:var(--ink-soft); max-width:70ch;
+    }
+    .faq-q[open] .faq-q__a{ animation:faqIn .35s var(--ease); }
+    @keyframes faqIn{ from{ opacity:0; transform:translateY(-4px); } to{ opacity:1; transform:none; } }
+    @media (prefers-reduced-motion:reduce){
+      .faq-q__ico, .faq-q[open] .faq-q__a{ transition:none; animation:none; }
+    }
+
+    .faq-still{ text-align:center; margin-top:clamp(2rem,4vw,3rem); }
+    .faq-still p{ color:var(--ink-soft); margin-bottom:1.2rem; font-size:.94rem; }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header" id="header">
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navOverlay">
+      <span class="bars"><span></span><span></span><span></span></span>
+      <span>Menu</span>
+    </button>
+    <a class="brand" href="../" aria-label="Tiger Soul Medicine Retreats — home">
+      <img src="../assets/images/logo/tiger-mark.png" alt="" />
+      <span class="brand-word">Tiger Soul</span>
+      <span class="brand-sub">Medicine Retreats</span>
+    </a>
+  </header>
+
+  <!-- Full-screen menu overlay -->
+  <nav class="nav-overlay" id="navOverlay" aria-hidden="true">
+    <div class="nav-top">
+      <span class="nav-brand">Tiger Soul</span>
+      <button class="nav-close" id="navClose" aria-label="Close menu"><span>Close</span><span class="x"></span></button>
+    </div>
+    <div class="nav-main">
+      <ul class="nav-list">
+        <li><a href="../retreats/"><span class="lbl">Retreats<span class="lbl-it">immersive</span></span></a></li>
+        <li><a href="../sacred-medicine-info/"><span class="lbl">Sacred Offerings<span class="lbl-it">medicine</span></span></a></li>
+        <li><a href="../testimonials/"><span class="lbl">Testimonials<span class="lbl-it">stories</span></span></a></li>
+        <li><a href="../about/"><span class="lbl">About<span class="lbl-it">the founder</span></span></a></li>
+        <li><a href="../contact/"><span class="lbl">Contact<span class="lbl-it">begin</span></span></a></li>
+      </ul>
+    </div>
+    <div class="nav-foot">
+      <div><div class="col-label">Answer the Call</div><a href="mailto:hello@tigersoulretreats.com">hello@tigersoulretreats.com</a></div>
+      <div class="nav-socials"><a href="#">Instagram</a><a href="#">Facebook</a><a href="#">Newsletter</a></div>
+    </div>
+  </nav>
+
+  <!-- Page hero -->
+  <section class="page-hero page-hero--compact" id="top" style="--hero-pos: center 25%">
+    <div class="page-hero__media">
+      <img src="../assets/images/pages/included-practice.webp" alt="Morning practice on the grass at a Tiger Soul retreat" fetchpriority="high" />
+    </div>
+    <div class="page-hero__inner">
+      <p class="eyebrow" data-reveal>FAQ</p>
+      <h1 data-reveal data-reveal-delay="1"><span class="n">Questions,</span> answered</h1>
+      <p class="page-hero__meta" data-reveal data-reveal-delay="2">Before You Reach Out</p>
+    </div>
+  </section>
+
+  <!-- Questions -->
+  <section class="section--light pad" id="questions">
+    <div class="wrap">
+      <div class="faq-intro" data-reveal>
+        <p>The questions we're asked most. If yours isn't here, write to us — every message is read
+          personally.</p>
+      </div>
+
+      <div class="faq-acc" data-reveal>
+
+        <details class="faq-q">
+          <summary>How do I apply or book?<span class="faq-q__ico" aria-hidden="true"></span></summary>
+          <p class="faq-q__a">Everything begins with the health screening. Once we've read it, we'll arrange
+            a call to answer your questions and see whether this is your time. If you're cleared, we
+            process payment and send you everything you need — dates, preparation, and your retreat
+            information.</p>
+        </details>
+
+        <details class="faq-q">
+          <summary>Do I have to complete the health screening?<span class="faq-q__ico" aria-hidden="true"></span></summary>
+          <p class="faq-q__a">Yes — everyone does, for every offering. Certain conditions and medications
+            aren't safe to combine with these medicines, so we need the full picture before we can hold
+            you well. Please tell us everything, including anything you're unsure about.</p>
+        </details>
+
+        <details class="faq-q">
+          <summary>Where do you hold ceremonies and retreats?<span class="faq-q__ico" aria-hidden="true"></span></summary>
+          <p class="faq-q__a">Private ceremonies and private medicine retreats are held in Tulum, Mexico.
+            The Bufo Practitioner Training takes place at the Lunita Jungle Retreat in Puerto Morelos,
+            Mexico. The Liberation Program runs online, with one week together in person.</p>
+        </details>
+
+        <details class="faq-q">
+          <summary>Which medicines do you work with?<span class="faq-q__ico" aria-hidden="true"></span></summary>
+          <p class="faq-q__a">Bufo (5-MeO-DMT), Kambo, Psilocybin, and Rap&eacute;h are offered as private
+            ceremonies. Retreats may also weave in San Pedro, alongside yoga, meditation, breathwork,
+            sound healing, and ice therapy. Every journey is shaped around you — you choose what
+            resonates.</p>
+        </details>
+
+        <details class="faq-q">
+          <summary>Can I come with a partner or a friend?<span class="faq-q__ico" aria-hidden="true"></span></summary>
+          <p class="faq-q__a">Yes. Private retreats are available for singles, couples, or friends sharing
+            the journey, and accommodations are arranged to suit. Couples pricing is listed above.</p>
+        </details>
+
+        <details class="faq-q">
+          <summary>How long is the practitioner training?<span class="faq-q__ico" aria-hidden="true"></span></summary>
+          <p class="faq-q__a">It's a 13-day immersion, running March 6–18, 2027, at the Lunita Jungle
+            Retreat in Puerto Morelos. It's a certified training in the safe and reverent facilitation of
+            Bufo / 5-MeO-DMT, capped small so attention stays individual.</p>
+        </details>
+
+        <details class="faq-q">
+          <summary>How long is the Liberation Program?<span class="faq-q__ico" aria-hidden="true"></span></summary>
+          <p class="faq-q__a">Nine weeks — four weeks of preparation, one week together in person for the
+            retreat, then four weeks of integration. Dates are announced as cohorts open.</p>
+        </details>
+
+        <details class="faq-q">
+          <summary>What's included in a retreat?<span class="faq-q__ico" aria-hidden="true"></span></summary>
+          <p class="faq-q__a">Round-trip private shuttle, meals prepared with intention, all ceremonies and
+            sessions, daily yoga, sound healing and meditation, a private room with access to the rooftop
+            pool, yoga shala and gym, plus holistic therapies and one additional modality of your choice.</p>
+        </details>
+
+        <details class="faq-q">
+          <summary>How soon will I hear back?<span class="faq-q__ico" aria-hidden="true"></span></summary>
+          <p class="faq-q__a">There are no automated replies here. Every message and every screening is read
+            personally, so give us a little time — we'll come back to you.</p>
+        </details>
+
+      </div>
+
+      <div class="faq-still" data-reveal>
+        <p>Still wondering about something?</p>
+        <a class="btn btn--dark" href="../contact/">Contact Us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" id="contact">
+    <div class="wrap">
+      <div class="footer__brand">
+        <img src="../assets/images/logo/logo-full.png" alt="Tiger Soul Medicine Retreats" />
+        <p>Sacred plant medicine, retreats, and practitioner trainings for those ready to live in the
+          spirit with courage, compassion, and connection.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="../retreats/">Retreats</a></li>
+          <li><a href="../bufo-practitioner-training/">Practitioner Training</a></li>
+          <li><a href="../liberation-program/">Liberation Program</a></li>
+          <li><a href="../sacred-medicine-info/">Sacred Offerings</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Discover</h4>
+        <ul>
+          <li><a href="../testimonials/">Testimonials</a></li>
+          <li><a href="../about/">About Blaine</a></li>
+          <li><a href="../faq/">FAQ</a></li>
+        <li><a href="../contact/">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="mailto:hello@tigersoulretreats.com">Email Us</a></li>
+          <li><a href="../index.html#newsletter">Newsletter</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="footer__bottom">
+        <span>&copy; 2026 Tiger Soul Medicine Retreats. All rights reserved.</span>
+        <span class="footer__disclaimer">Tiger Soul is a spiritual community; our ceremonies are a spiritual practice and the sacred medicines
+          sacraments of that belief. Not medical treatment or advice; participation is voluntary and at your own
+          responsibility. Consult a physician first.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

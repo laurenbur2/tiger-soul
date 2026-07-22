@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Reclamation Retreat — Tiger Soul Medicine Retreats</title>
+  <meta name="description" content="A four-day immersion in ceremony, transformation, and reconnection in Tulum, México — December 4–7, 2026. Bufo, sound healing, cenote, and integration, held in a private villa with a small group." />
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/logo/favicon-32.png" />
+  <link rel="apple-touch-icon" href="../assets/images/logo/favicon-180.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Tiger Soul Medicine Retreats" />
+  <meta property="og:title" content="The Reclamation Retreat — Tiger Soul" />
+  <meta property="og:description" content="Four days in Tulum — ceremony, embodiment, nature, and integration. December 4–7, 2026." />
+  <meta property="og:url" content="https://tigersoulretreats.com/reclamation-retreat/" />
+  <meta property="og:image" content="https://tigersoulretreats.com/assets/images/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://tigersoulretreats.com/assets/images/og-image.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/styles.css" />
+
+  <style>
+    /* ── Itinerary ───────────────────────────────────────────────
+       The dark centre of the page. Four days collapsed — the whole retreat
+       reads in one screen; open a day for the hour-by-hour. Native
+       details/summary, same accordion pattern as the FAQ page.
+       Ceremonies carry a ✦. */
+    .itin { max-width: 880px; margin: 0 auto; }
+    .itin__day { border-top: 1px solid rgba(198,167,105,0.28); }
+    .itin__day:last-child { border-bottom: 1px solid rgba(198,167,105,0.28); }
+
+    .itin__day > summary {
+      display: grid; grid-template-columns: 9rem 1fr auto; align-items: center;
+      gap: clamp(1rem, 2vw, 2rem); cursor: pointer; list-style: none;
+      padding: clamp(1.15rem, 2vw, 1.5rem) 0;
+      transition: color 0.3s var(--ease);
+    }
+    .itin__day > summary::-webkit-details-marker { display: none; }
+    .itin__day > summary:hover .itin__title { color: var(--gold-light); }
+    .itin__day > summary:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 3px; }
+
+    .itin__num {
+      font-family: var(--font-display); font-style: italic;
+      font-size: clamp(1.15rem, 1.7vw, 1.4rem); color: var(--gold-light); line-height: 1.1;
+    }
+    .itin__num small {
+      display: block; font-family: var(--font-sans); font-style: normal; font-size: 0.56rem;
+      letter-spacing: 0.26em; text-transform: uppercase; opacity: 0.75; margin-top: 0.35rem;
+    }
+    .itin__title {
+      font-family: var(--font-display); font-size: clamp(1.15rem, 1.9vw, 1.45rem);
+      color: var(--cream); transition: color 0.3s var(--ease);
+    }
+    .itin__title em {
+      display: block; font-family: var(--font-sans); font-style: normal;
+      font-size: 0.85rem; color: rgba(246,241,231,0.66); margin-top: 0.3rem;
+    }
+    .itin__ico { flex: none; position: relative; width: 14px; height: 14px; transition: transform 0.35s var(--ease); }
+    .itin__ico::before, .itin__ico::after { content: ""; position: absolute; background: var(--gold-light); }
+    .itin__ico::before { top: 6px; left: 0; width: 14px; height: 1.5px; }
+    .itin__ico::after { left: 6px; top: 0; width: 1.5px; height: 14px; }
+    .itin__day[open] .itin__ico { transform: rotate(135deg); }
+    .itin__day[open] .itin__items { animation: itinIn 0.35s var(--ease); }
+    @keyframes itinIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
+    .itin__items { list-style: none; margin: 0; padding: 0 0 0.4rem; }
+    .itin__items li {
+      display: grid; grid-template-columns: 9rem 1fr; gap: clamp(1rem, 2vw, 2rem);
+      padding: 0.72rem 0;
+      border-top: 1px solid rgba(198,167,105,0.14);
+    }
+    .itin__when {
+      font-size: 0.6rem; letter-spacing: 0.26em; text-transform: uppercase;
+      color: var(--gold-light); opacity: 0.8; padding-top: 0.4rem;
+    }
+    .itin__items h4 {
+      font-family: var(--font-display); font-weight: 400; font-size: 1.08rem;
+      margin: 0 0 0.15rem; letter-spacing: 0.01em;
+    }
+    .itin__items li.is-rite h4::before {
+      content: "✦"; color: var(--gold-light); font-size: 0.62em;
+      margin-right: 0.5em; vertical-align: 0.15em;
+    }
+    .itin__items p { margin: 0; font-size: 0.9rem; color: rgba(246,241,231,0.7); max-width: 62ch; }
+
+    .itin__intent {
+      font-family: var(--font-display); font-style: italic; font-size: 1rem;
+      color: var(--gold-light); margin: 0 0 clamp(1.1rem, 2vw, 1.5rem);
+      padding-left: calc(9rem + clamp(1rem, 2vw, 2rem));
+    }
+    @media (max-width: 640px) {
+      .itin__day > summary { grid-template-columns: 1fr auto; }
+      .itin__num { grid-column: 1 / -1; }
+      .itin__items li { grid-template-columns: 1fr; gap: 0.25rem; }
+      .itin__when { padding-top: 0; }
+      .itin__intent { padding-left: 0; }
+    }
+
+    /* Preparation and integration — the two phases either side of Tulum. */
+    .arcflow { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(1.2rem, 2.4vw, 2.2rem); max-width: 900px; margin: 0 auto; }
+    .arcflow__phase {
+      display: flex; flex-direction: column;
+      padding: clamp(1.7rem, 2.4vw, 2.4rem) clamp(1.3rem, 1.9vw, 1.9rem);
+      border: 1px solid rgba(198,167,105,0.2);
+      background: rgba(11,18,13,0.3);
+      transition: transform 0.5s var(--ease), border-color 0.5s var(--ease);
+    }
+    .arcflow__phase:hover { transform: translateY(-5px); border-color: rgba(198,167,105,0.5); }
+    .arcflow__phase--centre { border-color: rgba(198,167,105,0.5); background: rgba(198,167,105,0.055); }
+    .arcflow__num {
+      font-family: var(--font-display); font-style: italic; font-size: 2.3rem;
+      line-height: 1; color: rgba(198,167,105,0.45);
+    }
+    .arcflow__phase--centre .arcflow__num { color: var(--gold-light); }
+    .arcflow__when {
+      display: block; font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--gold-light); margin: 1rem 0 0.45rem;
+    }
+    .arcflow__phase h3 { font-size: clamp(1.3rem, 1.9vw, 1.6rem); margin: 0 0 0.6rem; }
+    .arcflow__phase h3 em { font-style: italic; color: var(--gold-light); }
+    .arcflow__phase > p { font-size: 0.92rem; color: rgba(246,241,231,0.7); margin: 0 0 1.3rem; }
+    .arcflow__list { list-style: none; margin: auto 0 0; padding: 0; }
+    .arcflow__list li {
+      position: relative; font-size: 0.86rem; color: rgba(246,241,231,0.82);
+      padding: 0.62rem 0 0.62rem 1.15rem; border-top: 1px solid rgba(198,167,105,0.13);
+    }
+    .arcflow__list li::before { content: "—"; position: absolute; left: 0; color: rgba(198,167,105,0.55); }
+    @media (max-width: 760px) { .arcflow { grid-template-columns: 1fr; } }
+
+    /* Figures under the inclusions list — same pattern as the Liberation Program. */
+    .stat-row {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 0.9rem 2.4rem;
+      margin-top: 2.4rem; padding-top: 2rem; border-top: 1px solid rgba(21,21,15,0.12);
+    }
+    .stat-row .stat { text-align: center; }
+    .stat-row .stat b {
+      display: block; font-family: var(--font-display); font-size: 2rem;
+      color: var(--gold-deep); line-height: 1; font-weight: 400;
+    }
+    .stat-row .stat span {
+      font-size: 0.6rem; letter-spacing: 0.24em; text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+
+  </style>
+</head>
+<body>
+
+  <header class="header" id="header">
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navOverlay">
+      <span class="bars"><span></span><span></span><span></span></span><span>Menu</span>
+    </button>
+    <a class="brand" href="../" aria-label="Tiger Soul Medicine Retreats — home">
+      <img src="../assets/images/logo/tiger-mark.png" alt="" />
+      <span class="brand-word">Tiger Soul</span>
+      <span class="brand-sub">Medicine Retreats</span>
+    </a>
+  </header>
+
+  <nav class="nav-overlay" id="navOverlay" aria-hidden="true">
+    <div class="nav-top">
+      <span class="nav-brand">Tiger Soul</span>
+      <button class="nav-close" id="navClose" aria-label="Close menu"><span>Close</span><span class="x"></span></button>
+    </div>
+    <div class="nav-main">
+      <ul class="nav-list">
+        <li><a href="../retreats/"><span class="lbl">Retreats<span class="lbl-it">immersive</span></span></a></li>
+        <li><a href="../private-ceremonies/"><span class="lbl">Sacred Offerings<span class="lbl-it">medicine</span></span></a></li>
+        <li><a href="../testimonials/"><span class="lbl">Testimonials<span class="lbl-it">stories</span></span></a></li>
+        <li><a href="../about/"><span class="lbl">About<span class="lbl-it">the founder</span></span></a></li>
+        <li><a href="../contact/"><span class="lbl">Contact<span class="lbl-it">begin</span></span></a></li>
+      </ul>
+    </div>
+    <div class="nav-foot">
+      <div><div class="col-label">Answer the Call</div><a href="mailto:hello@tigersoulretreats.com">hello@tigersoulretreats.com</a></div>
+      <div class="nav-socials"><a href="#">Instagram</a><a href="#">Facebook</a><a href="#">Newsletter</a></div>
+    </div>
+  </nav>
+
+  <!-- Page hero -->
+  <section class="page-hero" id="top" style="--hero-pos: center 38%">
+    <div class="page-hero__media">
+      <img src="../assets/images/pages/unburdening-hero.webp" alt="A facilitator holding someone gently through a ceremony" fetchpriority="high" />
+    </div>
+    <div class="page-hero__inner">
+      <p class="eyebrow" data-reveal>The Reclamation Retreat</p>
+      <h1 data-reveal data-reveal-delay="1"><span class="n">Come back</span> to your truth</h1>
+      <p class="page-hero__sub" data-reveal data-reveal-delay="2">
+        Four days in Tulum — ceremony, connection, embodied healing, and the kind of integration
+        that follows you home.
+      </p>
+      <p class="page-hero__meta" data-reveal data-reveal-delay="3">Bufo · 5-MeO-DMT &middot; Tulum, México &middot; December 4–7, 2026</p>
+      <div class="page-hero__cta" data-reveal data-reveal-delay="4">
+        <a class="btn btn--solid" href="../medical-health-screening/">Apply Here</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- What this is -->
+  <section class="section--light split pad" id="intro">
+    <div class="wrap">
+      <div class="split__img" data-reveal>
+        <img src="../assets/images/pages/reclamation-intro.webp" alt="Two women holding each other in a long embrace at a Tiger Soul retreat" />
+        <span class="cap">From a past Tiger Soul retreat</span>
+      </div>
+      <div data-reveal data-reveal-delay="1">
+        <p class="eyebrow">A Four-Day Immersion</p>
+        <h2>Leave the noise behind, and come back to your <em>truth</em></h2>
+        <p>An intimate four-day experience of ceremony, conscious connection, embodied healing, and
+          meaningful integration &mdash; set in the jungle, turquoise water, and ancient land of Tulum.
+          Every element is chosen to support one arc: arrival, surrender, embodiment, return.</p>
+        <p class="muted">For four days a private villa belongs to us. It's where we sleep, where we eat,
+          where ceremony is held, and where you rest afterward &mdash; no lobbies, no strangers, no need
+          to leave the container to find a quiet corner.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- The itinerary -->
+  <section class="on-dark pad" id="itinerary">
+    <div class="wrap">
+      <div class="sec-head centered" data-reveal>
+        <p class="eyebrow centered">The Itinerary</p>
+        <h2>How the four days unfold</h2>
+        <p>Open any day to see it hour by hour. Nothing is rushed, and nothing is asked of you before
+          you're ready for it.</p>
+      </div>
+
+      <div class="itin" data-reveal data-reveal-delay="1">
+
+        <details class="itin__day">
+          <summary>
+            <span class="itin__num">Day One<small>Arrival</small></span>
+            <span class="itin__title">Sacred grounding<em>Enter the space, meet your community, set your intention.</em></span>
+            <span class="itin__ico" aria-hidden="true"></span>
+          </summary>
+          <ul class="itin__items">
+            <li><span class="itin__when">Afternoon</span><div><h4>Arrival at the villa</h4><p>Settle in, meet the group, and let your nervous system land.</p></div></li>
+            <li><span class="itin__when">Evening</span><div><h4>Welcome dinner &mdash; Tierra at Holistika</h4><p>Plant-based food in Tulum's best-loved jungle wellness space.</p></div></li>
+            <li class="is-rite"><span class="itin__when">Night</span><div><h4>The Opening Ceremony</h4><p>Name what called you here, and what you're ready to release.</p></div></li>
+            <li class="is-rite"><span class="itin__when">Night</span><div><h4>Honouring the land</h4><p>An offering, and permission asked before any ceremonial work.</p></div></li>
+            <li class="is-rite"><span class="itin__when">Night</span><div><h4>Rap&eacute; grounding ceremony</h4><p>Quiets the mind and releases the travel before the day ahead.</p></div></li>
+          </ul>
+          <p class="itin__intent">The intention: safety, trust, and a body ready for what comes next.</p>
+        </details>
+
+        <details class="itin__day">
+          <summary>
+            <span class="itin__num">Day Two<small>Surrender</small></span>
+            <span class="itin__title">The journey within<em>The heart of the retreat, protected from the outside world.</em></span>
+            <span class="itin__ico" aria-hidden="true"></span>
+          </summary>
+          <ul class="itin__items">
+            <li><span class="itin__when">Morning</span><div><h4>Movement &amp; nourishment</h4><p>Embodied movement, fresh juice, and a guided intention practice.</p></div></li>
+            <li class="is-rite"><span class="itin__when">Late morning</span><div><h4>Sound healing &amp; introductory Bufo</h4><p>Crystal bowls and voice, held at your own pace and consent.</p></div></li>
+            <li><span class="itin__when">Midday</span><div><h4>The sacred pause</h4><p>Rest, swim, journal, or take a private facilitator check-in.</p></div></li>
+            <li class="is-rite"><span class="itin__when">Afternoon</span><div><h4>The Bufo ceremony</h4><p>Held individually, with the group holding presence around you.</p></div></li>
+            <li><span class="itin__when">Evening</span><div><h4>Grounding &amp; the integration circle</h4><p>Familiar food, a quiet villa, and witnessing without advice.</p></div></li>
+          </ul>
+          <p class="itin__intent">The intention: a protected space to surrender, release, and meet who you are underneath it all.</p>
+        </details>
+
+        <details class="itin__day">
+          <summary>
+            <span class="itin__num">Day Three<small>Embodiment</small></span>
+            <span class="itin__title">Nature, nourishment, celebration<em>Bringing the experience back into the body, and into life.</em></span>
+            <span class="itin__ico" aria-hidden="true"></span>
+          </summary>
+          <ul class="itin__items">
+            <li><span class="itin__when">Morning</span><div><h4>Fascia release &amp; breathwork</h4><p>Restorative movement, then reflection on what the day revealed.</p></div></li>
+            <li><span class="itin__when">Late morning</span><div><h4>Conscious brunch &mdash; Raw Love</h4><p>Smoothie bowls and superfoods in a relaxed tropical setting.</p></div></li>
+            <li><span class="itin__when">Midday</span><div><h4>Cenote Coraz&oacute;n</h4><p>A heart-shaped freshwater cenote &mdash; swim, float, come back to the body.</p></div></li>
+            <li><span class="itin__when">Afternoon</span><div><h4>Rest &amp; private integration</h4><p>An unhurried return to the villa, with one-to-one time if you want it.</p></div></li>
+            <li><span class="itin__when">Sunset</span><div><h4>The Tulum coast</h4><p>Bare feet in the sand and the horizon wide open.</p></div></li>
+            <li><span class="itin__when">Evening</span><div><h4>Celebration dinner &mdash; Casa Banana</h4><p>Open-fire cooking at a MICHELIN Guide&ndash;recognized Tulum institution.</p></div></li>
+          </ul>
+          <p class="itin__intent">The intention: turn insight into embodiment, and choose what you're committing to.</p>
+        </details>
+
+        <details class="itin__day">
+          <summary>
+            <span class="itin__num">Day Four<small>Return</small></span>
+            <span class="itin__title">Anchoring &amp; farewell<em>The retreat ends here; the integration is only starting.</em></span>
+            <span class="itin__ico" aria-hidden="true"></span>
+          </summary>
+          <ul class="itin__items">
+            <li><span class="itin__when">Morning</span><div><h4>Farewell breakfast &mdash; MOTMOT at KAN Tulum</h4><p>Modern Mexican cooking beside a private jungle cenote.</p></div></li>
+            <li class="is-rite"><span class="itin__when">Morning</span><div><h4>Closing reflection</h4><p>One word for what you're taking home, your commitment, and a keepsake.</p></div></li>
+            <li><span class="itin__when">Midday</span><div><h4>Group photograph &amp; departures</h4><p>One last photograph, goodbyes, and transfers to the airport.</p></div></li>
+          </ul>
+          <p class="itin__intent">The intention: completion, anchoring, and a clear sense of what comes next.</p>
+        </details>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- What's included -->
+  <section class="section--light pad" id="included">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <p class="eyebrow">What's Included</p>
+        <h2>Everything held, so you can simply <em>arrive</em></h2>
+        <p>From the moment you land to the moment you fly home, every detail is cared for &mdash; so
+          your only work is the work you came to do.</p>
+      </div>
+      <ul class="checklist" data-reveal data-reveal-delay="1">
+        <li>Four days and three nights at our private villa</li>
+        <li>All ceremonies &mdash; Bufo, rap&eacute;, and sound healing</li>
+        <li>Trained one-to-one facilitation throughout</li>
+        <li>Every meal, from the welcome dinner to the farewell breakfast</li>
+        <li>Movement, breathwork, and sound each morning</li>
+        <li>The cenote, the coast, and transport to each</li>
+        <li>Unhurried rest, and a villa that stays quiet after ceremony</li>
+        <li>A Tiger Soul keepsake to carry home</li>
+      </ul>
+      <div class="stat-row" data-reveal data-reveal-delay="2">
+        <div class="stat"><b>4</b><span>Days in Tulum</span></div>
+        <div class="stat"><b>1</b><span>Private Villa</span></div>
+        <div class="stat"><b>2</b><span>Sacred Medicines</span></div>
+        <div class="stat"><b>1</b><span>New Beginning</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Before and after -->
+  <section class="on-dark pad" id="around">
+    <div class="wrap">
+      <div class="sec-head centered" data-reveal>
+        <p class="eyebrow centered">Preparation &amp; Integration</p>
+        <h2>Held long before, and long <em>after</em></h2>
+        <p>You're prepared for weeks before you fly, and supported for a month after you land back
+          home. All of it is included.</p>
+      </div>
+
+      <div class="arcflow">
+        <article class="arcflow__phase" data-reveal>
+          <span class="arcflow__num">I</span>
+          <span class="arcflow__when">The weeks before</span>
+          <h3><em>Preparation</em> &amp; education</h3>
+          <p>You won't arrive cold. Everyone is screened, prepared, and taught what they're walking
+            into, so the first day in Tulum isn't the first time you've thought about any of it.</p>
+          <ul class="arcflow__list">
+            <li>Health screening and intake review</li>
+            <li>A one-to-one call with your facilitator</li>
+            <li>Preparation guide — food, substances, medication, rest</li>
+            <li>Education on Bufo and rapé, and how safety is held</li>
+            <li>A group welcome call before you fly</li>
+          </ul>
+        </article>
+
+        <article class="arcflow__phase" data-reveal data-reveal-delay="1">
+          <span class="arcflow__num">II</span>
+          <span class="arcflow__when">The month after</span>
+          <h3><em>Integration</em>, together</h3>
+          <p>In a few weeks you'll be back in the same rooms with the same people, and that's where
+            this actually gets decided. So we stay with you — as a group, and one to one.</p>
+          <ul class="arcflow__list">
+            <li>A personal check-in soon after the retreat</li>
+            <li>Group integration call, about a week later</li>
+            <li>A second group call at twenty-eight days</li>
+            <li>A personal thirty-day commitment plan</li>
+            <li>Ongoing connection with the Tiger Soul community</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Photo gallery -->
+  <section class="section--light pad" id="gallery">
+    <div class="wrap">
+      <div class="sec-head centered" data-reveal>
+        <p class="eyebrow centered">Past Gatherings</p>
+        <h2>From retreats in the past</h2>
+      </div>
+      <div class="gallery" data-reveal data-reveal-delay="1">
+        <button class="gallery__nav gallery__nav--prev" type="button" aria-label="Previous photos">&lsaquo;</button>
+        <div class="gallery__track">
+          <figure class="gallery__item"><img src="../assets/images/gallery/liberation-03.jpg" alt="A medicine altar laid out on an embroidered cloth" loading="lazy" /></figure>
+          <figure class="gallery__item"><img src="../assets/images/gallery/reclamation-01.jpg" alt="A carved bufo toad resting on a ceremonial cloth" loading="lazy" /></figure>
+          <figure class="gallery__item"><img src="../assets/images/gallery/liberation-06.jpg" alt="A facilitator blessing a participant with feathers before ceremony" loading="lazy" /></figure>
+          <figure class="gallery__item"><img src="../assets/images/gallery/reclamation-02.jpg" alt="An evening ceremony circle by candlelight" loading="lazy" /></figure>
+          <figure class="gallery__item"><img src="../assets/images/gallery/liberation-07.jpg" alt="A ceremony circle gathered around the facilitators" loading="lazy" /></figure>
+          <figure class="gallery__item"><img src="../assets/images/gallery/reclamation-03.jpg" alt="Morning practice in a glass shala surrounded by jungle" loading="lazy" /></figure>
+          <figure class="gallery__item"><img src="../assets/images/gallery/liberation-01.jpg" alt="A woman floating in the still water of a cenote" loading="lazy" /></figure>
+          <figure class="gallery__item"><img src="../assets/images/gallery/reclamation-04.jpg" alt="The group sharing a candlelit dinner together" loading="lazy" /></figure>
+          <figure class="gallery__item"><img src="../assets/images/gallery/reclamation-05.jpg" alt="A woman singing and playing guitar during an evening circle" loading="lazy" /></figure>
+        </div>
+        <button class="gallery__nav gallery__nav--next" type="button" aria-label="Next photos">&rsaquo;</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Begin -->
+  <section class="cta-band pad" id="begin">
+    <div class="cta-band__media" aria-hidden="true"><img src="../assets/images/pages/tulum-cenote.webp" alt="" loading="lazy" /></div>
+    <div class="wrap">
+      <p class="eyebrow centered" data-reveal>Your Invitation</p>
+      <h2 data-reveal data-reveal-delay="1">For those ready to come back to <em>themselves</em></h2>
+      <p data-reveal data-reveal-delay="2">This retreat is for people who can feel that something in them is ready to
+        change. Spaces are limited and held with care &mdash; every journey begins with a simple health
+        screening, so your safety and readiness are honored from the start.</p>
+      <div class="cta-band__actions" data-reveal data-reveal-delay="3">
+        <a class="btn btn--solid" href="../medical-health-screening/">Apply Here</a>
+        <a class="btn" href="../contact/">Contact Us</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer" id="contact">
+    <div class="wrap">
+      <div class="footer__brand">
+        <img src="../assets/images/logo/logo-full.png" alt="Tiger Soul Medicine Retreats" />
+        <p>Sacred plant medicine, retreats, and practitioner trainings for those ready to live in the
+          spirit with courage, compassion, and connection.</p>
+      </div>
+      <div><h4>Explore</h4><ul>
+        <li><a href="../retreats/">Retreats</a></li>
+        <li><a href="../bufo-practitioner-training/">Practitioner Training</a></li>
+        <li><a href="../liberation-program/">Liberation Program</a></li>
+        <li><a href="../private-ceremonies/">Sacred Offerings</a></li>
+      </ul></div>
+      <div><h4>Discover</h4><ul>
+        <li><a href="../testimonials/">Testimonials</a></li>
+        <li><a href="../about/">About Blaine</a></li>
+        <li><a href="../faq/">FAQ</a></li>
+        <li><a href="../contact/">Contact</a></li>
+      </ul></div>
+      <div><h4>Connect</h4><ul>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Facebook</a></li>
+        <li><a href="mailto:hello@tigersoulretreats.com">Email Us</a></li>
+        <li><a href="../index.html#newsletter">Newsletter</a></li>
+      </ul></div>
+    </div>
+    <div class="wrap">
+      <div class="footer__bottom">
+        <span>&copy; 2026 Tiger Soul Medicine Retreats. All rights reserved.</span>
+        <span class="footer__disclaimer">Tiger Soul is a spiritual community; our ceremonies are a spiritual practice and the sacred medicines
+          sacraments of that belief. Not medical treatment or advice; participation is voluntary and at your own
+          responsibility. Consult a physician first.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

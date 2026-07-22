@@ -4,18 +4,285 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contact — Tiger Soul Medicine Retreats</title>
-  <!-- Redirect stub for the old Squarespace URL /contact.
-       GitHub Pages can't issue a real 301, so this is the standard stand-in:
-       a canonical naming the new page plus an instant refresh. Google treats
-       that as a permanent redirect and moves the ranking across.
-       Deliberately NOT noindex — that would tell Google to drop the URL
-       instead of following it, throwing away the authority we're trying
-       to keep. -->
-  <link rel="canonical" href="https://tigersoulretreats.com/pages/contact.html" />
-  <meta http-equiv="refresh" content="0; url=https://tigersoulretreats.com/pages/contact.html" />
-  <script>window.location.replace('https://tigersoulretreats.com/pages/contact.html');</script>
+  <meta name="description" content="Questions about a ceremony, retreat, or the practitioner training? Reach out to Tiger Soul and we'll get back to you personally." />
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/logo/favicon-32.png" />
+  <link rel="apple-touch-icon" href="../assets/images/logo/favicon-180.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Tiger Soul Medicine Retreats" />
+  <meta property="og:title" content="Contact — Tiger Soul Medicine Retreats" />
+  <meta property="og:description" content="Questions about a ceremony, retreat, or the practitioner training? Reach out and we'll get back to you personally." />
+  <meta property="og:url" content="https://tigersoulretreats.com/contact/" />
+  <meta property="og:image" content="https://tigersoulretreats.com/assets/images/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://tigersoulretreats.com/assets/images/og-image.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../css/styles.css" />
+
+  <style>
+    /* ============================================================
+       CONTACT — two-column enquiry + accordion FAQ
+       ============================================================ */
+    .ct-grid{
+      display:grid; grid-template-columns:0.85fr 1.15fr;
+      gap:clamp(2rem, 5vw, 4.5rem); align-items:start;
+    }
+    @media (max-width:900px){ .ct-grid{ grid-template-columns:1fr; gap:2.4rem; } }
+
+    /* ---- left column: ways to reach us ---- */
+    .ct-aside h2{ font-size:clamp(1.8rem,3.2vw,2.6rem); margin:0 0 1rem; }
+    .ct-aside h2 em{ font-style:italic; color:var(--gold-deep); }
+    .ct-aside__lead{ color:var(--ink-soft); margin-bottom:clamp(1.6rem,3vw,2.2rem); max-width:38ch; }
+
+    .ct-methods{ list-style:none; margin:0; padding:0; display:grid; gap:1.4rem; }
+    .ct-method__k{
+      display:block; font-family:var(--font-sans); font-size:.6rem; font-weight:500;
+      letter-spacing:.26em; text-transform:uppercase; color:var(--gold-deep); margin-bottom:.35rem;
+    }
+    .ct-method a, .ct-method span.val{
+      font-family:var(--font-display); font-size:1.2rem; color:var(--ink); line-height:1.3;
+    }
+    .ct-method a{ border-bottom:1px solid rgba(163,129,63,.45); transition:color .3s var(--ease); }
+    .ct-method a:hover{ color:var(--gold-deep); }
+    .ct-method small{ display:block; font-size:.78rem; color:var(--ink-soft); margin-top:.3rem; }
+
+    /* ---- right column: the form ---- */
+    .ct-form{
+      background:#fffdf8; border:1px solid rgba(21,21,15,.1); border-radius:12px;
+      padding:clamp(1.4rem,2.6vw,2rem);
+      box-shadow:0 22px 50px -34px rgba(15,28,20,.4);
+    }
+    .ct-row{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    @media (max-width:560px){ .ct-row{ grid-template-columns:1fr; } }
+
+    .ct-field{ margin-bottom:1.1rem; }
+    .ct-field label{
+      display:block; font-family:var(--font-sans); font-size:.64rem; font-weight:500;
+      letter-spacing:.18em; text-transform:uppercase; color:var(--gold-deep); margin-bottom:.45rem;
+    }
+    .ct-field input, .ct-field select, .ct-field textarea{
+      width:100%; font-family:var(--font-sans); font-size:.95rem; color:var(--ink);
+      background:var(--cream); border:1px solid rgba(21,21,15,.18); border-radius:6px;
+      padding:.8em .9em; transition:border-color .3s var(--ease), box-shadow .3s var(--ease);
+    }
+    .ct-field input::placeholder, .ct-field textarea::placeholder{ color:rgba(21,21,15,.35); }
+    .ct-field textarea{ resize:vertical; min-height:7.5em; line-height:1.6; }
+    .ct-field select{
+      appearance:none; cursor:pointer;
+      background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a3813f' stroke-width='2'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e");
+      background-repeat:no-repeat; background-position:right .9em center; background-size:1em;
+      padding-right:2.6em;
+    }
+    .ct-field input:focus, .ct-field select:focus, .ct-field textarea:focus{
+      outline:none; border-color:var(--gold-deep); box-shadow:0 0 0 3px rgba(198,167,105,.22);
+    }
+
+    .ct-submit{ margin-top:1.4rem; }
+
+  </style>
 </head>
 <body>
-  <p>This page has moved to <a href="https://tigersoulretreats.com/pages/contact.html">Contact</a>.</p>
+
+  <!-- Header -->
+  <header class="header" id="header">
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navOverlay">
+      <span class="bars"><span></span><span></span><span></span></span>
+      <span>Menu</span>
+    </button>
+    <a class="brand" href="../" aria-label="Tiger Soul Medicine Retreats — home">
+      <img src="../assets/images/logo/tiger-mark.png" alt="" />
+      <span class="brand-word">Tiger Soul</span>
+      <span class="brand-sub">Medicine Retreats</span>
+    </a>
+  </header>
+
+  <!-- Full-screen menu overlay -->
+  <nav class="nav-overlay" id="navOverlay" aria-hidden="true">
+    <div class="nav-top">
+      <span class="nav-brand">Tiger Soul</span>
+      <button class="nav-close" id="navClose" aria-label="Close menu"><span>Close</span><span class="x"></span></button>
+    </div>
+    <div class="nav-main">
+      <ul class="nav-list">
+        <li><a href="../retreats/"><span class="lbl">Retreats<span class="lbl-it">immersive</span></span></a></li>
+        <li><a href="../sacred-medicine-info/"><span class="lbl">Sacred Offerings<span class="lbl-it">medicine</span></span></a></li>
+        <li><a href="../testimonials/"><span class="lbl">Testimonials<span class="lbl-it">stories</span></span></a></li>
+        <li><a href="../about/"><span class="lbl">About<span class="lbl-it">the founder</span></span></a></li>
+        <li><a href="../contact/"><span class="lbl">Contact<span class="lbl-it">begin</span></span></a></li>
+      </ul>
+    </div>
+    <div class="nav-foot">
+      <div><div class="col-label">Answer the Call</div><a href="mailto:hello@tigersoulretreats.com">hello@tigersoulretreats.com</a></div>
+      <div class="nav-socials"><a href="#">Instagram</a><a href="#">Facebook</a><a href="#">Newsletter</a></div>
+    </div>
+  </nav>
+
+  <!-- Page hero -->
+  <section class="page-hero" id="top" style="--hero-pos: center 20%">
+    <div class="page-hero__media">
+      <img src="../assets/images/pages/retreat-embrace.webp" alt="A moment of connection during a Tiger Soul retreat" fetchpriority="high" />
+    </div>
+    <div class="page-hero__inner">
+      <p class="eyebrow" data-reveal>Contact</p>
+      <h1 data-reveal data-reveal-delay="1"><span class="n">I'd love to</span> hear from you</h1>
+      <p class="page-hero__sub" data-reveal data-reveal-delay="2">
+        If you have any questions about a ceremony, a retreat, or the training, send a note and
+        I'll get back to you personally.
+      </p>
+      <p class="page-hero__meta" data-reveal data-reveal-delay="3">Every Message Read By Blaine</p>
+    </div>
+  </section>
+
+  <!-- Enquiry: ways to reach us + form -->
+  <section class="section--light pad" id="enquire">
+    <div class="wrap ct-grid">
+
+      <!-- Left: other ways to reach us -->
+      <div class="ct-aside" data-reveal>
+        <p class="eyebrow">Other Ways to Reach Us</p>
+        <h2>We'd love to <em>hear from you</em></h2>
+        <p class="ct-aside__lead">Send a note using the form, or reach out however feels easiest.
+          Every message is read personally — there are no automated replies here.</p>
+
+        <ul class="ct-methods">
+          <li class="ct-method">
+            <span class="ct-method__k">Email</span>
+            <a href="mailto:hello@tigersoulretreats.com">hello@tigersoulretreats.com</a>
+            <small>The surest way to reach us.</small>
+          </li>
+          <li class="ct-method">
+            <span class="ct-method__k">Instagram</span>
+            <a href="https://www.instagram.com/tigersoul.retreats" target="_blank" rel="noopener">@tigersoul.retreats</a>
+            <small>Ceremony, medicine, and the road from darkness into light.</small>
+          </li>
+          <li class="ct-method">
+            <span class="ct-method__k">Where We Are</span>
+            <span class="val">Tulum, Mexico</span>
+            <small>Private ceremonies &amp; retreats. Trainings are held in Puerto Morelos.</small>
+          </li>
+          <li class="ct-method">
+            <span class="ct-method__k">Common Questions</span>
+            <a href="../faq/">View our FAQ</a>
+            <small>How applying works, the screening, the medicines, what to expect.</small>
+          </li>
+          <li class="ct-method">
+            <span class="ct-method__k">Ready to Apply?</span>
+            <a href="../medical-health-screening/">Apply Here</a>
+            <small>Every offering starts here.</small>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Right: the form -->
+      <div class="ct-main" data-reveal data-reveal-delay="1">
+        <!-- Submitted by js/forms.js to the `contact-form` Edge Function, which
+             emails the enquiry through Resend. No `action`/`method`: a submit
+             that outran the script must never GET the visitor's email and
+             phone into the URL as query params. `onsubmit="return false"` stays
+             as the belt-and-braces version of that: it only cancels the native
+             submit, the JS listener still fires. -->
+        <form class="ct-form" id="contactForm" novalidate onsubmit="return false;">
+          <div class="ct-row">
+            <div class="ct-field">
+              <label for="ctFirst">First Name</label>
+              <input type="text" id="ctFirst" name="firstName" autocomplete="given-name" placeholder="Your first name" />
+            </div>
+            <div class="ct-field">
+              <label for="ctLast">Last Name</label>
+              <input type="text" id="ctLast" name="lastName" autocomplete="family-name" placeholder="Your last name" />
+            </div>
+          </div>
+
+          <div class="ct-row">
+            <div class="ct-field">
+              <label for="ctEmail">Email</label>
+              <input type="email" id="ctEmail" name="email" autocomplete="email" placeholder="you@example.com" />
+            </div>
+            <div class="ct-field">
+              <label for="ctPhone">Phone Number</label>
+              <input type="tel" id="ctPhone" name="phone" autocomplete="tel" placeholder="Optional" />
+            </div>
+          </div>
+
+          <div class="ct-field">
+            <label for="ctOffering">What are you asking about?</label>
+            <select id="ctOffering" name="offering">
+              <option value="" selected>Choose an offering…</option>
+              <option value="Private Ceremony">Private Ceremony</option>
+              <option value="Private Medicine Retreat">Private Medicine Retreat</option>
+              <option value="Bufo Practitioner Training">Bufo Practitioner Training</option>
+              <option value="The Liberation Program">The Liberation Program</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="ct-field">
+            <label for="ctMessage">Your Message</label>
+            <textarea id="ctMessage" name="message" rows="6" placeholder="Tell us a little about what brings you here&hellip;"></textarea>
+          </div>
+
+          <div class="ct-submit">
+            <button class="btn btn--solid" type="submit">Send Message</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" id="contact">
+    <div class="wrap">
+      <div class="footer__brand">
+        <img src="../assets/images/logo/logo-full.png" alt="Tiger Soul Medicine Retreats" />
+        <p>Sacred plant medicine, retreats, and practitioner trainings for those ready to live in the
+          spirit with courage, compassion, and connection.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="../retreats/">Retreats</a></li>
+          <li><a href="../bufo-practitioner-training/">Practitioner Training</a></li>
+          <li><a href="../liberation-program/">Liberation Program</a></li>
+          <li><a href="../sacred-medicine-info/">Sacred Offerings</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Discover</h4>
+        <ul>
+          <li><a href="../testimonials/">Testimonials</a></li>
+          <li><a href="../about/">About Blaine</a></li>
+          <li><a href="../faq/">FAQ</a></li>
+        <li><a href="../contact/">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="mailto:hello@tigersoulretreats.com">Email Us</a></li>
+          <li><a href="../index.html#newsletter">Newsletter</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="footer__bottom">
+        <span>&copy; 2026 Tiger Soul Medicine Retreats. All rights reserved.</span>
+        <span class="footer__disclaimer">Tiger Soul is a spiritual community; our ceremonies are a spiritual practice and the sacred medicines
+          sacraments of that belief. Not medical treatment or advice; participation is voluntary and at your own
+          responsibility. Consult a physician first.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script src="../js/forms.js"></script>
 </body>
 </html>

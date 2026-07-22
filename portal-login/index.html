@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Member Portal — Tiger Soul Medicine Retreats</title>
+  <meta name="description" content="Sign in to your Tiger Soul member portal — your upcoming gatherings, resources, community, and more." />
+  <meta name="robots" content="noindex" />
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/logo/favicon-32.png" />
+  <link rel="apple-touch-icon" href="../assets/images/logo/favicon-180.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="stylesheet" href="../css/portal.css" />
+</head>
+<body class="portal-auth-body">
+
+  <main class="auth">
+    <div class="auth__media" aria-hidden="true">
+      <img src="../assets/images/pages/retreats-hero.webp" alt="" />
+      <div class="auth__media-veil"></div>
+      <div class="auth__media-quote">
+        <p class="lead">“The soul already knows the way. This is simply the door.”</p>
+      </div>
+    </div>
+
+    <div class="auth__panel">
+      <div class="auth__inner">
+        <a class="auth__brand" href="../" aria-label="Tiger Soul — home">
+          <img src="../assets/images/logo/logo-full.png" alt="Tiger Soul Medicine Retreats" />
+        </a>
+
+        <p class="eyebrow">Member Portal</p>
+        <h1 class="auth__title">Welcome <em>home.</em></h1>
+        <p class="auth__sub">Sign in to your sacred space — your upcoming gatherings, resources,
+          and the community that walks beside you.</p>
+
+        <form class="auth__form" id="loginForm" novalidate>
+          <label class="field" id="nameField" hidden>
+            <span class="field__label">Your name</span>
+            <input type="text" name="fullName" id="fullName" autocomplete="name" placeholder="First Last" />
+          </label>
+          <label class="field">
+            <span class="field__label">Email</span>
+            <input type="email" name="email" id="email" autocomplete="email" placeholder="you@example.com" required />
+          </label>
+          <label class="field">
+            <span class="field__label">Password</span>
+            <span class="field__pw">
+              <input type="password" name="password" id="password" autocomplete="current-password" placeholder="Enter your password" required />
+              <button type="button" class="pw-toggle" id="pwToggle" aria-label="Show password">Show</button>
+            </span>
+          </label>
+
+          <div class="auth__row">
+            <label class="checkbox">
+              <input type="checkbox" name="remember" checked />
+              <span>Keep me signed in</span>
+            </label>
+            <a class="auth__link" href="#">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="btn btn--solid auth__submit">Enter the Circle</button>
+          <p class="auth__error" id="loginError" role="alert" hidden>Please enter your email and password.</p>
+        </form>
+
+        <p class="auth__demo">
+          <span>Preview the portal —</span>
+          <button type="button" class="auth__demo-btn" id="demoBtn">Enter as a demo member</button>
+        </p>
+
+        <p class="auth__foot" id="authToggleRow">
+          New to the portal? <button type="button" class="auth__demo-btn" id="toggleMode">Create an account</button>
+        </p>
+        <p class="auth__foot">
+          Not a member yet? <a href="../membership/">Join the circle</a> for $25 / year.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabase-client.js"></script>
+  <script src="../js/portal.js"></script>
+</body>
+</html>

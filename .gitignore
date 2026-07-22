@@ -23,3 +23,8 @@ supabase/.temp/
 
 # Wrangler local cache
 .wrangler/
+
+# Liberation Program source materials — paid content, must never be
+# published. GitHub Pages serves anything committed to this repo.
+"The Tiger Soul Liberation Program /"
+*.docx

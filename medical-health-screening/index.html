@@ -3,19 +3,507 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>the health screening — Tiger Soul Medicine Retreats</title>
-  <!-- Redirect stub for the old Squarespace URL /medical-health-screening.
-       GitHub Pages can't issue a real 301, so this is the standard stand-in:
-       a canonical naming the new page plus an instant refresh. Google treats
-       that as a permanent redirect and moves the ranking across.
-       Deliberately NOT noindex — that would tell Google to drop the URL
-       instead of following it, throwing away the authority we're trying
-       to keep. -->
-  <link rel="canonical" href="https://tigersoulretreats.com/pages/health-screening.html" />
-  <meta http-equiv="refresh" content="0; url=https://tigersoulretreats.com/pages/health-screening.html" />
-  <script>window.location.replace('https://tigersoulretreats.com/pages/health-screening.html');</script>
+  <title>Health Screening — Tiger Soul Medicine Retreats</title>
+  <meta name="description" content="Every application to Tiger Soul begins with a simple health screening. Your safety and readiness are honored at every step of the way." />
+  <meta name="robots" content="noindex" />
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/logo/favicon-32.png" />
+  <link rel="apple-touch-icon" href="../assets/images/logo/favicon-180.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Tiger Soul Medicine Retreats" />
+  <meta property="og:title" content="Health Screening — Tiger Soul Medicine Retreats" />
+  <meta property="og:description" content="Every application to Tiger Soul begins with a simple health screening." />
+  <meta property="og:url" content="https://tigersoulretreats.com/medical-health-screening/" />
+  <meta property="og:image" content="https://tigersoulretreats.com/assets/images/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://tigersoulretreats.com/assets/images/og-image.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../css/styles.css" />
+
+  <style>
+    /* ============================================================
+       HEALTH SCREENING — mission panel + screening placeholder
+       ============================================================ */
+    /* Intro: short, so the form is visible fast */
+    .hs-intro{ max-width:64ch; margin-inline:auto; text-align:center;
+      padding-block:clamp(1.8rem,3.4vw,2.6rem); }
+    .hs-intro .lead{ font-size:clamp(1.02rem,1.45vw,1.2rem); line-height:1.55; margin-bottom:1.4rem; }
+    .hs-mission{
+      margin:0; padding:1rem 1.3rem; border-radius:4px;
+      border:1px solid rgba(198,167,105,.32); background:rgba(198,167,105,.06);
+      font-family:var(--font-display); font-style:italic;
+      font-size:clamp(.98rem,1.3vw,1.1rem); line-height:1.5; color:var(--ink);
+    }
+    .hs-mission .k{
+      display:block; font-family:var(--font-sans); font-style:normal; font-size:.54rem;
+      font-weight:500; letter-spacing:.3em; text-transform:uppercase;
+      color:var(--gold-deep); margin-bottom:.5rem;
+    }
+    .hs-mission em{ font-style:italic; color:var(--gold-deep); }
+
+    /* Three steps — a light step-by-step strip, not a green band */
+    .hs-steps{
+      list-style:none; margin:0; padding:clamp(1.4rem,2.6vw,1.9rem) 0 clamp(1.6rem,3vw,2.2rem);
+      border-top:1px solid rgba(21,21,15,.1);
+      display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(1.2rem,2.6vw,2.4rem);
+    }
+    @media (max-width:760px){ .hs-steps{ grid-template-columns:1fr; gap:1.4rem; } }
+    .hs-steps li{ display:grid; grid-template-columns:auto 1fr; gap:.15rem .75rem; align-items:baseline; }
+    .hs-steps .n{
+      grid-row:1 / span 2;
+      display:flex; align-items:center; justify-content:center;
+      width:1.55rem; height:1.55rem; flex:none;
+      background:var(--gold); border-radius:50%;
+      font-family:var(--font-sans); font-size:.68rem; font-weight:500;
+      color:var(--forest-950); line-height:1;
+    }
+    .hs-steps h3{ font-size:.98rem; margin:0; color:var(--ink); line-height:1.35; }
+    .hs-steps p{ margin:.3rem 0 0; font-size:.82rem; line-height:1.55; color:var(--ink-soft); }
+
+    /* ---- The screening form ----------------------------------------
+       One continuous surface. Section headings with a hairline rule, and
+       fields on underlines rather than boxes — a stack of bordered cards
+       reads as choppy at 43 questions.
+       ---------------------------------------------------------------- */
+    .hs-form{ max-width:640px; margin:clamp(1.4rem,2.6vw,2rem) auto 0; }
+
+    .hs-set{ border:0; padding:0; margin:0 0 clamp(2.8rem,5.5vw,4.2rem); }
+    .hs-set:last-of-type{ margin-bottom:0; }
+
+    .hs-legend{
+      float:left; width:100%;
+      font-family:var(--font-display); font-style:italic;
+      font-size:clamp(1.35rem,2.1vw,1.7rem); color:var(--gold-deep);
+      padding:0 0 .65rem; margin:0;
+      border-bottom:1px solid rgba(198,167,105,.4);
+    }
+    .hs-blurb{ clear:both; font-size:.84rem; line-height:1.6; color:var(--ink-soft);
+      margin:.95rem 0 clamp(1.6rem,3vw,2.2rem); }
+
+    .hs-field{ margin-bottom:clamp(1.5rem,2.6vw,2rem); }
+    .hs-field:last-child{ margin-bottom:0; }
+    .hs-field label{
+      display:block; font-size:.92rem; line-height:1.6; color:var(--ink); margin-bottom:.55rem;
+    }
+    .req{ color:var(--gold-deep); margin-left:.2em; }
+
+    .hs-field input, .hs-field textarea, .hs-field select{
+      width:100%; font-family:var(--font-sans); font-size:.95rem; color:var(--ink);
+      background:transparent; border:0; border-bottom:1px solid rgba(21,21,15,.22);
+      border-radius:0; padding:.5em 0;
+      transition:border-color .3s var(--ease), box-shadow .3s var(--ease);
+    }
+    .hs-field textarea{ resize:vertical; min-height:2.6em; line-height:1.6; }
+    .hs-field select{
+      appearance:none; cursor:pointer;
+      background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a3813f' stroke-width='2'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e");
+      background-repeat:no-repeat; background-position:right .1em center; background-size:1em;
+      padding-right:2em;
+    }
+    .hs-field input:focus, .hs-field textarea:focus, .hs-field select:focus{
+      outline:none; border-bottom-color:var(--gold-deep);
+      box-shadow:0 1px 0 0 var(--gold-deep);
+    }
+    .hs-field input::placeholder, .hs-field textarea::placeholder{ color:rgba(21,21,15,.3); }
+
+    .hs-submit{ text-align:center; margin-top:clamp(2.4rem,4.5vw,3.4rem);
+      padding-top:clamp(1.8rem,3vw,2.4rem); border-top:1px solid rgba(21,21,15,.1); }
+
+  </style>
 </head>
 <body>
-  <p>This page has moved to <a href="https://tigersoulretreats.com/pages/health-screening.html">the health screening</a>.</p>
+
+  <!-- Header -->
+  <header class="header" id="header">
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navOverlay">
+      <span class="bars"><span></span><span></span><span></span></span>
+      <span>Menu</span>
+    </button>
+    <a class="brand" href="../" aria-label="Tiger Soul Medicine Retreats — home">
+      <img src="../assets/images/logo/tiger-mark.png" alt="" />
+      <span class="brand-word">Tiger Soul</span>
+      <span class="brand-sub">Medicine Retreats</span>
+    </a>
+  </header>
+
+  <!-- Full-screen menu overlay -->
+  <nav class="nav-overlay" id="navOverlay" aria-hidden="true">
+    <div class="nav-top">
+      <span class="nav-brand">Tiger Soul</span>
+      <button class="nav-close" id="navClose" aria-label="Close menu"><span>Close</span><span class="x"></span></button>
+    </div>
+    <div class="nav-main">
+      <ul class="nav-list">
+        <li><a href="../retreats/"><span class="lbl">Retreats<span class="lbl-it">immersive</span></span></a></li>
+        <li><a href="../sacred-medicine-info/"><span class="lbl">Sacred Offerings<span class="lbl-it">medicine</span></span></a></li>
+        <li><a href="../testimonials/"><span class="lbl">Testimonials<span class="lbl-it">stories</span></span></a></li>
+        <li><a href="../about/"><span class="lbl">About<span class="lbl-it">the founder</span></span></a></li>
+        <li><a href="../contact/"><span class="lbl">Contact<span class="lbl-it">begin</span></span></a></li>
+      </ul>
+    </div>
+    <div class="nav-foot">
+      <div><div class="col-label">Answer the Call</div><a href="mailto:hello@tigersoulretreats.com">hello@tigersoulretreats.com</a></div>
+      <div class="nav-socials"><a href="#">Instagram</a><a href="#">Facebook</a><a href="#">Newsletter</a></div>
+    </div>
+  </nav>
+
+  <!-- Page hero -->
+  <section class="page-hero page-hero--compact" id="top" style="--hero-pos: center 35%">
+    <div class="page-hero__media">
+      <img src="../assets/images/pages/ceremony-circle.webp" alt="A ceremony circle gathered in the jungle, holding one another with care" fetchpriority="high" />
+    </div>
+    <div class="page-hero__inner">
+      <p class="eyebrow" data-reveal>Health Screening</p>
+      <h1 data-reveal data-reveal-delay="1"><span class="n">Thank you for your interest in</span> Tiger Soul</h1>
+      <p class="page-hero__meta" data-reveal data-reveal-delay="2">Step One &middot; Your Application</p>
+    </div>
+  </section>
+
+  <!-- Health & safety + mission, kept short -->
+  <section class="section--light" id="welcome">
+    <div class="wrap hs-intro">
+      <p class="eyebrow centered" data-reveal>Health &amp; Safety</p>
+      <p class="lead" data-reveal data-reveal-delay="1">We take your health and safety seriously. These are powerful
+        medicines, and some conditions and medications aren't safe with them — so we ask before we begin. Only the
+        facilitators read your answers.</p>
+      <p class="hs-mission" data-reveal data-reveal-delay="2">
+        <span class="k">Our Mission</span>
+        Reduce unnecessary suffering by helping people heal <em>emotionally, mentally, physically, and
+        spiritually</em> — through education, community, ceremony, and ongoing integration.
+      </p>
+    </div>
+  </section>
+
+  <!-- The three steps -->
+  <section class="section--light" id="next">
+    <div class="wrap">
+      <ol class="hs-steps" data-reveal>
+        <li>
+          <span class="n">1</span>
+          <h3>Fill out the health screening</h3>
+          <p>The questions below. It stays between you and the facilitators.</p>
+        </li>
+        <li>
+          <span class="n">2</span>
+          <h3>Schedule a call</h3>
+          <p>Once we've read it, we'll arrange a personal conversation.</p>
+        </li>
+        <li>
+          <span class="n">3</span>
+          <h3>If cleared, reserve your place</h3>
+          <p>We process payment and send your retreat information.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- The screening itself -->
+  <section class="section--light pad" id="screening">
+    <div class="wrap">
+      <div class="sec-head centered" data-reveal>
+        <p class="eyebrow centered">The Screening</p>
+        <h2>Begin your screening</h2>
+      </div>
+
+      <!-- Submitted by js/forms.js to the `health-screening` Edge Function,
+           which emails the screening through Resend. No `action`/`method`, and
+           onsubmit returns false, so a submit that outran the script can never
+           GET 43 answers of medical history into the URL as query params. -->
+      <form class="hs-form" id="screeningForm" novalidate onsubmit="return false;">
+        <fieldset class="hs-set">
+          <legend class="hs-legend">Which offering is this for?</legend>
+          <div class="hs-field">
+            <label for="offering">Choose the offering you're applying for<span class="req" aria-hidden="true">*</span></label>
+            <select id="offering" name="offering">
+              <option value="" selected>Choose an offering&hellip;</option>
+              <option value="Private Ceremony">Private Ceremony</option>
+              <option value="Private Medicine Retreat">Private Medicine Retreat</option>
+              <option value="Bufo Practitioner Training">Bufo Practitioner Training</option>
+              <option value="The Liberation Program">The Liberation Program</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </fieldset>
+
+        <fieldset class="hs-set">
+          <legend class="hs-legend">About You</legend>
+          <p class="hs-blurb">Who you are and how to reach you.</p>
+          <div class="hs-field">
+            <label for="q5">First Name<span class="req" aria-hidden="true">*</span></label>
+            <input type="text" id="q5" name="q5" />
+          </div>
+          <div class="hs-field">
+            <label for="q6">Last Name<span class="req" aria-hidden="true">*</span></label>
+            <input type="text" id="q6" name="q6" />
+          </div>
+          <div class="hs-field">
+            <label for="q7">What is your gender?<span class="req" aria-hidden="true">*</span></label>
+            <input type="text" id="q7" name="q7" />
+          </div>
+          <div class="hs-field">
+            <label for="q8">Email<span class="req" aria-hidden="true">*</span></label>
+            <input type="email" id="q8" name="q8" />
+          </div>
+          <div class="hs-field">
+            <label for="q9">What's your phone number?<span class="req" aria-hidden="true">*</span></label>
+            <input type="tel" id="q9" name="q9" />
+          </div>
+          <div class="hs-field">
+            <label for="q10">Emergency Contact:<span class="req" aria-hidden="true">*</span></label>
+            <input type="text" id="q10" name="q10" />
+          </div>
+          <div class="hs-field">
+            <label for="q11">Who referred you?<span class="req" aria-hidden="true">*</span></label>
+            <input type="text" id="q11" name="q11" />
+          </div>
+        </fieldset>
+
+        <fieldset class="hs-set">
+          <legend class="hs-legend">Your Experience</legend>
+          <p class="hs-blurb">Your history with medicine and substances.</p>
+          <div class="hs-field">
+            <label for="q12">Do you have any experience with plant medicine? (If so please share which ones and how often you take them.)<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q12" name="q12" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q13">Do you take any recreational substances including drugs and/or alcohol? If so please share which ones and how often.<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q13" name="q13" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q14">Do you have a history of substance abuse? If so please explain.<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q14" name="q14" rows="3"></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="hs-set">
+          <legend class="hs-legend">Medications &amp; Supplements</legend>
+          <p class="hs-blurb">Everything you take, however small — some combinations are not safe with the medicines.</p>
+          <div class="hs-field">
+            <label for="q15">Are you taking any other drugs like caffeine, pain killers or allergy medications?<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q15" name="q15" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q16">Are you on any prescription medications? If so which ones and what dosage are you taking / how often?<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q16" name="q16" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q17">Are you taking any of the following supplements: Kratom, mood stabilizing supplements, natural sleep aids, diet pills? Please explain and list all supplements you are taking under this category.<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q17" name="q17" rows="3"></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="hs-set">
+          <legend class="hs-legend">Mental &amp; Emotional Health</legend>
+          <p class="hs-blurb">Shared in confidence. Nothing here disqualifies you on its own.</p>
+          <div class="hs-field">
+            <label for="q18">Do you have any history with mental illness? If so please describe.<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q18" name="q18" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q19">Do you have a history of PTSD or suffer from acute trauma? If so please explain.<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q19" name="q19" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q20">Do you struggle with addictions, depression or anxiety? Please explain.<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q20" name="q20" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q21">Do you have any of the following: schizophrenia, schizophrenic tendencies, borderline personality disorder, serotonin syndrome, bipolar disorder or suicidal tendencies?<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q21" name="q21" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q22">Please share any major traumas that have happened in your life (including childhood traumas) and any therapies or treatments you have accessed.<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q22" name="q22" rows="3"></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="hs-set">
+          <legend class="hs-legend">Heart &amp; Circulation</legend>
+          <p class="hs-blurb">These questions matter most for your safety in ceremony.</p>
+          <div class="hs-field">
+            <label for="q23">Do you have any of the following: High blood pressure, low blood pressure, cardiovascular issues, liver &amp; kidney, head injuries, history of seizures, respiratory issues or drug allergies?<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q23" name="q23" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q24">Do you have a history of hypertension (higher blood pressure)? Do you know your most recent vital signs including blood pressure, heart rate, oxygen saturation? (If not we will assess during your first session).<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q24" name="q24" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q25">Do you have serious heart problems? Have you had heart surgery? This includes a pacemaker but excludes stents.<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q25" name="q25" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q26">Have you had a stroke or a brain haemorrhage?<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q26" name="q26" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q27">Have you had an aneurism or blood clot?<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q27" name="q27" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q28">Are you on medication for low blood pressure?<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q28" name="q28" rows="3"></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="hs-set">
+          <legend class="hs-legend">Medical History</legend>
+          <p class="hs-blurb">Conditions and treatments we need to know about.</p>
+          <div class="hs-field">
+            <label for="q29">Are you recovering from a major surgical procedure with internal stitches?<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q29" name="q29" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q30">Are you recovering from a major surgical procedure?<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q30" name="q30" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q31">Are you undergoing chemotherapy, radiotherapy or have done so within the last 4 weeks?<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q31" name="q31" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q32">Are you taking immune-suppressants after an organ transplant?<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q32" name="q32" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q33">Do you have Addison&rsquo;s Disease?<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q33" name="q33" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q34">Do you have current and severe epilepsy? Are you on any medication for epilepsy?<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q34" name="q34" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q35">Do you have certain types of eating disorders?<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q35" name="q35" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q36">Do you have Crohn&rsquo;s Disease, IBS or any digestive issues?<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q36" name="q36" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q37">Do you have any pre-existing medical conditions? If so please explain.<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q37" name="q37" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q38">Have you been vaccinated with CV19 vaccine? If so, how many times and when?<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q38" name="q38" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q39">Are you pregnant or breast feeding? Are you breast feeding a child under 6 months old?<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q39" name="q39" rows="3"></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="hs-set">
+          <legend class="hs-legend">Preparing for Ceremony</legend>
+          <p class="hs-blurb">How you care for your body around the work.</p>
+          <div class="hs-field">
+            <label for="q40">Will you have been fasting at any point 7 days before or after your ceremony work?<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q40" name="q40" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q41">Will you be able to not have any enemas, colonics, intensive sweating or liver flushes within 3 days before and after your ceremony work? You will be needing all of your electrolytes and it can be dangerous if you deplete them with these methods of detox.<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q41" name="q41" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q42">Will you be menstruating at the time of your session? It can be uncomfortable to have Kambo during this time as the medicine can increase bleeding, cramping &amp; lightheadedness.<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q42" name="q42" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q43">Can you abstain from alcohol, marijuana and other recreational substances for at least 24&ndash;48 hours before your Kambo session?<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q43" name="q43" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q44">Do you have any dietary restrictions?<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q44" name="q44" rows="3"></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="hs-set">
+          <legend class="hs-legend">Your Intention</legend>
+          <p class="hs-blurb">The part we most look forward to reading.</p>
+          <div class="hs-field">
+            <label for="q45">Please share about what is calling you to ceremony at this time.<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q45" name="q45" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q46">What resources do you have in your life to support you? Example: meditation practice, therapist, life coach, etc.<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q46" name="q46" rows="3"></textarea>
+          </div>
+          <div class="hs-field">
+            <label for="q47">Is there anything else that you wish to share? Do you have any further questions?<span class="req" aria-hidden="true">*</span></label>
+            <textarea id="q47" name="q47" rows="3"></textarea>
+          </div>
+        </fieldset>
+
+      </form>
+
+      <!-- The button sits outside the <form> for layout; data-form tells
+           js/forms.js which form it submits. -->
+      <div class="hs-submit" data-reveal data-form="screeningForm">
+        <button class="btn btn--solid" type="submit">Submit Screening</button>
+      </div>
+
+      <p class="muted" data-reveal data-reveal-delay="2" style="text-align:center; max-width:60ch; margin:2rem auto 0;">
+        Tiger Soul offerings are not medical treatment and this screening is not medical advice.
+        Please consult your physician before any ceremony, and tell us about every medication and
+        condition — some are not safe to combine with the medicines.
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" id="contact">
+    <div class="wrap">
+      <div class="footer__brand">
+        <img src="../assets/images/logo/logo-full.png" alt="Tiger Soul Medicine Retreats" />
+        <p>Sacred plant medicine, retreats, and practitioner trainings for those ready to live in the
+          spirit with courage, compassion, and connection.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="../retreats/">Retreats</a></li>
+          <li><a href="../bufo-practitioner-training/">Practitioner Training</a></li>
+          <li><a href="../liberation-program/">Liberation Program</a></li>
+          <li><a href="../sacred-medicine-info/">Sacred Offerings</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Discover</h4>
+        <ul>
+          <li><a href="../testimonials/">Testimonials</a></li>
+          <li><a href="../about/">About Blaine</a></li>
+          <li><a href="../faq/">FAQ</a></li>
+        <li><a href="../contact/">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="mailto:hello@tigersoulretreats.com">Email Us</a></li>
+          <li><a href="../index.html#newsletter">Newsletter</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="footer__bottom">
+        <span>&copy; 2026 Tiger Soul Medicine Retreats. All rights reserved.</span>
+        <span class="footer__disclaimer">Tiger Soul is a spiritual community; our ceremonies are a spiritual practice and the sacred medicines
+          sacraments of that belief. Not medical treatment or advice; participation is voluntary and at your own
+          responsibility. Consult a physician first.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script src="../js/forms.js"></script>
 </body>
 </html>
