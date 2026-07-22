@@ -110,8 +110,8 @@ function renderEmail(firstName: string): string {
       <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:100%;background:#f7f2e9;border-radius:6px;overflow:hidden;border:1px solid #e2d7bf;">
 
         <tr>
-          <td background="https://laurenbur2.github.io/tiger-soul/academy-portal/emails/header-bg.jpg" bgcolor="#15271c" align="center" style="background-color:#15271c;background-image:url('https://laurenbur2.github.io/tiger-soul/academy-portal/emails/header-bg.jpg');background-size:cover;background-position:center;padding:40px 24px 34px;">
-            <img src="https://laurenbur2.github.io/tiger-soul/assets/images/logo/tiger-mark-alpha.png" width="72" alt="Tiger Soul Academy" style="display:block;width:72px;height:auto;margin:0 auto 12px;" />
+          <td background="https://tigersoulretreats.com/academy-portal/emails/header-bg.jpg" bgcolor="#15271c" align="center" style="background-color:#15271c;background-image:url('https://tigersoulretreats.com/academy-portal/emails/header-bg.jpg');background-size:cover;background-position:center;padding:40px 24px 34px;">
+            <img src="https://tigersoulretreats.com/assets/images/logo/tiger-mark-alpha.png" width="72" alt="Tiger Soul Academy" style="display:block;width:72px;height:auto;margin:0 auto 12px;" />
             <div style="font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:25px;line-height:1;color:#e6cf9d;letter-spacing:1px;">Tiger Soul</div>
             <div style="font-family:Arial,Helvetica,sans-serif;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:#d8c4a0;padding-top:8px;">Academy</div>
           </td>
