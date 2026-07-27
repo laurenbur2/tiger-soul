@@ -458,6 +458,61 @@
     </div>
   </section>
 
+  <!-- FAQ (placeholder — expand as you go) -->
+  <style>
+    .faq-acc{ max-width:820px; margin:0 auto; }
+    .faq-q{ border-top:1px solid rgba(21,21,15,.12); }
+    .faq-q:last-child{ border-bottom:1px solid rgba(21,21,15,.12); }
+    .faq-q > summary{ display:flex; align-items:center; justify-content:space-between; gap:1.5rem; cursor:pointer; list-style:none; padding:clamp(1.1rem,2vw,1.4rem) 0; font-family:var(--font-display); font-size:clamp(1.05rem,1.7vw,1.25rem); color:var(--ink); transition:color .3s var(--ease); }
+    .faq-q > summary::-webkit-details-marker{ display:none; }
+    .faq-q > summary:hover{ color:var(--gold-deep); }
+    .faq-q > summary:focus-visible{ outline:2px solid var(--gold-deep); outline-offset:3px; }
+    .faq-q__ico{ flex:none; position:relative; width:14px; height:14px; transition:transform .35s var(--ease); }
+    .faq-q__ico::before, .faq-q__ico::after{ content:""; position:absolute; background:var(--gold-deep); }
+    .faq-q__ico::before{ top:6px; left:0; width:14px; height:1.5px; }
+    .faq-q__ico::after{ left:6px; top:0; width:1.5px; height:14px; }
+    .faq-q[open] .faq-q__ico{ transform:rotate(135deg); }
+    .faq-q__a{ padding:0 0 clamp(1.1rem,2vw,1.4rem); margin:0; font-size:.94rem; line-height:1.7; color:var(--ink-soft); max-width:70ch; }
+    .faq-q[open] .faq-q__a{ animation:faqIn .35s var(--ease); }
+    @keyframes faqIn{ from{ opacity:0; transform:translateY(-4px); } to{ opacity:1; transform:none; } }
+    @media (prefers-reduced-motion:reduce){ .faq-q__ico, .faq-q[open] .faq-q__a{ transition:none; animation:none; } }
+  </style>
+  <section class="section--light pad" id="faq">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <p class="eyebrow">Questions</p>
+        <h2>Good to know</h2>
+      </div>
+      <div class="faq-acc" data-reveal data-reveal-delay="1">
+        <details class="faq-q">
+          <summary>How are the nine weeks structured?<span class="faq-q__ico" aria-hidden="true"></span></summary>
+          <p class="faq-q__a">Four weeks of preparation, one week together in person in Tulum, then four weeks of
+            integration — a full arc, not a single weekend.</p>
+        </details>
+        <details class="faq-q">
+          <summary>Do I have to travel for the program?<span class="faq-q__ico" aria-hidden="true"></span></summary>
+          <p class="faq-q__a">Preparation and integration happen online from wherever you are; the middle week is in
+            person in Tulum for ceremony.</p>
+        </details>
+        <details class="faq-q">
+          <summary>Which medicines are involved?<span class="faq-q__ico" aria-hidden="true"></span></summary>
+          <p class="faq-q__a">The in-person week includes Bufo (5-MeO-DMT) alongside other sacred medicines, held
+            in ceremony.</p>
+        </details>
+        <details class="faq-q">
+          <summary>What support do I get along the way?<span class="faq-q__ico" aria-hidden="true"></span></summary>
+          <p class="faq-q__a">You move through it as a guided cohort, with support before, during, and after so the
+            work actually lands in your life.</p>
+        </details>
+        <details class="faq-q">
+          <summary>How do I join?<span class="faq-q__ico" aria-hidden="true"></span></summary>
+          <p class="faq-q__a">Start with the health screening. We'll follow up with a call to see whether the timing
+            is right for you.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
   <!-- CTA band -->
   <section class="cta-band pad" id="begin">
     <div class="cta-band__media" aria-hidden="true"><img src="../assets/images/pages/retreats-cta.webp" alt="" loading="lazy" /></div>
