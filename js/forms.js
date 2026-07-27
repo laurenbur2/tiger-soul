@@ -89,7 +89,7 @@
 
       var missing = firstMissing(form, opts.required);
       if (missing) {
-        setStatus(status, "Please answer the question we've jumped you to, then send again.", "error");
+        setStatus(status, "Looks like a question was missed — please answer the one we've jumped you to, then submit again.", "error");
         missing.focus();
         missing.scrollIntoView({ behavior: "smooth", block: "center" });
         return;
