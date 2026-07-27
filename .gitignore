@@ -31,3 +31,6 @@ supabase/.temp/
 
 # Local email preview, never published
 _email-preview.html
+
+# Internal operational docs — never published
+_private/
