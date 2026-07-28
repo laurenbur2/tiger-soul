@@ -78,5 +78,12 @@ create policy "admins read profiles"  on public.profiles   for select using (pub
 create policy "admins update profiles" on public.profiles  for update using (public.is_admin()) with check (public.is_admin());
 create policy "admins read waivers"    on public.waivers    for select using (public.is_admin());
 create policy "admins read screenings" on public.screenings for select using (public.is_admin());
+
+-- Base table privileges (RLS still restricts rows to admins). Edge Functions
+-- write with the service_role key.
+grant select, update on public.profiles   to authenticated;
+grant select          on public.waivers    to authenticated;
+grant select          on public.screenings to authenticated;
+grant all on public.profiles, public.waivers, public.screenings to service_role;
 -- (No policies on public.admins => not readable/writable by clients; manage it here in SQL.)
 -- The Edge Functions write with the service_role key, which bypasses RLS.
