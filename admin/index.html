@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Client Portal — Tiger Soul</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/logo/favicon-32.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --forest:#15271c; --forest-800:#203829; --ink:#232219; --ink-soft:#565046;
+      --gold:#c6a769; --gold-deep:#a3813f; --line:#e7e0d0; --paper:#fffdf8; --cream:#f6f1e7;
+      --serif:"Cormorant Garamond",Georgia,serif; --sans:"Jost",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    }
+    *{ box-sizing:border-box; }
+    html,body{ margin:0; background:#ece5d6; font-family:var(--sans); color:var(--ink); }
+    a{ color:var(--gold-deep); }
+
+    /* Login / gate screen */
+    .gate{ min-height:100vh; display:flex; align-items:center; justify-content:center; padding:2rem; }
+    .gate-card{ max-width:440px; width:100%; background:var(--paper); border:1px solid var(--line);
+      border-radius:18px; overflow:hidden; box-shadow:0 40px 90px -55px rgba(15,28,20,.55); text-align:center; }
+    .gate-banner{ background:var(--forest) url("../assets/images/waiver-banner.png") center/cover no-repeat; padding:2rem 1rem; }
+    .gate-banner img{ height:120px; }
+    .gate-body{ padding:2rem 2rem 2.4rem; }
+    .gate-body h1{ font-family:var(--serif); font-weight:600; color:var(--forest-800); font-size:1.8rem; margin:0 0 .3rem; }
+    .gate-body p{ color:var(--ink-soft); font-size:.95rem; margin:0 0 1.5rem; }
+    .btn{ display:inline-flex; align-items:center; gap:.6em; justify-content:center; cursor:pointer;
+      border:none; border-radius:999px; padding:.9em 1.8em; font-family:var(--sans); font-size:.8rem;
+      font-weight:500; letter-spacing:.14em; text-transform:uppercase; background:var(--gold); color:var(--forest);
+      transition:background .3s ease, color .3s ease; text-decoration:none; }
+    .btn:hover{ background:var(--gold-deep); color:#fff; }
+    .btn--ghost{ background:transparent; border:1px solid rgba(21,21,15,.2); color:var(--ink-soft); }
+    .muted{ color:var(--ink-soft); }
+    .err{ color:#b4462f; font-size:.9rem; margin-top:1rem; }
+
+    /* App */
+    .app{ display:none; min-height:100vh; }
+    .topbar{ display:flex; align-items:center; justify-content:space-between; gap:1rem;
+      background:var(--forest); color:var(--cream); padding:.9rem 1.4rem; }
+    .topbar .brand{ font-family:var(--serif); font-size:1.3rem; color:var(--gold); letter-spacing:.02em; }
+    .topbar .who{ font-size:.8rem; color:rgba(246,241,231,.75); display:flex; align-items:center; gap:1rem; }
+    .topbar .btn--ghost{ color:rgba(246,241,231,.85); border-color:rgba(246,241,231,.3); padding:.5em 1.1em; font-size:.68rem; }
+
+    .layout{ display:grid; grid-template-columns:320px 1fr; min-height:calc(100vh - 58px); }
+    @media (max-width:760px){ .layout{ grid-template-columns:1fr; } .detail{ border-left:none; } .list{ max-height:40vh; } }
+
+    .list{ border-right:1px solid var(--line); background:var(--paper); overflow:auto; }
+    .list-head{ padding:1rem 1.1rem .6rem; position:sticky; top:0; background:var(--paper); border-bottom:1px solid var(--line); }
+    .list-head input{ width:100%; padding:.7em .9em; border:1px solid var(--line); border-radius:10px; font-family:var(--sans); font-size:.9rem; }
+    .list-head .count{ font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-deep); margin-top:.6rem; display:block; }
+    .client{ padding:.85rem 1.1rem; border-bottom:1px solid var(--line); cursor:pointer; }
+    .client:hover{ background:var(--cream); }
+    .client.active{ background:#efe8d6; box-shadow:inset 3px 0 0 var(--gold); }
+    .client .nm{ font-family:var(--serif); font-size:1.15rem; color:var(--forest-800); }
+    .client .em{ font-size:.8rem; color:var(--ink-soft); }
+
+    .detail{ padding:clamp(1.2rem,3vw,2.2rem); overflow:auto; }
+    .detail .empty{ color:var(--ink-soft); text-align:center; margin-top:20vh; }
+    .p-name{ font-family:var(--serif); font-weight:600; color:var(--forest-800); font-size:2rem; margin:0 0 .2rem; }
+    .p-meta{ color:var(--ink-soft); font-size:.95rem; margin:0 0 1.4rem; }
+    .p-meta a{ color:var(--gold-deep); }
+    .card{ background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:1.3rem 1.4rem; margin-bottom:1.3rem; }
+    .card h3{ font-family:var(--serif); color:var(--forest-800); font-size:1.3rem; margin:0 0 .8rem; }
+    .lbl{ font-size:.66rem; letter-spacing:.16em; text-transform:uppercase; color:var(--gold-deep); margin:0 0 .3rem; }
+    textarea{ width:100%; min-height:130px; padding:.85em 1em; border:1px solid var(--line); border-radius:10px;
+      font-family:var(--sans); font-size:.95rem; resize:vertical; }
+    .notes-row{ display:flex; align-items:center; gap:1rem; margin-top:.7rem; }
+    .notes-row .saved{ font-size:.82rem; color:var(--gold-deep); }
+    .sig{ max-width:340px; border:1px solid var(--line); border-radius:10px; background:#fff; }
+    .kv{ display:grid; grid-template-columns:180px 1fr; gap:.4rem 1rem; }
+    .kv dt{ font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--gold-deep); padding-top:.35rem; }
+    .kv dd{ margin:0; font-size:.95rem; color:var(--ink); border-bottom:1px solid var(--line); padding:.35rem 0; }
+    .tag{ display:inline-block; font-size:.66rem; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-deep);
+      border:1px solid var(--line); border-radius:999px; padding:.25em .8em; }
+    details.qa{ border-top:1px solid var(--line); }
+    details.qa summary{ cursor:pointer; padding:.6rem 0; font-family:var(--serif); font-size:1.05rem; color:var(--forest-800); }
+    .qline{ padding:.4rem 0 .6rem 1rem; }
+    .qline .q{ font-size:.85rem; color:var(--ink-soft); }
+    .qline .a{ font-size:.95rem; color:var(--ink); }
+  </style>
+</head>
+<body>
+  <!-- Login / access gate -->
+  <div class="gate" id="gate">
+    <div class="gate-card">
+      <div class="gate-banner"><img src="../assets/images/logo/logo-full-alpha.png" alt="Tiger Soul Retreats" /></div>
+      <div class="gate-body">
+        <h1 id="gateTitle">Client Portal</h1>
+        <p id="gateMsg">Private access for Tiger Soul facilitators.</p>
+        <button class="btn" id="loginBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.35 11.1H12v2.9h5.35c-.25 1.35-1.55 3.95-5.35 3.95a5.95 5.95 0 1 1 0-11.9c1.9 0 3.15.8 3.87 1.5l2.15-2.07C16.6 3.9 14.55 3 12 3a9 9 0 1 0 0 18c5.2 0 8.65-3.65 8.65-8.8 0-.6-.07-1.05-.3-2.1z"/></svg>
+          Sign in with Google
+        </button>
+        <button class="btn btn--ghost" id="signoutBtnGate" style="display:none;margin-top:.8rem;">Sign out</button>
+        <p class="err" id="gateErr"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- App -->
+  <div class="app" id="app">
+    <div class="topbar">
+      <span class="brand">Tiger Soul · Portal</span>
+      <span class="who"><span id="whoEmail"></span><button class="btn btn--ghost" id="signoutBtn">Sign out</button></span>
+    </div>
+    <div class="layout">
+      <aside class="list" id="list">
+        <div class="list-head">
+          <input type="text" id="search" placeholder="Search name, email, phone…" />
+          <span class="count" id="count"></span>
+        </div>
+        <div id="clients"></div>
+      </aside>
+      <main class="detail" id="detail">
+        <p class="empty">Select a client to view their profile.</p>
+      </main>
+    </div>
+  </div>
+
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+    const SUPABASE_URL = "https://werkohszkcytdvljafha.supabase.co";
+    const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndlcmtvaHN6a2N5dGR2bGphZmhhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0MzU5NjAsImV4cCI6MjA5OTAxMTk2MH0.dj_2mcPGvUGATnF7QoH3V4Q1sLq1XxxPv9N2B-paGQA";
+    const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    const $ = (id) => document.getElementById(id);
+    const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+    let clients = [], activeId = null;
+
+    function showGate(title, msg, showSignout) {
+      $("app").style.display = "none";
+      $("gate").style.display = "flex";
+      $("gateTitle").textContent = title;
+      $("gateMsg").textContent = msg;
+      $("loginBtn").style.display = showSignout ? "none" : "";
+      $("signoutBtnGate").style.display = showSignout ? "" : "none";
+    }
+    function showApp(email) {
+      $("gate").style.display = "none";
+      $("app").style.display = "block";
+      $("whoEmail").textContent = email;
+    }
+
+    async function init() {
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session) return showGate("Client Portal", "Private access for Tiger Soul facilitators.", false);
+      let isAdmin = false;
+      try { const { data } = await sb.rpc("is_admin"); isAdmin = !!data; } catch (_e) {}
+      if (!isAdmin) return showGate("No access", (session.user.email || "This account") + " isn't on the facilitator list. Ask an admin to add you.", true);
+      showApp(session.user.email);
+      await loadClients();
+    }
+
+    sb.auth.onAuthStateChange(() => init());
+
+    $("loginBtn").onclick = () => sb.auth.signInWithOAuth({ provider: "google", options: { redirectTo: location.origin + "/admin/" } });
+    $("signoutBtn").onclick = $("signoutBtnGate").onclick = () => sb.auth.signOut();
+
+    async function loadClients() {
+      const { data, error } = await sb.from("profiles").select("*").order("updated_at", { ascending: false });
+      if (error) { $("clients").innerHTML = '<p class="empty">Could not load clients.</p>'; return; }
+      clients = data || [];
+      renderList();
+      // Deep link ?email=
+      const wanted = new URLSearchParams(location.search).get("email");
+      if (wanted) {
+        const hit = clients.find((c) => (c.email || "").toLowerCase() === wanted.toLowerCase());
+        if (hit) openProfile(hit.id);
+      }
+    }
+
+    function renderList() {
+      const q = $("search").value.trim().toLowerCase();
+      const rows = clients.filter((c) =>
+        !q || [c.first_name, c.last_name, c.email, c.phone].join(" ").toLowerCase().includes(q));
+      $("count").textContent = rows.length + (rows.length === 1 ? " client" : " clients");
+      $("clients").innerHTML = rows.map((c) => `
+        <div class="client ${c.id === activeId ? "active" : ""}" data-id="${c.id}">
+          <div class="nm">${esc(((c.first_name || "") + " " + (c.last_name || "")).trim() || "—")}</div>
+          <div class="em">${esc(c.email || "")}${c.phone ? " · " + esc(c.phone) : ""}</div>
+        </div>`).join("") || '<p class="empty" style="margin:2rem 1rem;">No clients yet.</p>';
+      document.querySelectorAll(".client").forEach((el) => el.onclick = () => openProfile(el.dataset.id));
+    }
+    $("search").oninput = renderList;
+
+    async function openProfile(id) {
+      activeId = id; renderList();
+      const c = clients.find((x) => x.id === id);
+      const [{ data: waivers }, { data: screenings }] = await Promise.all([
+        sb.from("waivers").select("*").eq("profile_id", id).order("created_at", { ascending: false }),
+        sb.from("screenings").select("*").eq("profile_id", id).order("created_at", { ascending: false }),
+      ]);
+
+      const waiverHtml = (waivers || []).length ? (waivers || []).map((w) => `
+        <div class="kv" style="margin-bottom:.8rem;">
+          <dt>Signed</dt><dd>${esc(w.date_signed || (w.signed_at || "").slice(0,10) || "—")}</dd>
+          <dt>Signed at</dt><dd>${esc(w.signed_at || "—")}</dd>
+        </div>
+        ${w.signature ? `<img class="sig" src="${esc(w.signature)}" alt="Signature" />` : '<p class="muted">No signature stored.</p>'}
+      `).join("<hr style='border:none;border-top:1px solid var(--line);margin:1rem 0;'>") : '<p class="muted">No waiver on file yet.</p>';
+
+      const screeningHtml = (screenings || []).length ? (screenings || []).map((s) => {
+        const ans = Array.isArray(s.answers) ? s.answers : [];
+        const qlines = ans.filter((a) => a.answer).map((a) => `
+          <div class="qline"><div class="q">${esc(a.question)}</div><div class="a">${esc(a.answer)}</div></div>`).join("");
+        return `<div style="margin-bottom:.6rem;"><span class="tag">${esc(s.offering || "Screening")}</span>
+          <span class="muted" style="margin-left:.6rem;font-size:.82rem;">${esc((s.created_at||"").slice(0,10))}</span></div>
+          <details class="qa"><summary>${ans.filter((a)=>a.answer).length} answers</summary>${qlines}</details>`;
+      }).join("") : '<p class="muted">No medical intake on file yet.</p>';
+
+      $("detail").innerHTML = `
+        <h2 class="p-name">${esc(((c.first_name||"")+" "+(c.last_name||"")).trim() || "—")}</h2>
+        <p class="p-meta"><a href="mailto:${esc(c.email)}">${esc(c.email||"")}</a>${c.phone ? " · " + esc(c.phone) : ""}
+          &nbsp;·&nbsp; added ${esc((c.created_at||"").slice(0,10))}</p>
+
+        <div class="card">
+          <h3>Notes</h3>
+          <textarea id="notes">${esc(c.notes || "")}</textarea>
+          <div class="notes-row"><button class="btn" id="saveNotes">Save notes</button><span class="saved" id="notesSaved"></span></div>
+        </div>
+
+        <div class="card"><h3>Waiver</h3>${waiverHtml}</div>
+        <div class="card"><h3>Medical &amp; health intake</h3>${screeningHtml}</div>`;
+
+      $("saveNotes").onclick = async () => {
+        const notes = $("notes").value;
+        const { error } = await sb.from("profiles").update({ notes }).eq("id", id);
+        $("notesSaved").textContent = error ? "Could not save." : "Saved.";
+        if (!error) { c.notes = notes; setTimeout(() => $("notesSaved").textContent = "", 2500); }
+      };
+    }
+
+    init();
+  </script>
+</body>
+</html>

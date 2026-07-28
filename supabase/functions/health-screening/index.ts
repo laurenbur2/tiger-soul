@@ -14,6 +14,7 @@
 // Deploy: supabase functions deploy health-screening --project-ref werkohszkcytdvljafha --no-verify-jwt
 
 import {
+  adminClient,
   corsHeaders,
   emailShell,
   fieldRow,
@@ -27,6 +28,7 @@ import {
   sectionHeading,
   sendEmail,
   str,
+  upsertProfile,
 } from "../_shared/forms.ts";
 
 type Section = { title: string; keys: string[] };
@@ -138,6 +140,28 @@ Deno.serve(async (req) => {
   } catch (err) {
     console.error("health-screening: notification failed", err);
     return json(req, 502, { error: "We couldn't send that just now. Please email us directly." });
+  }
+
+  // Store in the admin portal (best-effort).
+  try {
+    const sb = adminClient();
+    const phone = str(body.q9, 60);
+    const profileId = await upsertProfile(sb, { email, firstName, lastName, phone });
+    const answers = Object.entries(QUESTIONS).map(([key, question]) => ({
+      key,
+      question,
+      answer: str(body[key], 8000),
+    }));
+    await sb.from("screenings").insert({
+      profile_id: profileId,
+      full_name: fullName,
+      email: email.toLowerCase(),
+      phone,
+      offering,
+      answers,
+    });
+  } catch (err) {
+    console.error("health-screening: store failed", err);
   }
 
   try {

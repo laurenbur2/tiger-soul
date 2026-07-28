@@ -6,6 +6,8 @@
 // cap. None of that is airtight against a determined curl, but it stops the
 // drive-by spam that public form endpoints attract.
 
+import { createClient, type SupabaseClient } from "https://esm.sh/@supabase/supabase-js@2";
+
 const ALLOWED_ORIGINS = [
   "https://laurenbur2.github.io",
   "https://tigersoulretreats.com",
@@ -187,4 +189,38 @@ export function sectionHeading(text: string): string {
 export function paragraph(text: string): string {
   return `<p style="margin:0 0 14px;font-family:Helvetica,Arial,sans-serif;font-size:15px;
                     line-height:1.7;color:${INK};">${text}</p>`;
+}
+
+// ---------------------------------------------------------- storage (portal) ---
+// A service-role client. Bypasses RLS, so only the Edge Functions use it to
+// write client submissions into the admin portal tables.
+export function adminClient(): SupabaseClient {
+  const url = Deno.env.get("SUPABASE_URL");
+  const key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  if (!url || !key) throw new Error("Supabase service credentials are not set");
+  return createClient(url, key, { auth: { persistSession: false } });
+}
+
+/** Upsert the client's profile by email; returns the profile id (or null). */
+export async function upsertProfile(
+  sb: SupabaseClient,
+  p: { email: string; firstName?: string; lastName?: string; phone?: string },
+): Promise<string | null> {
+  const row: Record<string, unknown> = {
+    email: p.email.toLowerCase(),
+    updated_at: new Date().toISOString(),
+  };
+  if (p.firstName) row.first_name = p.firstName;
+  if (p.lastName) row.last_name = p.lastName;
+  if (p.phone) row.phone = p.phone;
+  const { data, error } = await sb
+    .from("profiles")
+    .upsert(row, { onConflict: "email" })
+    .select("id")
+    .single();
+  if (error) {
+    console.error("upsertProfile", error.message);
+    return null;
+  }
+  return data?.id ?? null;
 }
