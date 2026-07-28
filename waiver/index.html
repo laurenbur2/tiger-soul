@@ -70,8 +70,10 @@
     .wv-status{ text-align:center; margin-top:1rem; min-height:1.2em; font-family:var(--sans); font-size:.92rem; }
     .wv-status--error{ color:#b4462f; }
 
-    .wv-done{ text-align:center; padding:1rem .5rem; }
-    .wv-done h2{ margin-top:0; }
+    .wv-done{ text-align:center; padding:2.6rem .5rem 1.8rem; }
+    .wv-done h1{ margin:0 0 .6rem; }
+    .wv-done p{ max-width:46ch; margin:0 auto; }
+    .wv-home{ display:inline-block; width:auto; padding:1em 2.8em; margin-top:1.6rem; text-decoration:none; }
     .footer-line{ text-align:center; font-family:var(--sans); font-size:.72rem; letter-spacing:.12em;
       text-transform:uppercase; color:var(--gold-deep); padding:1.4rem 1rem 2rem; }
     [hidden]{ display:none !important; }
@@ -83,6 +85,7 @@
     <div class="wv-banner"><img src="../assets/images/logo/logo-full-alpha.png" alt="Tiger Soul Retreats" /></div>
 
     <div class="wv-body">
+      <div id="wvDoc">
       <h1>Informed Consent &amp; Liability Waiver</h1>
       <p class="lead">Please read every section carefully before signing.</p>
       <hr class="rule" />
@@ -158,10 +161,12 @@
         <button type="submit" class="wv-btn" id="wvSubmit">Sign &amp; Submit</button>
         <p class="wv-status" id="wvStatus" role="status"></p>
       </form>
+      </div><!-- /#wvDoc -->
 
-      <div class="wv-form wv-done" id="waiverDone" hidden>
-        <h2>Thank you</h2>
+      <div class="wv-done" id="waiverDone" hidden>
+        <h1>Thank you so much</h1>
         <p class="muted" id="wvDoneMsg">Your signed waiver has been received. We will be in touch about next steps.</p>
+        <a class="wv-btn wv-home" href="/">Return to Home</a>
       </div>
     </div>
 
@@ -222,10 +227,10 @@
 
       var payload = { fullName:name, email:email, date:dateEl.value, signature:canvas.toDataURL("image/png"), agreed:true, signedAt:new Date().toISOString() };
       // TODO (backend): POST `payload` to the storage endpoint, then show success.
-      form.setAttribute("hidden","");
-      var done=document.getElementById("waiverDone"); done.removeAttribute("hidden");
-      document.getElementById("wvDoneMsg").textContent = "Thank you, " + name + ". Your signed waiver has been received. We will be in touch about next steps.";
-      done.scrollIntoView({ behavior:"smooth", block:"center" });
+      document.getElementById("wvDoc").setAttribute("hidden","");
+      document.getElementById("waiverDone").removeAttribute("hidden");
+      document.getElementById("wvDoneMsg").textContent = "Thank you, " + name + ". Your signed waiver has been received, and we will be in touch about next steps.";
+      window.scrollTo({ top:0, behavior:"smooth" });
     });
   })();
   </script>
