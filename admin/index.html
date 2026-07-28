@@ -433,17 +433,45 @@
       win.document.close(); win.focus();
       setTimeout(() => win.print(), 400);
     }
-    function printWaiver(c, w) {
+    async function printWaiver(c, w) {
       if (!w) return;
       const dateStr = w.date_signed || (w.signed_at || "").slice(0, 10) || "—";
-      openPrint("Signed Waiver — " + fullName(c), `
-        <h1>Informed Consent &amp; Liability Waiver</h1>
-        <div class="meta">Signed record · Tiger Soul Medicine Retreats</div>
-        <div class="kv"><b>Signed by</b> ${esc(fullName(c))}<br><b>Email</b> ${esc(c.email || "")}<br><b>Phone</b> ${esc(c.phone || "")}<br><b>Date signed</b> ${esc(dateStr)}<br><b>Timestamp</b> ${esc(w.signed_at || "")}</div>
-        <hr>${WAIVER_DOC}<hr>
-        <div class="kv"><b>Participant signature</b></div>
-        ${w.signature ? `<img class="sig" src="${esc(w.signature)}">` : "<p>(no signature stored)</p>"}
-        <p>${esc(fullName(c))} — ${esc(dateStr)}</p>`);
+
+      // Pull the live waiver page so the copy is visually identical to what
+      // they signed (same banner, logo, fonts, and section text).
+      let styleHtml = "", bannerHtml = "", docHtml = "";
+      try {
+        const parsed = new DOMParser().parseFromString(await (await fetch("/waiver/")).text(), "text/html");
+        styleHtml = [...parsed.querySelectorAll("style")].map((s) => s.outerHTML).join("");
+        bannerHtml = (parsed.querySelector(".wv-banner") || {}).outerHTML || "";
+        const wvDoc = parsed.getElementById("wvDoc");
+        if (wvDoc) { const f = wvDoc.querySelector("#waiverForm"); if (f) f.remove(); docHtml = wvDoc.innerHTML; }
+      } catch (e) { /* fall back below */ }
+      if (!docHtml) docHtml = WAIVER_DOC;
+
+      const sigBlock = `
+        <hr style="border:none;border-top:1px solid #e7e0d0;margin:1.8rem 0 1.2rem;">
+        <h2 style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;color:#203829;font-size:1.5rem;margin:0 0 .5rem;">Signature</h2>
+        <p style="font-family:'Jost',Arial,sans-serif;font-size:.95rem;color:#232219;line-height:1.7;">
+          <strong>Signed by:</strong> ${esc(fullName(c))} &nbsp;·&nbsp; ${esc(c.email || "")}${c.phone ? " &nbsp;·&nbsp; " + esc(c.phone) : ""}<br>
+          <strong>Date signed:</strong> ${esc(dateStr)} &nbsp;·&nbsp; <strong>Timestamp:</strong> ${esc(w.signed_at || "")}
+        </p>
+        ${w.signature ? `<img src="${esc(w.signature)}" style="max-width:340px;border:1px solid #e7e0d0;border-radius:8px;background:#fff;">` : "<p>(no signature stored)</p>"}
+        <p style="font-family:Georgia,serif;color:#232219;margin-top:.4rem;">${esc(fullName(c))} — ${esc(dateStr)}</p>`;
+
+      const win = window.open("", "_blank");
+      if (!win) { alert("Please allow pop-ups so the signed copy can open."); return; }
+      win.document.write(`<!doctype html><html><head><meta charset="utf-8">
+        <base href="${location.origin}/waiver/">
+        <title>Signed Waiver — ${esc(fullName(c))}</title>
+        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+        ${styleHtml}
+        <style>html,body{background:#fff;margin:0;} .wv-form,form#waiverForm{display:none!important;} @media print{ .sheet{box-shadow:none;} }</style>
+        </head><body>
+        <div class="sheet">${bannerHtml}<div class="wv-body">${docHtml}${sigBlock}</div></div>
+        </body></html>`);
+      win.document.close(); win.focus();
+      setTimeout(() => win.print(), 700);
     }
     function printIntake(c, s) {
       if (!s) return;
