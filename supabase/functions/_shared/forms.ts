@@ -90,6 +90,7 @@ type SendArgs = {
   subject: string;
   html: string;
   replyTo?: string;
+  attachments?: { filename: string; content: string }[];
 };
 
 /**
@@ -97,7 +98,7 @@ type SendArgs = {
  * the failure is fatal (the notification to Tiger Soul) or ignorable (the
  * courtesy auto-reply to the applicant).
  */
-export async function sendEmail({ to, subject, html, replyTo }: SendArgs): Promise<void> {
+export async function sendEmail({ to, subject, html, replyTo, attachments }: SendArgs): Promise<void> {
   const apiKey = Deno.env.get("RESEND_API_KEY");
   const from = Deno.env.get("RESEND_FROM");
   if (!apiKey) throw new Error("RESEND_API_KEY is not set");
@@ -115,6 +116,7 @@ export async function sendEmail({ to, subject, html, replyTo }: SendArgs): Promi
       subject,
       html,
       ...(replyTo ? { reply_to: replyTo } : {}),
+      ...(attachments && attachments.length ? { attachments } : {}),
     }),
   });
 

@@ -239,8 +239,13 @@
     var status = document.getElementById("wvStatus");
     function fail(m){ status.textContent=m; status.className="wv-status wv-status--error"; }
 
+    var ENDPOINT = "https://werkohszkcytdvljafha.supabase.co/functions/v1/waiver";
+    var btn = document.getElementById("wvSubmit");
+    var sending = false;
+
     form.addEventListener("submit", function(e){
       e.preventDefault();
+      if (sending) return;
       var name=form.fullName.value.trim(), email=form.email.value.trim(), agree=document.getElementById("wvAgree").checked;
       if(!name) return fail("Please enter your full legal name.");
       if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return fail("Please enter a valid email address.");
@@ -248,11 +253,22 @@
       if(!agree) return fail("Please check the box to confirm you agree.");
 
       var payload = { fullName:name, email:email, date:dateEl.value, signature:canvas.toDataURL("image/png"), agreed:true, signedAt:new Date().toISOString() };
-      // TODO (backend): POST `payload` to the storage endpoint, then show success.
-      document.getElementById("wvDoc").setAttribute("hidden","");
-      document.getElementById("waiverDone").removeAttribute("hidden");
-      document.getElementById("wvDoneMsg").textContent = "Thank you, " + name + ". Your signed waiver has been received, and we will be in touch about next steps.";
-      window.scrollTo({ top:0, behavior:"smooth" });
+
+      sending = true; btn.disabled = true; btn.textContent = "Submitting…";
+      status.textContent = ""; status.className = "wv-status";
+
+      fetch(ENDPOINT, { method:"POST", headers:{ "content-type":"application/json" }, body: JSON.stringify(payload) })
+        .then(function(res){ if(!res.ok) throw new Error("bad"); return res.json().catch(function(){ return {}; }); })
+        .then(function(){
+          document.getElementById("wvDoc").setAttribute("hidden","");
+          document.getElementById("waiverDone").removeAttribute("hidden");
+          document.getElementById("wvDoneMsg").textContent = "Thank you, " + name + ". Your signed waiver has been received, and we will be in touch about next steps.";
+          window.scrollTo({ top:0, behavior:"smooth" });
+        })
+        .catch(function(){
+          sending = false; btn.disabled = false; btn.textContent = "Sign & Submit";
+          fail("That didn't go through. Please try again, or email hello@tigersoulretreats.com.");
+        });
     });
   })();
   </script>
