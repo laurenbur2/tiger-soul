@@ -115,6 +115,13 @@
       background:#f6e9d8; border-radius:999px; padding:.25em .7em; margin-left:.4rem; }
     .back{ display:inline-block; font-family:var(--sans); font-size:.75rem; letter-spacing:.1em; text-transform:uppercase;
       color:var(--gold-deep); cursor:pointer; margin-bottom:1rem; border-bottom:1px solid rgba(163,129,63,.4); }
+    .rec-head{ display:flex; align-items:center; gap:.8rem; margin:0 0 .8rem; }
+    .rec-head h3{ margin:0; }
+    .badge{ font-family:var(--sans); font-size:.64rem; letter-spacing:.12em; text-transform:uppercase; padding:.35em .85em; border-radius:999px; font-weight:500; }
+    .badge--ok{ background:#e2efdd; color:#3c5a3c; }
+    .badge--no{ background:#f6e9d8; color:#a8541f; }
+    .rec-actions{ margin:1.1rem 0 .3rem; }
+    .rec-actions .btn{ padding:.7em 1.5em; font-size:.7rem; }
   </style>
 </head>
 <body>
@@ -346,23 +353,41 @@
         sb.from("screenings").select("*").eq("profile_id", id).order("created_at", { ascending: false }),
       ]);
 
-      const waiverHtml = (waivers || []).length ? (waivers || []).map((w) => `
-        <div class="kv" style="margin-bottom:.8rem;">
-          <dt>Signed</dt><dd>${esc(w.date_signed || (w.signed_at || "").slice(0,10) || "—")}</dd>
-          <dt>Signed at</dt><dd>${esc(w.signed_at || "—")}</dd>
-        </div>
-        ${w.signature ? `<div class="lbl">Signature</div><img class="sig" src="${esc(w.signature)}" alt="Signature" />` : '<p class="muted">No signature stored.</p>'}
-        <details class="qa" style="margin-top:1.1rem;"><summary>View the signed waiver</summary>${WAIVER_DOC}</details>
-      `).join("<hr style='border:none;border-top:1px solid var(--line);margin:1rem 0;'>") : '<p class="muted">No waiver on file yet.</p>';
+      const waiverHtml = (waivers || []).length ? (waivers || []).map((w, i) => {
+        const dateStr = w.date_signed || (w.signed_at || "").slice(0, 10) || "—";
+        return `
+        <div class="rec-head"><h3>Waiver</h3><span class="badge badge--ok">Signed</span></div>
+        <dl class="kv">
+          <dt>Document</dt><dd>Informed Consent &amp; Liability Waiver</dd>
+          <dt>Signed by</dt><dd>${esc(fullName(c))}</dd>
+          <dt>Email</dt><dd>${esc(c.email || "—")}</dd>
+          <dt>Phone</dt><dd>${esc(c.phone || "—")}</dd>
+          <dt>Date signed</dt><dd>${esc(dateStr)}</dd>
+          <dt>Timestamp</dt><dd>${esc(w.signed_at || "—")}</dd>
+        </dl>
+        ${w.signature ? `<div class="lbl" style="margin-top:1rem;">Signature</div><img class="sig" src="${esc(w.signature)}" alt="Signature" />` : '<p class="muted">No signature stored.</p>'}
+        <div class="rec-actions"><button class="btn print-waiver" data-widx="${i}">Download signed copy</button></div>
+        <details class="qa"><summary>Read the full document they agreed to</summary>${WAIVER_DOC}</details>`;
+      }).join("<hr style='border:none;border-top:1px solid var(--line);margin:1.4rem 0;'>")
+        : '<div class="rec-head"><h3>Waiver</h3><span class="badge badge--no">Not signed</span></div><p class="muted">No waiver on file yet.</p>';
 
-      const screeningHtml = (screenings || []).length ? (screenings || []).map((s) => {
+      const screeningHtml = (screenings || []).length ? (screenings || []).map((s, i) => {
         const ans = Array.isArray(s.answers) ? s.answers : [];
         const qlines = ans.map((a) => `
           <div class="qline"><div class="q">${esc(a.question)}</div><div class="a">${a.answer ? esc(a.answer) : '<span class="muted">— not answered —</span>'}</div></div>`).join("");
-        return `<div style="margin-bottom:.6rem;"><span class="tag">${esc(s.offering || "Screening")}</span>
-          <span class="muted" style="margin-left:.6rem;font-size:.82rem;">${esc((s.created_at||"").slice(0,10))}</span></div>
-          <details class="qa"><summary>View all ${ans.length} questions</summary>${qlines}</details>`;
-      }).join("") : '<p class="muted">No medical intake on file yet.</p>';
+        return `
+        <div class="rec-head"><h3>Medical &amp; health intake</h3><span class="badge badge--ok">Completed</span></div>
+        <dl class="kv">
+          <dt>Program</dt><dd>${esc(s.offering || "—")}</dd>
+          <dt>Completed by</dt><dd>${esc(fullName(c))}</dd>
+          <dt>Email</dt><dd>${esc(c.email || "—")}</dd>
+          <dt>Phone</dt><dd>${esc(c.phone || "—")}</dd>
+          <dt>Date completed</dt><dd>${esc((s.created_at || "").slice(0, 10))}</dd>
+        </dl>
+        <div class="rec-actions"><button class="btn print-intake" data-sidx="${i}">Download intake copy</button></div>
+        <details class="qa"><summary>View all ${ans.length} questions</summary>${qlines}</details>`;
+      }).join("<hr style='border:none;border-top:1px solid var(--line);margin:1.4rem 0;'>")
+        : '<div class="rec-head"><h3>Medical &amp; health intake</h3><span class="badge badge--no">Not completed</span></div><p class="muted">No medical intake on file yet.</p>';
 
       $("detail").innerHTML = `
         <span class="back" id="backDash">&larr; Dashboard</span>
@@ -376,8 +401,8 @@
           <div class="notes-row"><button class="btn" id="saveNotes">Save notes</button><span class="saved" id="notesSaved"></span></div>
         </div>
 
-        <div class="card"><h3>Waiver</h3>${waiverHtml}</div>
-        <div class="card"><h3>Medical &amp; health intake</h3>${screeningHtml}</div>`;
+        <div class="card">${waiverHtml}</div>
+        <div class="card">${screeningHtml}</div>`;
 
       $("backDash").onclick = renderDashboard;
       $("saveNotes").onclick = async () => {
@@ -386,6 +411,49 @@
         $("notesSaved").textContent = error ? "Could not save." : "Saved.";
         if (!error) { c.notes = notes; setTimeout(() => $("notesSaved").textContent = "", 2500); }
       };
+      $("detail").querySelectorAll(".print-waiver").forEach((b) => b.onclick = () => printWaiver(c, (waivers || [])[b.dataset.widx]));
+      $("detail").querySelectorAll(".print-intake").forEach((b) => b.onclick = () => printIntake(c, (screenings || [])[b.dataset.sidx]));
+    }
+
+    function openPrint(title, bodyHtml) {
+      const win = window.open("", "_blank");
+      if (!win) { alert("Please allow pop-ups so the copy can open."); return; }
+      win.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${esc(title)}</title>
+        <style>
+          body{ font-family:Georgia,'Times New Roman',serif; color:#20201a; max-width:720px; margin:26px auto; padding:0 22px; line-height:1.6; }
+          h1{ font-size:22px; color:#1c2b22; margin:0 0 2px; }
+          .meta{ font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:#8a6d2b; margin-bottom:18px; }
+          .kv b{ display:inline-block; min-width:140px; color:#8a6d2b; font-size:12px; letter-spacing:.06em; text-transform:uppercase; }
+          .kv{ margin:12px 0; line-height:2; }
+          .sig{ max-width:320px; border:1px solid #ddd; border-radius:6px; margin-top:6px; }
+          .q{ font-size:12px; color:#666; margin-top:12px; } .a{ font-size:15px; }
+          hr{ border:none; border-top:1px solid #ddd; margin:18px 0; }
+          p{ margin:8px 0; } @media print { body{ margin:0; } }
+        </style></head><body>${bodyHtml}</body></html>`);
+      win.document.close(); win.focus();
+      setTimeout(() => win.print(), 400);
+    }
+    function printWaiver(c, w) {
+      if (!w) return;
+      const dateStr = w.date_signed || (w.signed_at || "").slice(0, 10) || "—";
+      openPrint("Signed Waiver — " + fullName(c), `
+        <h1>Informed Consent &amp; Liability Waiver</h1>
+        <div class="meta">Signed record · Tiger Soul Medicine Retreats</div>
+        <div class="kv"><b>Signed by</b> ${esc(fullName(c))}<br><b>Email</b> ${esc(c.email || "")}<br><b>Phone</b> ${esc(c.phone || "")}<br><b>Date signed</b> ${esc(dateStr)}<br><b>Timestamp</b> ${esc(w.signed_at || "")}</div>
+        <hr>${WAIVER_DOC}<hr>
+        <div class="kv"><b>Participant signature</b></div>
+        ${w.signature ? `<img class="sig" src="${esc(w.signature)}">` : "<p>(no signature stored)</p>"}
+        <p>${esc(fullName(c))} — ${esc(dateStr)}</p>`);
+    }
+    function printIntake(c, s) {
+      if (!s) return;
+      const ans = Array.isArray(s.answers) ? s.answers : [];
+      const rows = ans.map((a) => `<div class="q">${esc(a.question)}</div><div class="a">${a.answer ? esc(a.answer) : "— not answered —"}</div>`).join("");
+      openPrint("Medical Intake — " + fullName(c), `
+        <h1>Medical &amp; Health Intake</h1>
+        <div class="meta">Tiger Soul Medicine Retreats</div>
+        <div class="kv"><b>Completed by</b> ${esc(fullName(c))}<br><b>Email</b> ${esc(c.email || "")}<br><b>Phone</b> ${esc(c.phone || "")}<br><b>Program</b> ${esc(s.offering || "")}<br><b>Date completed</b> ${esc((s.created_at || "").slice(0, 10))}</div>
+        <hr>${rows}`);
     }
 
     init();
