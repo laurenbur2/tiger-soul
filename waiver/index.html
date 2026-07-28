@@ -3,174 +3,128 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Participant Waiver — Tiger Soul Medicine Retreats</title>
-  <meta name="description" content="Tiger Soul Informed Consent and Liability Waiver. Read and sign before your ceremony." />
-  <meta name="robots" content="noindex" />
-
+  <title>Informed Consent &amp; Liability Waiver — Tiger Soul</title>
+  <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/logo/favicon-32.png" />
-  <link rel="apple-touch-icon" href="../assets/images/logo/favicon-180.png" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Tiger Soul Medicine Retreats" />
-  <meta property="og:title" content="Participant Waiver — Tiger Soul Medicine Retreats" />
-  <meta property="og:url" content="https://www.tigersoulretreats.com/waiver/" />
-  <meta property="og:image" content="https://www.tigersoulretreats.com/assets/images/og-image.jpg" />
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../css/styles.css" />
-
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
-    /* ============================================================
-       WAIVER — readable agreement + sign-and-submit form
-       ============================================================ */
-    .wv-intro { max-width:60ch; margin:0 auto clamp(1.6rem,3vw,2.4rem); text-align:center; }
-    .wv-intro p { color:var(--ink-soft); margin:0; }
+    :root{
+      --forest:#15271c; --forest-800:#203829; --ink:#20201a; --ink-soft:#4f4a41;
+      --gold:#c6a769; --gold-deep:#a3813f; --line:#e4ddce; --paper:#ffffff; --cream:#f6f1e7;
+      --serif:"Cormorant Garamond",Georgia,serif; --sans:"Jost",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    }
+    *{ box-sizing:border-box; }
+    html,body{ margin:0; background:var(--cream); }
+    body{ font-family:var(--serif); color:var(--ink); font-size:1.12rem; line-height:1.6; -webkit-font-smoothing:antialiased; }
 
-    .wv-doc { max-width:760px; margin:0 auto; }
-    .wv-doc h3 { font-family:var(--font-display); color:var(--forest-800); font-size:clamp(1.15rem,2vw,1.4rem);
-      margin:1.7rem 0 .4rem; }
-    .wv-doc p { color:var(--ink-soft); line-height:1.7; margin:0 0 .8rem; font-size:.95rem; }
-    .wv-doc ul { margin:.2rem 0 .9rem; padding-left:1.15rem; }
-    .wv-doc li { color:var(--ink-soft); line-height:1.65; margin:.35rem 0; font-size:.95rem; }
-    .wv-lead { font-style:italic; color:var(--gold-deep) !important; }
+    .sheet{ max-width:820px; margin:0 auto; background:var(--paper); box-shadow:0 30px 80px -50px rgba(15,28,20,.5); }
 
-    /* Sign & submit card */
-    .wv-form { max-width:760px; margin:clamp(2.4rem,5vw,3.6rem) auto 0; background:#fffdf8;
-      border:1px solid rgba(21,21,15,.1); border-radius:16px; padding:clamp(1.6rem,3.5vw,2.6rem);
-      box-shadow:0 24px 54px -30px rgba(15,28,20,.45); }
-    .wv-form h2 { font-family:var(--font-display); color:var(--forest-800); font-size:clamp(1.5rem,3vw,2rem);
-      margin:0 0 .3rem; }
-    .wv-form > p.sub { color:var(--ink-soft); margin:0 0 1.6rem; font-size:.95rem; }
+    /* Branded banner — same green Shipibo background + gold logo as the PDF */
+    .wv-banner{ background:var(--forest) url("../assets/images/waiver-banner.png") center/cover no-repeat;
+      text-align:center; padding:2.2rem 1rem 1.9rem; }
+    .wv-banner img{ height:132px; width:auto; }
 
-    .wv-field { margin-bottom:1.25rem; }
-    .wv-field label { display:block; font-family:var(--font-sans); font-size:.72rem; letter-spacing:.16em;
-      text-transform:uppercase; color:var(--gold-deep); margin-bottom:.5rem; }
-    .wv-field label .req { color:#b4462f; }
-    .wv-field input[type=text], .wv-field input[type=email], .wv-field input[type=date] {
-      width:100%; padding:.85em 1em; font-family:var(--font-sans); font-size:1rem; color:var(--ink);
-      background:#fff; border:1px solid rgba(21,21,15,.2); border-radius:10px; }
-    .wv-field input:focus { outline:none; border-color:var(--gold-deep); box-shadow:0 0 0 3px rgba(163,129,63,.15); }
+    .wv-body{ padding:clamp(1.8rem,5vw,3.4rem); }
+    h1{ font-family:var(--serif); font-weight:600; color:var(--forest-800); font-size:clamp(1.9rem,4vw,2.6rem);
+      line-height:1.1; margin:0 0 .3rem; }
+    .lead{ font-style:italic; color:var(--ink-soft); margin:0 0 .2rem; font-size:1.05rem; }
+    .rule{ border:none; border-top:1px solid var(--line); margin:1.2rem 0 1.4rem; }
+    h2{ font-family:var(--serif); font-weight:600; color:var(--forest-800); font-size:1.4rem; margin:1.7rem 0 .35rem; }
+    p{ margin:0 0 .8rem; color:var(--ink); }
+    .muted{ color:var(--ink-soft); }
+    ul{ margin:.3rem 0 .9rem; padding-left:1.2rem; }
+    li{ margin:.35rem 0; color:var(--ink); }
 
-    .wv-sign-wrap { position:relative; }
-    .wv-canvas { width:100%; height:190px; background:#fff; border:1px dashed rgba(21,21,15,.3);
+    /* Sign & submit */
+    .wv-form{ margin-top:2.2rem; padding:clamp(1.4rem,4vw,2.2rem); background:var(--cream);
+      border:1px solid var(--line); border-radius:16px; }
+    .wv-form h2{ margin-top:0; }
+    .wv-form .sub{ font-size:.98rem; color:var(--ink-soft); margin-bottom:1.4rem; }
+    .wv-field{ margin-bottom:1.2rem; }
+    .wv-field label{ display:block; font-family:var(--sans); font-size:.7rem; letter-spacing:.18em;
+      text-transform:uppercase; color:var(--gold-deep); margin-bottom:.45rem; }
+    .wv-field label .req{ color:#b4462f; }
+    .wv-field input[type=text],.wv-field input[type=email],.wv-field input[type=date]{
+      width:100%; padding:.8em 1em; font-family:var(--sans); font-size:1rem; color:var(--ink);
+      background:#fff; border:1px solid rgba(21,21,15,.22); border-radius:10px; }
+    .wv-field input:focus{ outline:none; border-color:var(--gold-deep); box-shadow:0 0 0 3px rgba(163,129,63,.15); }
+
+    .wv-canvas{ width:100%; height:190px; background:#fff; border:1px dashed rgba(21,21,15,.32);
       border-radius:10px; touch-action:none; cursor:crosshair; display:block; }
-    .wv-canvas.signed { border-style:solid; border-color:var(--gold-deep); }
-    .wv-sign-row { display:flex; justify-content:space-between; align-items:center; margin-top:.5rem; }
-    .wv-sign-hint { font-size:.8rem; color:var(--ink-soft); }
-    .wv-clear { background:none; border:none; color:var(--gold-deep); font-family:var(--font-sans);
-      font-size:.75rem; letter-spacing:.1em; text-transform:uppercase; cursor:pointer; border-bottom:1px solid rgba(163,129,63,.4); padding-bottom:1px; }
+    .wv-canvas.signed{ border-style:solid; border-color:var(--gold-deep); }
+    .wv-sign-row{ display:flex; justify-content:space-between; align-items:center; margin-top:.5rem; }
+    .wv-sign-hint{ font-size:.82rem; color:var(--ink-soft); font-family:var(--sans); }
+    .wv-clear{ background:none; border:none; color:var(--gold-deep); font-family:var(--sans); font-size:.72rem;
+      letter-spacing:.12em; text-transform:uppercase; cursor:pointer; border-bottom:1px solid rgba(163,129,63,.4); padding:0 0 1px; }
 
-    .wv-agree { display:flex; gap:.7rem; align-items:flex-start; margin:1.4rem 0 1.6rem;
-      font-size:.92rem; color:var(--ink); line-height:1.55; }
-    .wv-agree input { margin-top:.25rem; width:18px; height:18px; flex:none; accent-color:var(--gold-deep); }
+    .wv-agree{ display:flex; gap:.7rem; align-items:flex-start; margin:1.4rem 0 1.5rem; font-family:var(--sans);
+      font-size:.95rem; color:var(--ink); line-height:1.55; }
+    .wv-agree input{ margin-top:.25rem; width:18px; height:18px; flex:none; accent-color:var(--gold-deep); }
 
-    .wv-submit { width:100%; }
-    .wv-status { text-align:center; margin-top:1rem; font-size:.92rem; min-height:1.2em; }
-    .wv-status--error { color:#b4462f; }
-    .wv-status--ok { color:var(--gold-deep); }
+    .wv-btn{ width:100%; padding:1em 1.2em; border:none; border-radius:999px; cursor:pointer;
+      background:var(--gold); color:var(--forest); font-family:var(--sans); font-size:.78rem; font-weight:500;
+      letter-spacing:.2em; text-transform:uppercase; transition:background .3s ease; }
+    .wv-btn:hover{ background:var(--gold-deep); color:#fff; }
+    .wv-status{ text-align:center; margin-top:1rem; min-height:1.2em; font-family:var(--sans); font-size:.92rem; }
+    .wv-status--error{ color:#b4462f; }
 
-    .wv-done { text-align:center; padding:1.5rem .5rem; }
-    .wv-done h2 { font-family:var(--font-display); color:var(--forest-800); font-size:clamp(1.6rem,3.4vw,2.2rem); margin:0 0 .6rem; }
-    .wv-done p { color:var(--ink-soft); }
-    [hidden] { display:none !important; }
+    .wv-done{ text-align:center; padding:1rem .5rem; }
+    .wv-done h2{ margin-top:0; }
+    .footer-line{ text-align:center; font-family:var(--sans); font-size:.72rem; letter-spacing:.12em;
+      text-transform:uppercase; color:var(--gold-deep); padding:1.4rem 1rem 2rem; }
+    [hidden]{ display:none !important; }
+    @media (max-width:520px){ .wv-banner img{ height:104px; } body{ font-size:1.05rem; } }
   </style>
 </head>
 <body>
+  <div class="sheet">
+    <div class="wv-banner"><img src="../assets/images/logo/logo-full-alpha.png" alt="Tiger Soul Retreats" /></div>
 
-  <!-- Header -->
-  <header class="header" id="header">
-    <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navOverlay">
-      <span class="bars"><span></span><span></span><span></span></span>
-      <span>Menu</span>
-    </button>
-    <a class="brand" href="../" aria-label="Tiger Soul Medicine Retreats — home">
-      <img src="../assets/images/logo/tiger-mark.png" alt="" />
-      <span class="brand-word">Tiger Soul</span>
-      <span class="brand-sub">Medicine Retreats</span>
-    </a>
-  </header>
+    <div class="wv-body">
+      <h1>Informed Consent &amp; Liability Waiver</h1>
+      <p class="lead">Please read every section carefully before signing.</p>
+      <hr class="rule" />
 
-  <!-- Full-screen menu overlay -->
-  <nav class="nav-overlay" id="navOverlay" aria-hidden="true">
-    <div class="nav-top">
-      <span class="nav-brand">Tiger Soul</span>
-      <button class="nav-close" id="navClose" aria-label="Close menu"><span>Close</span><span class="x"></span></button>
-    </div>
-    <div class="nav-main">
-      <ul class="nav-list">
-        <li><a href="../retreats/"><span class="lbl">Retreats<span class="lbl-it">immersive</span></span></a></li>
-        <li><a href="../bufo-practitioner-training/"><span class="lbl">Bufo Practitioner Training<span class="lbl-it">become a facilitator</span></span></a></li>
-        <li><a href="../sacred-medicine-info/"><span class="lbl">Sacred Offerings<span class="lbl-it">medicine</span></span></a></li>
-        <li><a href="../testimonials/"><span class="lbl">Testimonials<span class="lbl-it">stories</span></span></a></li>
-        <li><a href="../about/"><span class="lbl">About<span class="lbl-it">the founder</span></span></a></li>
-        <li><a href="../contact/"><span class="lbl">Contact<span class="lbl-it">begin</span></span></a></li>
+      <p>This document explains the medicine, its benefits and risks, how we prepare and protect you, and the responsibilities we each carry. Your signature confirms that you have read and understood it, that your participation is entirely voluntary, and that the information in your medical screening is true and complete. If anything is unclear, please ask us before you sign.</p>
+      <p class="muted"><em>Tiger Soul is a spiritual community. Our ceremonies are a spiritual practice, and the sacred medicines are sacraments of that belief. What we offer is not medical treatment, psychotherapy, or a substitute for professional care, and nothing here is medical advice. We ask every participant to consult their own physician before taking part.</em></p>
+
+      <h2>1. The nature of the medicine</h2>
+      <p>Bufo alvarius, the Sonoran Desert Toad, carries a secretion containing 5-MeO-DMT, a naturally occurring compound used for centuries in indigenous ceremony. It is received by smoking, which brings a rapid onset, and the journey itself is short, usually 15 to 30 minutes. Many describe an intense, non-ordinary state of consciousness that can include a dissolution of the ordinary sense of self. The medicine is ethically sourced from the Sonoran Desert through responsible practices that prioritize the well-being of the toads and environmental conservation.</p>
+
+      <h2>2. Potential benefits</h2>
+      <p>People come to this medicine for different reasons, and no two journeys are alike. Participants often describe a profound sense of unity and clarity, the release of emotional and mental weight carried for years, and a deep calm in the days that follow. These are spiritual and personal experiences, not medical outcomes. We make no promise or guarantee of any particular result, healing, or benefit.</p>
+
+      <h2>3. Risks, and what to expect</h2>
+      <p>5-MeO-DMT is powerful, and the experience can be physically and emotionally intense while it lasts. You should understand and accept the following before taking part:</p>
+      <ul>
+        <li>Strong physical effects are common, including a raised heart rate, changes in blood pressure, physical purging such as nausea or vomiting, shaking, and temporary loss of physical control.</li>
+        <li>Overwhelming emotional and psychological states can arise, including fear, confusion, disorientation, the surfacing of difficult memories or trauma, and the dissolution of the ordinary sense of self.</li>
+        <li>It is not safe alongside certain medications, including but not limited to SSRIs, MAOIs, and some other psychiatric medications, or certain heart, blood-pressure, neurological, and mental-health conditions. This is why the health and medical screening is required, and why it must be complete and honest.</li>
+        <li>As with any non-ordinary state, there are risks that cannot be fully predicted or listed here. You accept that no screening or preparation can remove all risk.</li>
       </ul>
-    </div>
-    <div class="nav-foot">
-      <div><div class="col-label">Answer the Call</div><a href="mailto:hello@tigersoulretreats.com">hello@tigersoulretreats.com</a></div>
-      <div class="nav-socials"><a href="#">Instagram</a><a href="#">Facebook</a><a href="#">Newsletter</a></div>
-    </div>
-  </nav>
 
-  <!-- Page hero -->
-  <section class="page-hero page-hero--compact" id="top" style="--hero-pos: center 40%">
-    <div class="page-hero__media">
-      <img src="../assets/images/medicines/bufo.webp" alt="" fetchpriority="high" />
-    </div>
-    <div class="page-hero__inner">
-      <p class="eyebrow" data-reveal>The Agreement</p>
-      <h1 data-reveal data-reveal-delay="1"><span class="n">Read, and</span> sign</h1>
-      <p class="page-hero__sub" data-reveal data-reveal-delay="2">Our Informed Consent and Liability Waiver. Please read it in full, then sign at the bottom.</p>
-    </div>
-  </section>
+      <h2>4. Your medical screening and disclosures</h2>
+      <p>Every participant completes our health and medical intake screening before taking part. By signing, you confirm that the information you provided is true, accurate, and complete, and that you have disclosed every medication, supplement, substance, and physical or mental-health condition. Withholding information can be dangerous. We reserve the right to decline or end anyone's participation, at any time, for safety.</p>
 
-  <!-- The waiver -->
-  <section class="section--light pad" id="doc">
-    <div class="wrap">
-      <div class="wv-intro" data-reveal>
-        <p>This document explains the medicine, its benefits and risks, how we prepare and protect you, and the responsibilities we each carry. Your signature confirms that you have read and understood it, and that your participation is voluntary.</p>
-      </div>
+      <h2>5. Physical and psychological safety</h2>
+      <p>Every guest is screened before acceptance. You are prepared in advance, and during ceremony you are supported the entire time in a private, protected space, with a harm-reduction approach. We require a video call beforehand to answer your questions and review your intake together.</p>
 
-      <div class="wv-doc" data-reveal data-reveal-delay="1">
-        <p class="wv-lead">Tiger Soul is a spiritual community. Our ceremonies are a spiritual practice, and the sacred medicines are sacraments of that belief. What we offer is not medical treatment, psychotherapy, or a substitute for professional care, and nothing here is medical advice. We ask every participant to consult their own physician before taking part.</p>
+      <h2>6. Emergency response</h2>
+      <p>Should an emergency arise, we will assess the situation, administer appropriate first aid, and activate local emergency medical services when necessary. In the event of a medical emergency, you consent to us seeking appropriate emergency care on your behalf. Each retreat location keeps a documented emergency response protocol. You remain responsible for your own health, travel, and medical insurance, and for any costs of medical care.</p>
 
-        <h3>1. The nature of the medicine</h3>
-        <p>Bufo alvarius, the Sonoran Desert Toad, carries a secretion containing 5-MeO-DMT, a naturally occurring compound used for centuries in indigenous ceremony. It is received by smoking, which brings a rapid onset, and the journey itself is short, usually 15 to 30 minutes. Many describe an intense, non-ordinary state of consciousness that can include a dissolution of the ordinary sense of self. The medicine is ethically sourced from the Sonoran Desert through responsible practices that prioritize the well-being of the toads and environmental conservation.</p>
+      <h2>7. Preparation and integration</h2>
+      <p>You receive detailed preparation guidelines before arrival, covering nutrition, hydration, sleep, abstinence from alcohol and recreational substances, and medication review. Failure to follow them may result in postponement, for your safety and the group's. Integration support is included afterward, both as a group and one to one.</p>
 
-        <h3>2. Potential benefits</h3>
-        <p>People come to this medicine for different reasons, and no two journeys are alike. Participants often describe a profound sense of unity and clarity, the release of emotional and mental weight carried for years, and a deep calm in the days that follow. These are spiritual and personal experiences, not medical outcomes. We make no promise or guarantee of any particular result, healing, or benefit.</p>
+      <h2>8. Voluntary participation</h2>
+      <p>Your participation is entirely voluntary. You may ask questions at any time, decline the medicine, and withdraw from any part of the ceremony or retreat at any point, for any reason.</p>
 
-        <h3>3. Risks, and what to expect</h3>
-        <p>5-MeO-DMT is powerful, and the experience can be physically and emotionally intense while it lasts. You should understand and accept the following before taking part:</p>
-        <ul>
-          <li>Strong physical effects are common, including a raised heart rate, changes in blood pressure, physical purging such as nausea or vomiting, shaking, and temporary loss of physical control.</li>
-          <li>Overwhelming emotional and psychological states can arise, including fear, confusion, disorientation, the surfacing of difficult memories or trauma, and the dissolution of the ordinary sense of self.</li>
-          <li>It is not safe alongside certain medications, including but not limited to SSRIs, MAOIs, and some other psychiatric medications, or certain heart, blood-pressure, neurological, and mental-health conditions. This is why the health and medical screening is required, and why it must be complete and honest.</li>
-          <li>As with any non-ordinary state, there are risks that cannot be fully predicted or listed here. You accept that no screening or preparation can remove all risk.</li>
-        </ul>
+      <h2>9. Assumption of risk and waiver of liability</h2>
+      <p>Having read and understood the above, I accept the risks of participating and take part of my own free will and at my own responsibility. To the fullest extent permitted by law, I release and hold harmless Tiger Soul Medicine Retreats, its founder, facilitators, staff, hosts, and venues from any claim, liability, or responsibility for any injury, loss, or adverse outcome arising from my participation, except in the case of gross negligence or willful misconduct. This agreement is governed by the laws of the State of Quintana Roo, Mexico. If any part is found unenforceable, the remainder stays in full effect.</p>
 
-        <h3>4. Your medical screening and disclosures</h3>
-        <p>Every participant completes our health and medical intake screening before taking part. By signing, you confirm that the information you provided is true, accurate, and complete, and that you have disclosed every medication, supplement, substance, and physical or mental-health condition. Withholding information can be dangerous. We reserve the right to decline or end anyone's participation, at any time, for safety.</p>
-
-        <h3>5. Physical and psychological safety</h3>
-        <p>Every guest is screened before acceptance. You are prepared in advance, and during ceremony you are supported the entire time in a private, protected space, with a harm-reduction approach. We require a video call beforehand to answer your questions and review your intake together.</p>
-
-        <h3>6. Emergency response</h3>
-        <p>Should an emergency arise, we will assess the situation, administer appropriate first aid, and activate local emergency medical services when necessary. In the event of a medical emergency, you consent to us seeking appropriate emergency care on your behalf. Each retreat location keeps a documented emergency response protocol. You remain responsible for your own health, travel, and medical insurance, and for any costs of medical care.</p>
-
-        <h3>7. Preparation and integration</h3>
-        <p>You receive detailed preparation guidelines before arrival, covering nutrition, hydration, sleep, abstinence from alcohol and recreational substances, and medication review. Failure to follow them may result in postponement, for your safety and the group's. Integration support is included afterward, both as a group and one to one.</p>
-
-        <h3>8. Voluntary participation</h3>
-        <p>Your participation is entirely voluntary. You may ask questions at any time, decline the medicine, and withdraw from any part of the ceremony or retreat at any point, for any reason.</p>
-
-        <h3>9. Assumption of risk and waiver of liability</h3>
-        <p>Having read and understood the above, I accept the risks of participating and take part of my own free will and at my own responsibility. To the fullest extent permitted by law, I release and hold harmless Tiger Soul Medicine Retreats, its founder, facilitators, staff, hosts, and venues from any claim, liability, or responsibility for any injury, loss, or adverse outcome arising from my participation, except in the case of gross negligence or willful misconduct. This agreement is governed by the laws of the State of Quintana Roo, Mexico. If any part is found unenforceable, the remainder stays in full effect.</p>
-
-        <h3>10. Confidentiality</h3>
-        <p>The information you share with us is held in confidence. In return, you agree to protect the privacy of everyone else present, and not to share their identities or experiences.</p>
-      </div>
+      <h2>10. Confidentiality</h2>
+      <p>The information you share with us is held in confidence. In return, you agree to protect the privacy of everyone else present, and not to share their identities or experiences.</p>
 
       <!-- Sign & submit -->
       <form class="wv-form" id="waiverForm" novalidate>
@@ -189,103 +143,45 @@
           <label for="wvDate">Date</label>
           <input type="date" id="wvDate" name="date" readonly />
         </div>
-
         <div class="wv-field">
           <label>Signature <span class="req">*</span></label>
-          <div class="wv-sign-wrap">
-            <canvas class="wv-canvas" id="wvCanvas"></canvas>
-            <div class="wv-sign-row">
-              <span class="wv-sign-hint">Draw your signature above with your finger or mouse.</span>
-              <button type="button" class="wv-clear" id="wvClear">Clear</button>
-            </div>
+          <canvas class="wv-canvas" id="wvCanvas"></canvas>
+          <div class="wv-sign-row">
+            <span class="wv-sign-hint">Draw your signature above with your finger or mouse.</span>
+            <button type="button" class="wv-clear" id="wvClear">Clear</button>
           </div>
         </div>
-
         <label class="wv-agree">
           <input type="checkbox" id="wvAgree" name="agree" />
           <span>I have read and agree to this Informed Consent and Liability Waiver, and I intend the signature above to be my legal electronic signature.</span>
         </label>
-
-        <button type="submit" class="btn btn--solid wv-submit" id="wvSubmit">Sign &amp; Submit</button>
+        <button type="submit" class="wv-btn" id="wvSubmit">Sign &amp; Submit</button>
         <p class="wv-status" id="wvStatus" role="status"></p>
       </form>
 
-      <!-- Success state -->
       <div class="wv-form wv-done" id="waiverDone" hidden>
         <h2>Thank you</h2>
-        <p id="wvDoneMsg">Your signed waiver has been received. We will be in touch about next steps.</p>
+        <p class="muted" id="wvDoneMsg">Your signed waiver has been received. We will be in touch about next steps.</p>
       </div>
     </div>
-  </section>
 
-  <!-- Footer -->
-  <footer class="footer" id="contact">
-    <div class="wrap">
-      <div class="footer__brand">
-        <img src="../assets/images/logo/logo-full.png" alt="Tiger Soul Medicine Retreats" />
-        <p>Sacred plant medicine, retreats, and practitioner trainings for those ready to live in the
-          spirit with courage, compassion, and connection.</p>
-      </div>
-      <div>
-        <h4>Explore</h4>
-        <ul>
-          <li><a href="../retreats/">Retreats</a></li>
-          <li><a href="../bufo-practitioner-training/">Practitioner Training</a></li>
-          <li><a href="../liberation-program/">Liberation Program</a></li>
-          <li><a href="../sacred-medicine-info/">Sacred Offerings</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Discover</h4>
-        <ul>
-          <li><a href="../testimonials/">Testimonials</a></li>
-          <li><a href="../about/">About Blaine</a></li>
-          <li><a href="../faq/">FAQ</a></li>
-        <li><a href="../contact/">Contact</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Connect</h4>
-        <ul>
-          <li><a href="#">Instagram</a></li>
-          <li><a href="#">Facebook</a></li>
-          <li><a href="mailto:hello@tigersoulretreats.com">Email Us</a></li>
-          <li><a href="../index.html#newsletter">Newsletter</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="wrap">
-      <div class="footer__bottom">
-        <span>&copy; 2026 Tiger Soul Medicine Retreats. All rights reserved.</span>
-        <span class="footer__disclaimer">Tiger Soul is a spiritual community; our ceremonies are a spiritual practice and the sacred medicines
-          sacraments of that belief. Not medical treatment or advice; participation is voluntary and at your own
-          responsibility. Consult a physician first.</span>
-      </div>
-    </div>
-  </footer>
+    <div class="footer-line">Tiger Soul Medicine Retreats &nbsp;&middot;&nbsp; tigersoulretreats.com</div>
+  </div>
 
-  <script src="../js/main.js"></script>
   <script>
-  /* ============================================================
-     Waiver — signature pad + validation.
-     NOTE: submission currently shows the confirmation state only.
-     The backend (Google-auth storage + per-person profiles that hold
-     the signed waiver and medical intake) is wired next. When ready,
-     POST `payload` (below) to that endpoint before showing success.
-     ============================================================ */
+  /* Waiver — signature pad + validation.
+     NOTE: submission shows the confirmation only. Backend storage
+     (Google-auth per-person profiles holding the signed waiver and
+     medical intake) is wired next; POST `payload` there when ready. */
   (function () {
     "use strict";
     var form = document.getElementById("waiverForm");
     if (!form) return;
 
-    // Today's date, shown read-only.
     var dateEl = document.getElementById("wvDate");
     var now = new Date();
-    dateEl.value = now.getFullYear() + "-" +
-      String(now.getMonth() + 1).padStart(2, "0") + "-" +
-      String(now.getDate()).padStart(2, "0");
+    dateEl.value = now.getFullYear() + "-" + String(now.getMonth()+1).padStart(2,"0") + "-" + String(now.getDate()).padStart(2,"0");
 
-    // ---- Signature pad ----
     var canvas = document.getElementById("wvCanvas");
     var ctx = canvas.getContext("2d");
     var drawing = false, hasInk = false, last = null;
@@ -293,79 +189,43 @@
     function sizeCanvas() {
       var ratio = window.devicePixelRatio || 1;
       var rect = canvas.getBoundingClientRect();
+      if (rect.width < 10) return;
+      var data = hasInk ? canvas.toDataURL() : null;
       canvas.width = rect.width * ratio;
       canvas.height = rect.height * ratio;
-      ctx.scale(ratio, ratio);
-      ctx.lineWidth = 2.2;
-      ctx.lineCap = "round";
-      ctx.lineJoin = "round";
-      ctx.strokeStyle = "#20201a";
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      ctx.lineWidth = 2.2; ctx.lineCap = "round"; ctx.lineJoin = "round"; ctx.strokeStyle = "#20201a";
+      if (data) { var img = new Image(); img.onload = function(){ ctx.drawImage(img,0,0,rect.width,rect.height); }; img.src = data; }
     }
+    window.addEventListener("load", sizeCanvas);
+    window.addEventListener("resize", sizeCanvas);
     sizeCanvas();
-    window.addEventListener("resize", function () {
-      var data = hasInk ? canvas.toDataURL() : null;
-      sizeCanvas();
-      if (data) { var img = new Image(); img.onload = function(){ ctx.drawImage(img,0,0,canvas.getBoundingClientRect().width,canvas.getBoundingClientRect().height); }; img.src = data; }
-    });
 
-    function pos(e) {
-      var rect = canvas.getBoundingClientRect();
-      var p = e.touches ? e.touches[0] : e;
-      return { x: p.clientX - rect.left, y: p.clientY - rect.top };
-    }
-    function start(e) { drawing = true; last = pos(e); e.preventDefault(); }
-    function move(e) {
-      if (!drawing) return;
-      var p = pos(e);
-      ctx.beginPath(); ctx.moveTo(last.x, last.y); ctx.lineTo(p.x, p.y); ctx.stroke();
-      last = p; hasInk = true; canvas.classList.add("signed");
-      e.preventDefault();
-    }
-    function end() { drawing = false; }
+    function pos(e){ var r=canvas.getBoundingClientRect(); var p=e.touches?e.touches[0]:e; return {x:p.clientX-r.left, y:p.clientY-r.top}; }
+    function start(e){ drawing=true; last=pos(e); e.preventDefault(); }
+    function move(e){ if(!drawing) return; var p=pos(e); ctx.beginPath(); ctx.moveTo(last.x,last.y); ctx.lineTo(p.x,p.y); ctx.stroke(); last=p; hasInk=true; canvas.classList.add("signed"); e.preventDefault(); }
+    function end(){ drawing=false; }
+    canvas.addEventListener("mousedown",start); canvas.addEventListener("mousemove",move); window.addEventListener("mouseup",end);
+    canvas.addEventListener("touchstart",start,{passive:false}); canvas.addEventListener("touchmove",move,{passive:false}); canvas.addEventListener("touchend",end);
+    document.getElementById("wvClear").addEventListener("click", function(){ ctx.clearRect(0,0,canvas.width,canvas.height); hasInk=false; canvas.classList.remove("signed"); });
 
-    canvas.addEventListener("mousedown", start);
-    canvas.addEventListener("mousemove", move);
-    window.addEventListener("mouseup", end);
-    canvas.addEventListener("touchstart", start, { passive: false });
-    canvas.addEventListener("touchmove", move, { passive: false });
-    canvas.addEventListener("touchend", end);
-
-    document.getElementById("wvClear").addEventListener("click", function () {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      hasInk = false; canvas.classList.remove("signed");
-    });
-
-    // ---- Submit ----
     var status = document.getElementById("wvStatus");
-    function fail(msg) { status.textContent = msg; status.className = "wv-status wv-status--error"; }
+    function fail(m){ status.textContent=m; status.className="wv-status wv-status--error"; }
 
-    form.addEventListener("submit", function (e) {
+    form.addEventListener("submit", function(e){
       e.preventDefault();
-      var name = form.fullName.value.trim();
-      var email = form.email.value.trim();
-      var agree = document.getElementById("wvAgree").checked;
+      var name=form.fullName.value.trim(), email=form.email.value.trim(), agree=document.getElementById("wvAgree").checked;
+      if(!name) return fail("Please enter your full legal name.");
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return fail("Please enter a valid email address.");
+      if(!hasInk) return fail("Please draw your signature in the box above.");
+      if(!agree) return fail("Please check the box to confirm you agree.");
 
-      if (!name) return fail("Please enter your full legal name.");
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return fail("Please enter a valid email address.");
-      if (!hasInk) return fail("Please draw your signature in the box above.");
-      if (!agree) return fail("Please check the box to confirm you agree.");
-
-      var payload = {
-        fullName: name,
-        email: email,
-        date: dateEl.value,
-        signature: canvas.toDataURL("image/png"),
-        agreed: true,
-        signedAt: new Date().toISOString()
-      };
-
+      var payload = { fullName:name, email:email, date:dateEl.value, signature:canvas.toDataURL("image/png"), agreed:true, signedAt:new Date().toISOString() };
       // TODO (backend): POST `payload` to the storage endpoint, then show success.
-      document.getElementById("waiverForm").setAttribute("hidden", "");
-      var done = document.getElementById("waiverDone");
-      done.removeAttribute("hidden");
-      document.getElementById("wvDoneMsg").textContent =
-        "Thank you, " + name + ". Your signed waiver has been received. We will be in touch about next steps.";
-      done.scrollIntoView({ behavior: "smooth", block: "center" });
+      form.setAttribute("hidden","");
+      var done=document.getElementById("waiverDone"); done.removeAttribute("hidden");
+      document.getElementById("wvDoneMsg").textContent = "Thank you, " + name + ". Your signed waiver has been received. We will be in touch about next steps.";
+      done.scrollIntoView({ behavior:"smooth", block:"center" });
     });
   })();
   </script>
