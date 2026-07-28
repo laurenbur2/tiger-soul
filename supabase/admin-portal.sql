@@ -50,7 +50,8 @@ create table if not exists public.admins ( email text primary key );
 -- Admin accounts allowed into the portal (lower-case).
 insert into public.admins (email) values
   ('tigersoulretreat@gmail.com'),
-  ('lburandt2@gmail.com')
+  ('lburandt2@gmail.com'),
+  ('admin@tigersoulretreats.com')
 on conflict do nothing;
 
 create or replace function public.is_admin() returns boolean

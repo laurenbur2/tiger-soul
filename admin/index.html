@@ -36,6 +36,10 @@
     .btn--ghost{ background:transparent; border:1px solid rgba(21,21,15,.2); color:var(--ink-soft); }
     .muted{ color:var(--ink-soft); }
     .err{ color:#b4462f; font-size:.9rem; margin-top:1rem; }
+    .gate-input{ width:100%; padding:.85em 1em; border:1px solid var(--line); border-radius:10px;
+      font-family:var(--sans); font-size:1rem; }
+    .gate-input:focus{ outline:none; border-color:var(--gold-deep); box-shadow:0 0 0 3px rgba(163,129,63,.15); }
+    .sent{ color:var(--gold-deep); font-size:.95rem; line-height:1.5; }
 
     /* App */
     .app{ display:none; min-height:100vh; }
@@ -91,10 +95,11 @@
       <div class="gate-body">
         <h1 id="gateTitle">Client Portal</h1>
         <p id="gateMsg">Private access for Tiger Soul facilitators.</p>
-        <button class="btn" id="loginBtn">
-          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.35 11.1H12v2.9h5.35c-.25 1.35-1.55 3.95-5.35 3.95a5.95 5.95 0 1 1 0-11.9c1.9 0 3.15.8 3.87 1.5l2.15-2.07C16.6 3.9 14.55 3 12 3a9 9 0 1 0 0 18c5.2 0 8.65-3.65 8.65-8.8 0-.6-.07-1.05-.3-2.1z"/></svg>
-          Sign in with Google
-        </button>
+        <form id="magicForm">
+          <input type="email" id="magicEmail" class="gate-input" placeholder="you@email.com" autocomplete="email" />
+          <button class="btn" id="loginBtn" type="submit" style="width:100%;margin-top:.7rem;">Email me a login link</button>
+        </form>
+        <p class="sent" id="magicSent" style="display:none;"></p>
         <button class="btn btn--ghost" id="signoutBtnGate" style="display:none;margin-top:.8rem;">Sign out</button>
         <p class="err" id="gateErr"></p>
       </div>
@@ -137,7 +142,8 @@
       $("gate").style.display = "flex";
       $("gateTitle").textContent = title;
       $("gateMsg").textContent = msg;
-      $("loginBtn").style.display = showSignout ? "none" : "";
+      $("magicForm").style.display = showSignout ? "none" : "";
+      $("magicSent").style.display = "none";
       $("signoutBtnGate").style.display = showSignout ? "" : "none";
     }
     function showApp(email) {
@@ -158,7 +164,19 @@
 
     sb.auth.onAuthStateChange(() => init());
 
-    $("loginBtn").onclick = () => sb.auth.signInWithOAuth({ provider: "google", options: { redirectTo: location.origin + "/admin/" } });
+    $("magicForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const email = $("magicEmail").value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { $("gateErr").textContent = "Please enter a valid email address."; return; }
+      $("gateErr").textContent = "";
+      $("loginBtn").disabled = true; $("loginBtn").textContent = "Sending…";
+      const { error } = await sb.auth.signInWithOtp({ email, options: { emailRedirectTo: location.origin + "/admin/" } });
+      $("loginBtn").disabled = false; $("loginBtn").textContent = "Email me a login link";
+      if (error) { $("gateErr").textContent = error.message; return; }
+      $("magicForm").style.display = "none";
+      $("magicSent").style.display = "";
+      $("magicSent").textContent = "Check " + email + " for your one-time login link. It may take a moment to arrive.";
+    };
     $("signoutBtn").onclick = $("signoutBtnGate").onclick = () => sb.auth.signOut();
 
     async function loadClients() {
