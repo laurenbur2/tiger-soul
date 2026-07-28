@@ -213,11 +213,16 @@ export async function upsertProfile(
   if (p.lastName) row.last_name = p.lastName;
   if (p.phone) row.phone = p.phone;
   if (p.country) row.country = p.country;
-  const { data, error } = await sb
+  let { data, error } = await sb
     .from("profiles")
     .upsert(row, { onConflict: "email" })
     .select("id")
     .single();
+  if (error && p.country) {
+    // The country column may not exist yet — retry without it so linking still works.
+    delete row.country;
+    ({ data, error } = await sb.from("profiles").upsert(row, { onConflict: "email" }).select("id").single());
+  }
   if (error) {
     console.error("upsertProfile", error.message);
     return null;
