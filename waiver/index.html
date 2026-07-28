@@ -165,6 +165,10 @@
           <input type="email" id="wvEmail" name="email" autocomplete="email" />
         </div>
         <div class="wv-field">
+          <label for="wvPhone">Phone <span class="req">*</span></label>
+          <input type="text" id="wvPhone" name="phone" autocomplete="tel" inputmode="tel" />
+        </div>
+        <div class="wv-field">
           <label for="wvDate">Date</label>
           <input type="date" id="wvDate" name="date" readonly />
         </div>
@@ -246,13 +250,14 @@
     form.addEventListener("submit", function(e){
       e.preventDefault();
       if (sending) return;
-      var name=form.fullName.value.trim(), email=form.email.value.trim(), agree=document.getElementById("wvAgree").checked;
+      var name=form.fullName.value.trim(), email=form.email.value.trim(), phone=form.phone.value.trim(), agree=document.getElementById("wvAgree").checked;
       if(!name) return fail("Please enter your full legal name.");
       if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return fail("Please enter a valid email address.");
+      if(!phone) return fail("Please enter your phone number.");
       if(!hasInk) return fail("Please draw your signature in the box above.");
       if(!agree) return fail("Please check the box to confirm you agree.");
 
-      var payload = { fullName:name, email:email, date:dateEl.value, signature:canvas.toDataURL("image/png"), agreed:true, signedAt:new Date().toISOString() };
+      var payload = { fullName:name, email:email, phone:phone, date:dateEl.value, signature:canvas.toDataURL("image/png"), agreed:true, signedAt:new Date().toISOString() };
 
       sending = true; btn.disabled = true; btn.textContent = "Submitting…";
       status.textContent = ""; status.className = "wv-status";

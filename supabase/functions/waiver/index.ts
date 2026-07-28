@@ -38,6 +38,7 @@ Deno.serve(async (req) => {
 
   const fullName = str(body.fullName, 200);
   const email = str(body.email, 200);
+  const phone = str(body.phone, 60);
   const dateSigned = str(body.date, 40);
   const signedAt = str(body.signedAt, 60);
   const signature = str(body.signature, 400_000); // "data:image/png;base64,...."
@@ -64,6 +65,7 @@ Deno.serve(async (req) => {
     fieldRow("First name", firstName),
     fieldRow("Last name", lastName || "—"),
     fieldRow("Email", email),
+    fieldRow("Phone", phone || "—"),
     fieldRow("Date signed", dateSigned || "—"),
     fieldRow("Signed at", signedAt || "—"),
   ].join("");
@@ -92,6 +94,27 @@ Deno.serve(async (req) => {
   } catch (err) {
     console.error("waiver: notification failed", err);
     return json(req, 502, { error: "We couldn't record that just now. Please try again." });
+  }
+
+  // Courtesy copy to the signer. If it fails, the waiver is already safely
+  // delivered to us, so we log it and still report success.
+  try {
+    await sendEmail({
+      to: email,
+      subject: "We received your signed waiver — Tiger Soul",
+      html: emailShell(
+        `Thank you, ${headerSafe(firstName)}`,
+        paragraph("We've received your signed Informed Consent &amp; Liability Waiver. Thank you for taking the time to read it in full.") +
+          paragraph("We will be in touch about your next steps. If anything changes or you have any questions, simply reply to this email.") +
+          (attachments.length
+            ? paragraph('<em style="color:rgba(21,21,15,.6)">A copy of your signature is attached for your records.</em>')
+            : ""),
+      ),
+      replyTo: notifyAddress(),
+      attachments,
+    });
+  } catch (err) {
+    console.error("waiver: confirmation to signer failed", err);
   }
 
   return json(req, 200, { ok: true });
