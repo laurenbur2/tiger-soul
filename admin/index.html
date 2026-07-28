@@ -168,6 +168,21 @@
     let clients = [], activeId = null, waiverSet = new Set(), screenByP = {}, offerByP = {};
     const PROGRAMS = ["The Liberation Program", "Bufo Practitioner Training", "Private Medicine Retreat", "Private Ceremony"];
     const fullName = (c) => ((c.first_name || "") + " " + (c.last_name || "")).trim() || (c.email || "—");
+    const WAIVER_DOC = `<div style="font-size:.92rem;line-height:1.65;color:var(--ink-soft);">
+      <p><em>Tiger Soul is a spiritual community. Our ceremonies are a spiritual practice, and the sacred medicines are sacraments of that belief. What we offer is not medical treatment, psychotherapy, or a substitute for professional care, and nothing here is medical advice.</em></p>
+      <p><strong>1. The nature of the medicine.</strong> Bufo alvarius, the Sonoran Desert Toad, carries a secretion containing 5-MeO-DMT, a naturally occurring compound used for centuries in indigenous ceremony. It is received by smoking, with a rapid onset and a short journey of roughly 15 to 30 minutes. The medicine is ethically sourced from the Sonoran Desert through responsible practices that prioritize the well-being of the toads and environmental conservation.</p>
+      <p><strong>2. Potential benefits.</strong> No two journeys are alike. Participants often describe a profound sense of unity and clarity, the release of emotional and mental weight carried for years, and a deep calm in the days that follow. These are spiritual and personal experiences, not medical outcomes, and we make no promise of any particular result.</p>
+      <p><strong>3. Risks, and what to expect.</strong> 5-MeO-DMT is powerful and the experience can be physically and emotionally intense. Strong physical effects are common (raised heart rate, blood-pressure changes, purging, shaking, temporary loss of physical control); overwhelming emotional states can arise. It is not safe alongside certain medications (including SSRIs, MAOIs, and some psychiatric medications) or certain heart, blood-pressure, neurological, and mental-health conditions. No screening or preparation removes all risk.</p>
+      <p><strong>4. Your medical screening and disclosures.</strong> Every participant completes the health and medical intake. By signing, you confirm the information is true and complete and that you have disclosed every medication, supplement, substance, and condition. We may decline or end anyone's participation, at any time, for safety.</p>
+      <p><strong>5. Your facilitator.</strong> Tiger Soul is founded and led by Blaine Mueller, who holds every ceremony himself, trained in the Shipibo, Kambo, and Bufo lineages, with experience holding space for ancestral trauma, addiction, depression, PTSD, and physical suffering.</p>
+      <p><strong>6. Physical and psychological safety.</strong> Everyone is screened and read personally; a one-to-one video call and preparation follow; careful attention is given to set, setting, and space; the facilitator stays present the entire time in a private, protected space with a harm-reduction approach; and you are asked to consult your physician beforehand.</p>
+      <p><strong>7. Emergency response.</strong> In an emergency we assess, administer first aid within scope, and activate local emergency services; transport is arranged without delay and your emergency contact notified. You consent to us seeking emergency care on your behalf, and remain responsible for your own health, travel, and medical insurance.</p>
+      <p><strong>8. Preparation and integration.</strong> You receive detailed preparation guidelines before arrival (nutrition, hydration, sleep, substance abstinence, medication review) and must follow them. Integration support is included afterward, as a group and one to one.</p>
+      <p><strong>9. Voluntary participation.</strong> Participation is entirely voluntary. You may ask questions, decline the medicine, and withdraw at any point, for any reason.</p>
+      <p><strong>10. Assumption of risk and waiver of liability.</strong> Having read and understood the above, I accept the risks and take part of my own free will and at my own responsibility. To the fullest extent permitted by law, I release and hold harmless Tiger Soul Medicine Retreats, its founder, facilitators, staff, hosts, and venues from any claim or liability for any injury, loss, or adverse outcome, except gross negligence or willful misconduct. Governed by the laws of the State of Quintana Roo, Mexico.</p>
+      <p><strong>11. Confidentiality.</strong> Information shared is held in confidence; in return the participant agrees to protect the privacy of everyone else present.</p>
+      <p><strong>12. Legal acknowledgment.</strong> The participant understands these medicines are received as spiritual sacraments within the community's practice and is responsible for the laws that apply to them.</p>
+    </div>`;
 
     function showGate(title, msg, showSignout) {
       $("app").style.display = "none";
@@ -336,16 +351,17 @@
           <dt>Signed</dt><dd>${esc(w.date_signed || (w.signed_at || "").slice(0,10) || "—")}</dd>
           <dt>Signed at</dt><dd>${esc(w.signed_at || "—")}</dd>
         </div>
-        ${w.signature ? `<img class="sig" src="${esc(w.signature)}" alt="Signature" />` : '<p class="muted">No signature stored.</p>'}
+        ${w.signature ? `<div class="lbl">Signature</div><img class="sig" src="${esc(w.signature)}" alt="Signature" />` : '<p class="muted">No signature stored.</p>'}
+        <details class="qa" style="margin-top:1.1rem;"><summary>View the signed waiver</summary>${WAIVER_DOC}</details>
       `).join("<hr style='border:none;border-top:1px solid var(--line);margin:1rem 0;'>") : '<p class="muted">No waiver on file yet.</p>';
 
       const screeningHtml = (screenings || []).length ? (screenings || []).map((s) => {
         const ans = Array.isArray(s.answers) ? s.answers : [];
-        const qlines = ans.filter((a) => a.answer).map((a) => `
-          <div class="qline"><div class="q">${esc(a.question)}</div><div class="a">${esc(a.answer)}</div></div>`).join("");
+        const qlines = ans.map((a) => `
+          <div class="qline"><div class="q">${esc(a.question)}</div><div class="a">${a.answer ? esc(a.answer) : '<span class="muted">— not answered —</span>'}</div></div>`).join("");
         return `<div style="margin-bottom:.6rem;"><span class="tag">${esc(s.offering || "Screening")}</span>
           <span class="muted" style="margin-left:.6rem;font-size:.82rem;">${esc((s.created_at||"").slice(0,10))}</span></div>
-          <details class="qa"><summary>${ans.filter((a)=>a.answer).length} answers</summary>${qlines}</details>`;
+          <details class="qa"><summary>View all ${ans.length} questions</summary>${qlines}</details>`;
       }).join("") : '<p class="muted">No medical intake on file yet.</p>';
 
       $("detail").innerHTML = `
