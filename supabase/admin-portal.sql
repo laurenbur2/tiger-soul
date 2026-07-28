@@ -47,11 +47,11 @@ create index if not exists screenings_profile_idx on public.screenings(profile_i
 -- Only these Google accounts can read the data once logged in.
 create table if not exists public.admins ( email text primary key );
 
--- >>> ADD YOUR ADMIN EMAILS HERE (lower-case) <<<
--- insert into public.admins (email) values
---   ('you@gmail.com'),
---   ('blaine@gmail.com')
--- on conflict do nothing;
+-- Admin accounts allowed into the portal (lower-case).
+insert into public.admins (email) values
+  ('tigersoulretreat@gmail.com'),
+  ('lburandt2@gmail.com')
+on conflict do nothing;
 
 create or replace function public.is_admin() returns boolean
   language sql stable security definer set search_path = public as $$
