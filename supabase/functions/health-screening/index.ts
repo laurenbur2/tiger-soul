@@ -146,7 +146,8 @@ Deno.serve(async (req) => {
   try {
     const sb = adminClient();
     const phone = str(body.q9, 60);
-    const profileId = await upsertProfile(sb, { email, firstName, lastName, phone });
+    const country = str(body.country, 80);
+    const profileId = await upsertProfile(sb, { email, firstName, lastName, phone, country });
     const answers = Object.entries(QUESTIONS).map(([key, question]) => ({
       key,
       question,

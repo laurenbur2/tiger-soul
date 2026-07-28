@@ -204,7 +204,7 @@ export function adminClient(): SupabaseClient {
 /** Upsert the client's profile by email; returns the profile id (or null). */
 export async function upsertProfile(
   sb: SupabaseClient,
-  p: { email: string; firstName?: string; lastName?: string; phone?: string },
+  p: { email: string; firstName?: string; lastName?: string; phone?: string; country?: string },
 ): Promise<string | null> {
   const row: Record<string, unknown> = {
     email: p.email.toLowerCase(),
@@ -212,6 +212,7 @@ export async function upsertProfile(
   if (p.firstName) row.first_name = p.firstName;
   if (p.lastName) row.last_name = p.lastName;
   if (p.phone) row.phone = p.phone;
+  if (p.country) row.country = p.country;
   const { data, error } = await sb
     .from("profiles")
     .upsert(row, { onConflict: "email" })

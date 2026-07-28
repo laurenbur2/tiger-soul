@@ -41,6 +41,7 @@ Deno.serve(async (req) => {
   const fullName = str(body.fullName, 200);
   const email = str(body.email, 200);
   const phone = str(body.phone, 60);
+  const country = str(body.country, 80);
   const dateSigned = str(body.date, 40);
   const signedAt = str(body.signedAt, 60);
   const signature = str(body.signature, 400_000); // "data:image/png;base64,...."
@@ -68,6 +69,7 @@ Deno.serve(async (req) => {
     fieldRow("Last name", lastName || "—"),
     fieldRow("Email", email),
     fieldRow("Phone", phone || "—"),
+    fieldRow("Country", country || "—"),
     fieldRow("Date signed", dateSigned || "—"),
     fieldRow("Signed at", signedAt || "—"),
   ].join("");
@@ -109,7 +111,7 @@ Deno.serve(async (req) => {
   // the reliable record even if the tables aren't created yet).
   try {
     const sb = adminClient();
-    const profileId = await upsertProfile(sb, { email, firstName, lastName, phone });
+    const profileId = await upsertProfile(sb, { email, firstName, lastName, phone, country });
     await sb.from("waivers").insert({
       profile_id: profileId,
       full_name: fullName,

@@ -10,6 +10,7 @@ create table if not exists public.profiles (
   last_name   text,
   email       text unique not null,
   phone       text,
+  country     text,
   notes       text default '',
   created_at  timestamptz default now(),
   updated_at  timestamptz default now()
@@ -81,9 +82,13 @@ create policy "admins read screenings" on public.screenings for select using (pu
 
 -- Base table privileges (RLS still restricts rows to admins). Edge Functions
 -- write with the service_role key.
-grant select, update on public.profiles   to authenticated;
-grant select          on public.waivers    to authenticated;
-grant select          on public.screenings to authenticated;
+grant select, update, delete on public.profiles   to authenticated;
+grant select, delete on public.waivers    to authenticated;
+grant select, delete on public.screenings to authenticated;
 grant all on public.profiles, public.waivers, public.screenings to service_role;
+
+create policy "admins delete profiles"   on public.profiles   for delete using (public.is_admin());
+create policy "admins delete waivers"    on public.waivers    for delete using (public.is_admin());
+create policy "admins delete screenings" on public.screenings for delete using (public.is_admin());
 -- (No policies on public.admins => not readable/writable by clients; manage it here in SQL.)
 -- The Edge Functions write with the service_role key, which bypasses RLS.

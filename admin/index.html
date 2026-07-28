@@ -120,8 +120,14 @@
     .badge{ font-family:var(--sans); font-size:.64rem; letter-spacing:.12em; text-transform:uppercase; padding:.35em .85em; border-radius:999px; font-weight:500; }
     .badge--ok{ background:#e2efdd; color:#3c5a3c; }
     .badge--no{ background:#f6e9d8; color:#a8541f; }
-    .rec-actions{ margin:1.1rem 0 .3rem; }
+    .rec-actions{ margin:1.1rem 0 .3rem; display:flex; gap:.6rem; flex-wrap:wrap; }
     .rec-actions .btn{ padding:.7em 1.5em; font-size:.7rem; }
+    .btn--danger{ background:#c2492f; color:#fff; }
+    .btn--danger:hover{ background:#a53d27; color:#fff; }
+    .del-client{ display:inline-block; margin-top:1.6rem; background:none; border:1px solid #e0b3a5; color:#a53d27;
+      padding:.65em 1.4em; border-radius:999px; font-family:var(--sans); font-size:.68rem; letter-spacing:.14em;
+      text-transform:uppercase; cursor:pointer; }
+    .del-client:hover{ background:#f7e9e4; }
   </style>
 </head>
 <body>
@@ -362,11 +368,12 @@
           <dt>Signed by</dt><dd>${esc(fullName(c))}</dd>
           <dt>Email</dt><dd>${esc(c.email || "—")}</dd>
           <dt>Phone</dt><dd>${esc(c.phone || "—")}</dd>
+          <dt>Country</dt><dd>${esc(c.country || "—")}</dd>
           <dt>Date signed</dt><dd>${esc(dateStr)}</dd>
           <dt>Timestamp</dt><dd>${esc(w.signed_at || "—")}</dd>
         </dl>
         ${w.signature ? `<div class="lbl" style="margin-top:1rem;">Signature</div><img class="sig" src="${esc(w.signature)}" alt="Signature" />` : '<p class="muted">No signature stored.</p>'}
-        <div class="rec-actions"><button class="btn print-waiver" data-widx="${i}">Download signed copy</button></div>
+        <div class="rec-actions"><button class="btn print-waiver" data-widx="${i}">Download signed copy</button><button class="btn btn--danger del-waiver" data-wid="${w.id}">Delete</button></div>
         <details class="qa"><summary>Read the full document they agreed to</summary>${WAIVER_DOC}</details>`;
       }).join("<hr style='border:none;border-top:1px solid var(--line);margin:1.4rem 0;'>")
         : '<div class="rec-head"><h3>Waiver</h3><span class="badge badge--no">Not signed</span></div><p class="muted">No waiver on file yet.</p>';
@@ -382,9 +389,10 @@
           <dt>Completed by</dt><dd>${esc(fullName(c))}</dd>
           <dt>Email</dt><dd>${esc(c.email || "—")}</dd>
           <dt>Phone</dt><dd>${esc(c.phone || "—")}</dd>
+          <dt>Country</dt><dd>${esc(c.country || "—")}</dd>
           <dt>Date completed</dt><dd>${esc((s.created_at || "").slice(0, 10))}</dd>
         </dl>
-        <div class="rec-actions"><button class="btn print-intake" data-sidx="${i}">Download intake copy</button></div>
+        <div class="rec-actions"><button class="btn print-intake" data-sidx="${i}">Download intake copy</button><button class="btn btn--danger del-intake" data-sid="${s.id}">Delete</button></div>
         <details class="qa"><summary>View all ${ans.length} questions</summary>${qlines}</details>`;
       }).join("<hr style='border:none;border-top:1px solid var(--line);margin:1.4rem 0;'>")
         : '<div class="rec-head"><h3>Medical &amp; health intake</h3><span class="badge badge--no">Not completed</span></div><p class="muted">No medical intake on file yet.</p>';
@@ -392,7 +400,7 @@
       $("detail").innerHTML = `
         <span class="back" id="backDash">&larr; Dashboard</span>
         <h2 class="p-name">${esc(((c.first_name||"")+" "+(c.last_name||"")).trim() || "—")}</h2>
-        <p class="p-meta"><a href="mailto:${esc(c.email)}">${esc(c.email||"")}</a>${c.phone ? " · " + esc(c.phone) : ""}
+        <p class="p-meta"><a href="mailto:${esc(c.email)}">${esc(c.email||"")}</a>${c.phone ? " · " + esc(c.phone) : ""}${c.country ? " · " + esc(c.country) : ""}
           &nbsp;·&nbsp; added ${esc((c.created_at||"").slice(0,10))}</p>
 
         <div class="card">
@@ -402,7 +410,8 @@
         </div>
 
         <div class="card">${waiverHtml}</div>
-        <div class="card">${screeningHtml}</div>`;
+        <div class="card">${screeningHtml}</div>
+        <button class="del-client" id="delClient">Delete this client and all records</button>`;
 
       $("backDash").onclick = renderDashboard;
       $("saveNotes").onclick = async () => {
@@ -413,6 +422,24 @@
       };
       $("detail").querySelectorAll(".print-waiver").forEach((b) => b.onclick = () => printWaiver(c, (waivers || [])[b.dataset.widx]));
       $("detail").querySelectorAll(".print-intake").forEach((b) => b.onclick = () => printIntake(c, (screenings || [])[b.dataset.sidx]));
+      $("detail").querySelectorAll(".del-waiver").forEach((b) => b.onclick = async () => {
+        if (!confirm("Delete this signed waiver? The client will need to sign a new one.")) return;
+        const { error } = await sb.from("waivers").delete().eq("id", b.dataset.wid);
+        if (error) { alert("Could not delete: " + error.message); return; }
+        await loadAll(); openProfile(id);
+      });
+      $("detail").querySelectorAll(".del-intake").forEach((b) => b.onclick = async () => {
+        if (!confirm("Delete this medical intake? The client will need to submit a new one.")) return;
+        const { error } = await sb.from("screenings").delete().eq("id", b.dataset.sid);
+        if (error) { alert("Could not delete: " + error.message); return; }
+        await loadAll(); openProfile(id);
+      });
+      $("delClient").onclick = async () => {
+        if (!confirm("Delete this entire client and ALL their forms? This cannot be undone.")) return;
+        const { error } = await sb.from("profiles").delete().eq("id", id);
+        if (error) { alert("Could not delete: " + error.message); return; }
+        await loadAll();
+      };
     }
 
     function openPrint(title, bodyHtml) {

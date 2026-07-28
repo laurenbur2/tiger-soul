@@ -52,10 +52,10 @@
     .wv-field label{ display:block; font-family:var(--sans); font-size:.7rem; letter-spacing:.18em;
       text-transform:uppercase; color:var(--gold-deep); margin-bottom:.5rem; }
     .wv-field label .req{ color:#b4462f; }
-    .wv-field input[type=text],.wv-field input[type=email],.wv-field input[type=date]{
+    .wv-field input[type=text],.wv-field input[type=email],.wv-field input[type=date],.wv-field select{
       width:100%; padding:.85em 1em; font-family:var(--sans); font-size:1rem; color:var(--ink);
       background:#fff; border:1px solid rgba(21,21,15,.22); border-radius:11px; }
-    .wv-field input:focus{ outline:none; border-color:var(--gold-deep); box-shadow:0 0 0 3px rgba(163,129,63,.15); }
+    .wv-field input:focus,.wv-field select:focus{ outline:none; border-color:var(--gold-deep); box-shadow:0 0 0 3px rgba(163,129,63,.15); }
 
     .wv-canvas{ width:100%; height:200px; background:#fff; border:1px dashed rgba(21,21,15,.32);
       border-radius:11px; touch-action:none; cursor:crosshair; display:block; }
@@ -169,6 +169,10 @@
           <input type="text" id="wvPhone" name="phone" autocomplete="tel" inputmode="tel" />
         </div>
         <div class="wv-field">
+          <label for="wvCountry">Country <span class="req">*</span></label>
+          <select id="wvCountry" name="country" data-countries></select>
+        </div>
+        <div class="wv-field">
           <label for="wvDate">Date</label>
           <input type="date" id="wvDate" name="date" readonly />
         </div>
@@ -199,6 +203,7 @@
     <div class="footer-line">Tiger Soul Medicine Retreats &nbsp;&middot;&nbsp; tigersoulretreats.com</div>
   </div>
 
+  <script src="../js/countries.js"></script>
   <script>
   /* Waiver — signature pad + validation.
      NOTE: submission shows the confirmation only. Backend storage
@@ -250,14 +255,15 @@
     form.addEventListener("submit", function(e){
       e.preventDefault();
       if (sending) return;
-      var name=form.fullName.value.trim(), email=form.email.value.trim(), phone=form.phone.value.trim(), agree=document.getElementById("wvAgree").checked;
+      var name=form.fullName.value.trim(), email=form.email.value.trim(), phone=form.phone.value.trim(), country=form.country.value, agree=document.getElementById("wvAgree").checked;
       if(!name) return fail("Please enter your full legal name.");
       if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return fail("Please enter a valid email address.");
       if(!phone) return fail("Please enter your phone number.");
+      if(!country) return fail("Please select your country.");
       if(!hasInk) return fail("Please draw your signature in the box above.");
       if(!agree) return fail("Please check the box to confirm you agree.");
 
-      var payload = { fullName:name, email:email, phone:phone, date:dateEl.value, signature:canvas.toDataURL("image/png"), agreed:true, signedAt:new Date().toISOString() };
+      var payload = { fullName:name, email:email, phone:phone, country:country, date:dateEl.value, signature:canvas.toDataURL("image/png"), agreed:true, signedAt:new Date().toISOString() };
 
       sending = true; btn.disabled = true; btn.textContent = "Submitting…";
       status.textContent = ""; status.className = "wv-status";
