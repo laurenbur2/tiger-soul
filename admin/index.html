@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Client Portal — Tiger Soul</title>
+  <title>Admin Portal — Tiger Soul</title>
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/logo/favicon-32.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -93,7 +93,7 @@
     <div class="gate-card">
       <div class="gate-banner"><img src="../assets/images/logo/logo-full-alpha.png" alt="Tiger Soul Retreats" /></div>
       <div class="gate-body">
-        <h1 id="gateTitle">Client Portal</h1>
+        <h1 id="gateTitle">Admin Portal</h1>
         <p id="gateMsg">Private access for Tiger Soul facilitators.</p>
         <form id="magicForm">
           <input type="email" id="magicEmail" class="gate-input" placeholder="you@email.com" autocomplete="email" />
@@ -109,7 +109,7 @@
   <!-- App -->
   <div class="app" id="app">
     <div class="topbar">
-      <span class="brand">Tiger Soul · Portal</span>
+      <span class="brand">Tiger Soul · Admin Portal</span>
       <span class="who"><span id="whoEmail"></span><button class="btn btn--ghost" id="signoutBtn">Sign out</button></span>
     </div>
     <div class="layout">
@@ -154,7 +154,7 @@
 
     async function init() {
       const { data: { session } } = await sb.auth.getSession();
-      if (!session) return showGate("Client Portal", "Private access for Tiger Soul facilitators.", false);
+      if (!session) return showGate("Admin Portal", "Private access for Tiger Soul facilitators.", false);
       let isAdmin = false;
       try { const { data } = await sb.rpc("is_admin"); isAdmin = !!data; } catch (_e) {}
       if (!isAdmin) return showGate("No access", (session.user.email || "This account") + " isn't on the facilitator list. Ask an admin to add you.", true);
