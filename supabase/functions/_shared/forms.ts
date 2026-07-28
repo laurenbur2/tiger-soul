@@ -208,7 +208,6 @@ export async function upsertProfile(
 ): Promise<string | null> {
   const row: Record<string, unknown> = {
     email: p.email.toLowerCase(),
-    updated_at: new Date().toISOString(),
   };
   if (p.firstName) row.first_name = p.firstName;
   if (p.lastName) row.last_name = p.lastName;

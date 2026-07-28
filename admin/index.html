@@ -90,7 +90,9 @@
     .dash-head{ font-family:var(--serif); font-weight:600; color:var(--forest-800); font-size:2rem; margin:0 0 1.2rem; }
     .tiles{ display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:2rem; }
     @media (max-width:820px){ .tiles{ grid-template-columns:repeat(2,1fr); } }
-    .tile{ background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:1.1rem 1.2rem; }
+    .tile{ background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:1.1rem 1.2rem;
+      cursor:pointer; transition:border-color .2s ease, transform .2s ease; }
+    .tile:hover{ border-color:var(--gold-deep); transform:translateY(-2px); }
     .tile.warn{ border-color:#e6c98f; box-shadow:inset 0 0 0 1px #eccf9a; }
     .tile .tnum{ font-family:var(--serif); font-size:2.4rem; line-height:1; color:var(--forest-800); }
     .tile .tlbl{ font-family:var(--sans); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-deep); margin-top:.5rem; }
@@ -149,7 +151,7 @@
         <div id="clients"></div>
       </aside>
       <main class="detail" id="detail">
-        <p class="empty">Select a client to view their profile.</p>
+        <p class="empty">Loading…</p>
       </main>
     </div>
   </div>
@@ -210,13 +212,19 @@
     $("signoutBtn").onclick = $("signoutBtnGate").onclick = () => sb.auth.signOut();
 
     async function loadAll() {
+      $("detail").innerHTML = '<p class="empty">Loading…</p>';
       const [p, w, s] = await Promise.all([
-        sb.from("profiles").select("*").order("updated_at", { ascending: false }),
+        sb.from("profiles").select("*"),
         sb.from("waivers").select("profile_id"),
-        sb.from("screenings").select("profile_id, offering, created_at").order("created_at", { ascending: true }),
+        sb.from("screenings").select("profile_id, offering, created_at"),
       ]);
-      if (p.error) { $("clients").innerHTML = '<p class="empty" style="margin:2rem 1rem;">Could not load clients: ' + esc(p.error.message) + '</p>'; return; }
-      clients = p.data || [];
+      if (p.error) {
+        const msg = 'Could not load data: ' + esc(p.error.message);
+        $("clients").innerHTML = '<p class="empty" style="margin:2rem 1rem;">' + msg + '</p>';
+        $("detail").innerHTML = '<p class="empty">' + msg + '</p>';
+        return;
+      }
+      clients = (p.data || []).sort((a, b) => String(b.created_at || "").localeCompare(String(a.created_at || "")));
       waiverSet = new Set((w.data || []).map((r) => r.profile_id));
       screenByP = {}; offerByP = {};
       (s.data || []).forEach((r) => {
@@ -232,22 +240,24 @@
       }
     }
 
-    function renderDashboard() {
-      activeId = null; renderList();
-      // Group people by program (their latest screening offering).
+    function computeDash() {
       const byProgram = {};
       PROGRAMS.forEach((p) => byProgram[p] = []);
-      clients.forEach((c) => {
-        const off = offerByP[c.id];
-        if (off) { (byProgram[off] = byProgram[off] || []).push(c); }
-      });
-      const programsWithPeople = Object.keys(byProgram).filter((k) => byProgram[k].length).length;
+      clients.forEach((c) => { const off = offerByP[c.id]; if (off) (byProgram[off] = byProgram[off] || []).push(c); });
       const enrolled = clients.filter((c) => offerByP[c.id] && waiverSet.has(c.id));
       const missing = clients.filter((c) => !waiverSet.has(c.id) || !screenByP[c.id] || !c.phone);
-
-      const tile = (num, lbl, warn) => `<div class="tile ${warn && num ? "warn" : ""}"><div class="tnum">${num}</div><div class="tlbl">${lbl}</div></div>`;
-
-      const progCards = Object.keys(byProgram).map((name) => {
+      const programsWithPeople = Object.keys(byProgram).filter((k) => byProgram[k].length).length;
+      return { byProgram, enrolled, missing, programsWithPeople };
+    }
+    const progTag = (c) => offerByP[c.id] ? `<span class="mtag" style="background:#e9efe6;color:#3c5a3c;">${esc(offerByP[c.id])}</span>` : "";
+    function peopleList(people, extra) {
+      if (!people.length) return '<p class="muted">No one here yet.</p>';
+      return '<div class="miss-list">' + people.map((c) =>
+        `<button class="miss-row" data-id="${c.id}"><span class="nm">${esc(fullName(c))}</span>
+          <span>${extra ? extra(c) : ""}<span class="muted" style="font-size:.82rem;margin-left:.6rem;">${esc(c.email || "")}</span></span></button>`).join("") + '</div>';
+    }
+    function programCardsHtml(byProgram) {
+      return Object.keys(byProgram).map((name) => {
         const people = byProgram[name];
         const chips = people.length
           ? `<div class="chips">${people.map((pr) => `<button class="chip" data-id="${pr.id}">${esc(fullName(pr))}</button>`).join("")}</div>`
@@ -255,29 +265,47 @@
         return `<div class="prog-card"><div class="prog-name">${esc(name)}</div>
           <div class="prog-count">${people.length} ${people.length === 1 ? "person" : "people"}</div>${chips}</div>`;
       }).join("");
-
-      const missRows = missing.length ? missing.map((c) => {
+    }
+    function missListHtml(missing) {
+      if (!missing.length) return '<p class="muted">Everyone\'s records are complete.</p>';
+      return '<div class="miss-list">' + missing.map((c) => {
         const tags = [];
         if (!waiverSet.has(c.id)) tags.push('<span class="mtag">No waiver</span>');
         if (!screenByP[c.id]) tags.push('<span class="mtag">No intake</span>');
         if (!c.phone) tags.push('<span class="mtag">No phone</span>');
         return `<button class="miss-row" data-id="${c.id}"><span class="nm">${esc(fullName(c))}</span><span>${tags.join("")}</span></button>`;
-      }).join("") : '<p class="muted">Everyone\'s records are complete.</p>';
+      }).join("") + '</div>';
+    }
+    function wireDetail() { $("detail").querySelectorAll("[data-id]").forEach((el) => el.onclick = () => openProfile(el.dataset.id)); }
 
+    function showView(title, bodyHtml) {
+      activeId = null; renderList();
+      $("detail").innerHTML = `<span class="back" id="backDash">&larr; Dashboard</span><h1 class="dash-head">${esc(title)}</h1>${bodyHtml}`;
+      $("backDash").onclick = renderDashboard;
+      wireDetail();
+    }
+
+    function renderDashboard() {
+      activeId = null; renderList();
+      const D = computeDash();
+      const tile = (id, num, lbl, warn) => `<div class="tile ${warn && num ? "warn" : ""}" id="${id}"><div class="tnum">${num}</div><div class="tlbl">${lbl}</div></div>`;
       $("detail").innerHTML = `
         <h1 class="dash-head">Dashboard</h1>
         <div class="tiles">
-          ${tile(clients.length, "Clients")}
-          ${tile(programsWithPeople, "Active programs")}
-          ${tile(enrolled.length, "Currently enrolled")}
-          ${tile(missing.length, "Missing information", true)}
+          ${tile("tileClients", clients.length, "Clients")}
+          ${tile("tilePrograms", D.programsWithPeople, "Active programs")}
+          ${tile("tileEnrolled", D.enrolled.length, "Currently enrolled")}
+          ${tile("tileMissing", D.missing.length, "Missing information", true)}
         </div>
         <h2 class="dash-h">Active programs</h2>
-        <div class="prog-grid">${progCards}</div>
+        <div class="prog-grid">${programCardsHtml(D.byProgram)}</div>
         <h2 class="dash-h">Missing information</h2>
-        <div class="miss-list">${missRows}</div>`;
-
-      $("detail").querySelectorAll("[data-id]").forEach((el) => el.onclick = () => openProfile(el.dataset.id));
+        ${missListHtml(D.missing)}`;
+      wireDetail();
+      $("tileClients").onclick  = () => showView("Clients", peopleList(clients, progTag));
+      $("tilePrograms").onclick = () => showView("Active programs", `<div class="prog-grid">${programCardsHtml(D.byProgram)}</div>`);
+      $("tileEnrolled").onclick = () => showView("Currently enrolled", peopleList(D.enrolled, progTag));
+      $("tileMissing").onclick  = () => showView("Missing information", missListHtml(D.missing));
     }
     $("dashBtn").onclick = renderDashboard;
 
