@@ -298,6 +298,60 @@
         </details>
 
       </div>
+
+      <!-- View your location: the villa gallery -->
+      <style>
+        .loc-reveal{ max-width:1100px; margin:2.9rem auto 0; text-align:center; }
+        .loc-btn{ display:inline-flex; align-items:center; gap:.6rem; cursor:pointer; list-style:none;
+          font-family:var(--font-display); font-size:.82rem; letter-spacing:.16em; text-transform:uppercase;
+          color:var(--forest-950); background:var(--gold); padding:.95rem 2.1rem; border-radius:100px;
+          transition:background .3s var(--ease), transform .3s var(--ease); }
+        .loc-btn::-webkit-details-marker{ display:none; }
+        .loc-btn:hover{ background:var(--gold-light); transform:translateY(-1px); }
+        .loc-btn:focus-visible{ outline:2px solid var(--gold-light); outline-offset:3px; }
+        .loc-btn__ico{ transition:transform .35s var(--ease); }
+        .loc-reveal[open] .loc-btn__ico{ transform:rotate(90deg); }
+        .loc-inner{ animation:faqIn .4s var(--ease); }
+        .loc-inner .sec-head{ margin-top:2.75rem; }
+      </style>
+      <details class="loc-reveal" data-reveal>
+        <summary class="loc-btn"><span>View Your Location</span><span class="loc-btn__ico" aria-hidden="true">&rarr;</span></summary>
+        <div class="loc-inner">
+          <div class="sec-head centered">
+            <p class="eyebrow centered">Where You'll Stay</p>
+            <h2>Your private villa in <em>Tulum</em></h2>
+            <p>The home that holds the retreat &mdash; jungle, pool, and quiet space to rest between
+              ceremony. This is where you'll stay.</p>
+          </div>
+          <div class="gallery">
+            <button class="gallery__nav gallery__nav--prev" type="button" aria-label="Previous photos">&lsaquo;</button>
+            <div class="gallery__track">
+              <figure class="gallery__item"><img src="../assets/images/reclamation-venue/01-exterior.avif" alt="The villa exterior" loading="lazy" /></figure>
+              <figure class="gallery__item"><img src="../assets/images/reclamation-venue/02-aerial.avif" alt="Aerial view of the villa and grounds" loading="lazy" /></figure>
+              <figure class="gallery__item"><img src="../assets/images/reclamation-venue/03-pool.avif" alt="The pool" loading="lazy" /></figure>
+              <figure class="gallery__item"><img src="../assets/images/reclamation-venue/04-pool.avif" alt="The pool and terrace" loading="lazy" /></figure>
+              <figure class="gallery__item"><img src="../assets/images/reclamation-venue/05-rooftop.avif" alt="The rooftop terrace" loading="lazy" /></figure>
+              <figure class="gallery__item"><img src="../assets/images/reclamation-venue/06-rooftop.avif" alt="The rooftop lounge" loading="lazy" /></figure>
+              <figure class="gallery__item"><img src="../assets/images/reclamation-venue/07-rooftop.avif" alt="Rooftop views over the jungle" loading="lazy" /></figure>
+              <figure class="gallery__item"><img src="../assets/images/reclamation-venue/08-living-room.avif" alt="The living room" loading="lazy" /></figure>
+              <figure class="gallery__item"><img src="../assets/images/reclamation-venue/09-living-room.avif" alt="The living area" loading="lazy" /></figure>
+              <figure class="gallery__item"><img src="../assets/images/reclamation-venue/10-dining-area.avif" alt="The dining area" loading="lazy" /></figure>
+              <figure class="gallery__item"><img src="../assets/images/reclamation-venue/11-kitchen.avif" alt="The kitchen" loading="lazy" /></figure>
+              <figure class="gallery__item"><img src="../assets/images/reclamation-venue/12-kitchen.avif" alt="The kitchen counter" loading="lazy" /></figure>
+              <figure class="gallery__item"><img src="../assets/images/reclamation-venue/13-bedroom.avif" alt="A bedroom" loading="lazy" /></figure>
+              <figure class="gallery__item"><img src="../assets/images/reclamation-venue/14-bedroom.avif" alt="A bedroom" loading="lazy" /></figure>
+              <figure class="gallery__item"><img src="../assets/images/reclamation-venue/15-bedroom.avif" alt="A bedroom" loading="lazy" /></figure>
+              <figure class="gallery__item"><img src="../assets/images/reclamation-venue/16-bedroom.avif" alt="A bedroom" loading="lazy" /></figure>
+              <figure class="gallery__item"><img src="../assets/images/reclamation-venue/17-bedroom.avif" alt="A bedroom" loading="lazy" /></figure>
+              <figure class="gallery__item"><img src="../assets/images/reclamation-venue/18-bedroom.avif" alt="A bedroom" loading="lazy" /></figure>
+              <figure class="gallery__item"><img src="../assets/images/reclamation-venue/19-bedroom.avif" alt="A bedroom" loading="lazy" /></figure>
+              <figure class="gallery__item"><img src="../assets/images/reclamation-venue/20-bedroom-loft.avif" alt="The loft bedroom" loading="lazy" /></figure>
+              <figure class="gallery__item"><img src="../assets/images/reclamation-venue/21-bathroom.avif" alt="A bathroom" loading="lazy" /></figure>
+            </div>
+            <button class="gallery__nav gallery__nav--next" type="button" aria-label="Next photos">&rsaquo;</button>
+          </div>
+        </div>
+      </details>
     </div>
   </section>
 
