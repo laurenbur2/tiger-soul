@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3EEG8JDCWM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-3EEG8JDCWM');
+  </script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Portal — Tiger Soul</title>
@@ -131,16 +140,42 @@
 
     /* Campaigns */
     .camp-input{ width:100%; padding:.8em 1em; border:1px solid var(--line); border-radius:10px;
-      font-family:var(--sans); font-size:1rem; }
+      font-family:var(--sans); font-size:1rem; background:#fff; }
     .camp-input:focus, textarea:focus{ outline:none; border-color:var(--gold-deep); box-shadow:0 0 0 3px rgba(163,129,63,.15); }
     .camp-note{ font-size:.85rem; color:var(--ink-soft); margin:.2rem 0 0; }
     .camp-actions{ display:flex; gap:.7rem; flex-wrap:wrap; align-items:center; margin-top:1rem; }
     .camp-status{ font-size:.9rem; }
     .camp-status.ok{ color:#3c5a3c; } .camp-status.bad{ color:#b4462f; }
-    .hist-row{ display:flex; justify-content:space-between; gap:1rem; align-items:baseline;
-      border-bottom:1px solid var(--line); padding:.7rem 0; }
-    .hist-row .hs{ font-family:var(--serif); font-size:1.1rem; color:var(--forest-800); }
-    .hist-row .hm{ font-size:.8rem; color:var(--ink-soft); white-space:nowrap; }
+    .dash-head-row{ display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin:0 0 1.2rem; }
+    .dash-head-row .dash-head{ margin:0; }
+    /* campaign list */
+    .camp-row{ display:flex; align-items:center; justify-content:space-between; gap:1rem; width:100%;
+      background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:.9rem 1.1rem; margin-bottom:.6rem; cursor:pointer; }
+    .camp-row:hover{ border-color:var(--gold-deep); }
+    .camp-row .cn{ font-family:var(--serif); font-size:1.2rem; color:var(--forest-800); }
+    .camp-row .cs{ font-size:.82rem; color:var(--ink-soft); margin-top:.15rem; }
+    .camp-row .cright{ display:flex; align-items:center; gap:.5rem; white-space:nowrap; }
+    .st{ font-family:var(--sans); font-size:.62rem; letter-spacing:.12em; text-transform:uppercase; padding:.35em .8em; border-radius:999px; font-weight:500; }
+    .st--draft{ background:#efe8d6; color:#8a6d2b; }
+    .st--scheduled{ background:#e3ecf2; color:#3a5a75; }
+    .st--sent{ background:#e2efdd; color:#3c5a3c; }
+    .st--sending{ background:#f6e9d8; color:#a8541f; }
+    .icon-btn{ background:none; border:1px solid var(--line); border-radius:8px; padding:.35em .6em; cursor:pointer;
+      font-family:var(--sans); font-size:.7rem; color:var(--ink-soft); }
+    .icon-btn:hover{ border-color:var(--gold-deep); color:var(--gold-deep); }
+    .icon-btn.danger:hover{ border-color:#c2492f; color:#c2492f; }
+    /* editor */
+    .ed-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    @media (max-width:900px){ .ed-grid{ grid-template-columns:1fr; } }
+    .preview-frame{ width:100%; height:420px; border:1px solid var(--line); border-radius:10px; background:#fff; }
+    .seg{ display:flex; align-items:center; gap:.5rem; padding:.4rem 0; font-size:.95rem; cursor:pointer; }
+    .seg input{ accent-color:var(--gold-deep); }
+    .seg .sc{ color:var(--ink-soft); font-size:.85rem; }
+    .pick-list{ max-height:240px; overflow:auto; border:1px solid var(--line); border-radius:10px; padding:.4rem .7rem; margin-top:.6rem; background:#fff; }
+    .pick-row{ display:flex; align-items:center; gap:.6rem; padding:.3rem 0; font-size:.9rem; border-bottom:1px solid var(--line); }
+    .pick-row:last-child{ border-bottom:none; }
+    .tag-hint{ font-size:.8rem; color:var(--ink-soft); }
+    .tag-hint code{ background:var(--cream); border:1px solid var(--line); border-radius:5px; padding:.05em .4em; font-size:.85em; }
   </style>
 </head>
 <body>
@@ -350,80 +385,262 @@
     }
     $("dashBtn").onclick = renderDashboard;
 
-    // ---- Campaigns / announcements ----
+    // ================= Campaigns (a small campaign manager) =================
     const emailable = () => clients.filter((c) => c.email && !c.unsubscribed_at);
-    const unsubbedCount = () => clients.filter((c) => c.unsubscribed_at).length;
+    let campaigns = [], editing = null;
+    const AUD_LABELS = { all: "All clients", program: "By program interest", no_intake: "No intake on file", handpick: "Hand-picked" };
+
+    // How many emailable clients a given audience resolves to (client-side estimate).
+    function audienceCount(a) {
+      const base = emailable();
+      if (a.audience_type === "program") return base.filter((c) => offerByP[c.id] === a.audience_program).length;
+      if (a.audience_type === "no_intake") return base.filter((c) => !screenByP[c.id]).length;
+      if (a.audience_type === "handpick") { const set = new Set(a.audience_ids || []); return base.filter((c) => set.has(c.id)).length; }
+      return base.length;
+    }
+    const audienceSummary = (a) => `${AUD_LABELS[a.audience_type] || "All clients"}${a.audience_type === "program" && a.audience_program ? " · " + a.audience_program : ""} · ${audienceCount(a)} recipients`;
 
     async function renderCampaigns() {
       activeId = null; renderList();
-      const n = emailable().length, u = unsubbedCount();
       $("detail").innerHTML = `
-        <h1 class="dash-head">Send an announcement</h1>
+        <div class="dash-head-row">
+          <h1 class="dash-head">Campaigns</h1>
+          <button class="btn" id="newCampBtn">+ New campaign</button>
+        </div>
+        <div id="campList"><p class="muted">Loading…</p></div>`;
+      $("newCampBtn").onclick = newCampaign;
+      const { data, error } = await sb.from("campaigns").select("*").order("updated_at", { ascending: false });
+      const box = $("campList");
+      if (error) { box.innerHTML = `<p class="muted">Couldn't load campaigns: ${esc(error.message)}</p>`; return; }
+      campaigns = data || [];
+      if (!campaigns.length) { box.innerHTML = '<p class="muted">No campaigns yet. Click “New campaign” to build your first newsletter.</p>'; return; }
+      box.innerHTML = campaigns.map((c) => {
+        const when = c.status === "sent" ? `Sent ${(c.sent_at || "").slice(0, 10)} · ${c.recipient_count} recipients`
+          : c.status === "scheduled" ? `Scheduled for ${(c.scheduled_at || "").slice(0, 16).replace("T", " ")}`
+          : `Draft · edited ${(c.updated_at || "").slice(0, 10)}`;
+        return `<div class="camp-row" data-open="${c.id}">
+          <div><div class="cn">${esc(c.name || "Untitled campaign")}</div>
+            <div class="cs">${esc(c.subject || "No subject yet")} — ${esc(when)}</div></div>
+          <div class="cright">
+            <span class="st st--${c.status}">${c.status}</span>
+            <button class="icon-btn" data-dup="${c.id}">Duplicate</button>
+            <button class="icon-btn danger" data-del="${c.id}">Delete</button>
+          </div></div>`;
+      }).join("");
+      box.querySelectorAll("[data-open]").forEach((el) => el.onclick = (e) => { if (e.target.dataset.dup || e.target.dataset.del) return; openCampaign(el.dataset.open); });
+      box.querySelectorAll("[data-dup]").forEach((b) => b.onclick = (e) => { e.stopPropagation(); duplicateCampaign(b.dataset.dup); });
+      box.querySelectorAll("[data-del]").forEach((b) => b.onclick = (e) => { e.stopPropagation(); deleteCampaign(b.dataset.del); });
+    }
+
+    function newCampaign() {
+      editing = { id: null, name: "Untitled campaign", subject: "", preview_text: "", content_html: "",
+        audience_type: "all", audience_program: PROGRAMS[0], audience_ids: [], status: "draft", scheduled_at: null };
+      renderEditor();
+    }
+    function openCampaign(id) {
+      const c = campaigns.find((x) => x.id === id);
+      if (!c) return;
+      editing = { ...c, audience_ids: c.audience_ids || [], audience_program: c.audience_program || PROGRAMS[0] };
+      renderEditor();
+    }
+    async function duplicateCampaign(id) {
+      const c = campaigns.find((x) => x.id === id); if (!c) return;
+      const copy = { name: (c.name || "Untitled") + " (copy)", subject: c.subject, preview_text: c.preview_text,
+        content_html: c.content_html, audience_type: c.audience_type, audience_program: c.audience_program,
+        audience_ids: c.audience_ids || [], status: "draft", updated_at: new Date().toISOString() };
+      const { error } = await sb.from("campaigns").insert(copy);
+      if (error) return alert("Could not duplicate: " + error.message);
+      renderCampaigns();
+    }
+    async function deleteCampaign(id) {
+      const c = campaigns.find((x) => x.id === id);
+      if (!confirm(`Delete “${c ? c.name : "this campaign"}”? This can't be undone.`)) return;
+      const { error } = await sb.from("campaigns").delete().eq("id", id);
+      if (error) return alert("Could not delete: " + error.message);
+      renderCampaigns();
+    }
+
+    function renderEditor() {
+      activeId = null; renderList();
+      const e = editing, sent = e.status === "sent";
+      const progOpts = PROGRAMS.map((p) => `<option value="${esc(p)}" ${e.audience_program === p ? "selected" : ""}>${esc(p)}</option>`).join("");
+      $("detail").innerHTML = `
+        <span class="back" id="backCamps">&larr; Campaigns</span>
+        <div class="dash-head-row"><h1 class="dash-head">${e.id ? "Edit campaign" : "New campaign"}</h1>
+          <span class="st st--${e.status}">${e.status}</span></div>
+        ${sent ? '<div class="card" style="background:#e2efdd;border-color:#bcd6b4;"><p style="margin:0;color:#3c5a3c;">This campaign was already sent. Duplicate it to send again.</p></div>' : ""}
+
         <div class="card">
-          <div class="lbl">Subject</div>
-          <input type="text" id="campSubject" class="camp-input" placeholder="Our 2026 retreats are open" />
-          <div class="lbl" style="margin-top:1rem;">Message</div>
-          <textarea id="campBody" style="min-height:220px;" placeholder="Write your announcement here.&#10;&#10;Leave a blank line between paragraphs. It'll be wrapped in the Tiger Soul email template, with a greeting and unsubscribe link added automatically."></textarea>
-          <p class="camp-note">Goes to <strong>${n}</strong> ${n === 1 ? "client" : "clients"} with an email on file${u ? ` · ${u} unsubscribed (skipped)` : ""}. Each gets their own copy — recipients never see each other.</p>
-          <div class="camp-actions">
-            <button class="btn btn--ghost" id="campTest">Send test to myself</button>
-            <button class="btn" id="campSend">Send to ${n} ${n === 1 ? "client" : "clients"}</button>
-            <span class="camp-status" id="campStatus"></span>
+          <div class="lbl">Campaign name <span class="muted">(internal only)</span></div>
+          <input type="text" id="edName" class="camp-input" value="${esc(e.name || "")}" placeholder="2026 Retreats announcement" />
+          <div class="lbl" style="margin-top:1rem;">Subject line</div>
+          <input type="text" id="edSubject" class="camp-input" value="${esc(e.subject || "")}" placeholder="Our 2026 retreats are open" />
+          <div class="lbl" style="margin-top:1rem;">Preview text <span class="muted">(inbox preview, optional)</span></div>
+          <input type="text" id="edPreview" class="camp-input" value="${esc(e.preview_text || "")}" placeholder="Three retreats, one journey — dates inside." />
+        </div>
+
+        <div class="card">
+          <div class="lbl">Email HTML</div>
+          <p class="tag-hint" style="margin:.2rem 0 .6rem;">Paste the newsletter HTML you built. Merge tags: <code>{{first_name}}</code> <code>{{unsubscribe_url}}</code>. If you leave out <code>{{unsubscribe_url}}</code>, an unsubscribe footer is added automatically.</p>
+          <div class="ed-grid">
+            <textarea id="edHtml" style="min-height:420px;font-family:ui-monospace,Menlo,monospace;font-size:.82rem;" placeholder="<html>… paste your email here …</html>">${esc(e.content_html || "")}</textarea>
+            <iframe class="preview-frame" id="edPreviewFrame" title="Preview"></iframe>
           </div>
         </div>
-        <h2 class="dash-h">Sent history</h2>
-        <div class="card" id="campHistory"><p class="muted">Loading…</p></div>`;
-      $("campTest").onclick = () => sendCampaign(true);
-      $("campSend").onclick = () => sendCampaign(false);
-      loadCampaignHistory();
+
+        <div class="card">
+          <h3>Audience</h3>
+          <label class="seg"><input type="radio" name="aud" value="all" ${e.audience_type === "all" ? "checked" : ""}/> <span>All clients</span> <span class="sc" id="scAll"></span></label>
+          <label class="seg"><input type="radio" name="aud" value="program" ${e.audience_type === "program" ? "checked" : ""}/> <span>By program interest</span>
+            <select id="edProgram" class="camp-input" style="width:auto;padding:.4em .7em;">${progOpts}</select> <span class="sc" id="scProg"></span></label>
+          <label class="seg"><input type="radio" name="aud" value="no_intake" ${e.audience_type === "no_intake" ? "checked" : ""}/> <span>No intake on file</span> <span class="sc" id="scNo"></span></label>
+          <label class="seg"><input type="radio" name="aud" value="handpick" ${e.audience_type === "handpick" ? "checked" : ""}/> <span>Hand-pick clients</span> <span class="sc" id="scPick"></span></label>
+          <div id="pickWrap" style="display:${e.audience_type === "handpick" ? "block" : "none"};">
+            <input type="text" id="pickSearch" class="camp-input" placeholder="Search to add…" style="margin-top:.6rem;" />
+            <div class="pick-list" id="pickList"></div>
+          </div>
+          <p class="camp-note" id="audCount" style="margin-top:.8rem;"></p>
+        </div>
+
+        <div class="card">
+          <div class="camp-actions">
+            <button class="btn btn--ghost" id="edSaveDraft">Save draft</button>
+            <button class="btn btn--ghost" id="edTest">Send test to myself</button>
+            <button class="btn" id="edSendNow" ${sent ? "disabled" : ""}>Send now</button>
+            <span class="camp-status" id="edStatus"></span>
+          </div>
+          <div class="camp-actions" style="margin-top:.9rem;align-items:center;">
+            <span class="lbl" style="margin:0;">Or schedule:</span>
+            <input type="datetime-local" id="edSchedule" class="camp-input" style="width:auto;" value="${e.scheduled_at ? new Date(e.scheduled_at).toISOString().slice(0, 16) : ""}" />
+            <button class="btn btn--ghost" id="edScheduleBtn" ${sent ? "disabled" : ""}>Schedule send</button>
+          </div>
+        </div>`;
+
+      $("backCamps").onclick = renderCampaigns;
+      const frame = $("edPreviewFrame");
+      const refreshPreview = () => { frame.srcdoc = ($("edHtml").value || "<p style='font-family:sans-serif;color:#999;padding:20px;'>Preview appears here.</p>")
+        .replaceAll("{{first_name}}", "Friend").replaceAll("{{last_name}}", "").replaceAll("{{email}}", "you@example.com").replaceAll("{{unsubscribe_url}}", "#"); };
+      $("edHtml").oninput = () => { editing.content_html = $("edHtml").value; refreshPreview(); };
+      refreshPreview();
+
+      $("edName").oninput = () => editing.name = $("edName").value;
+      $("edSubject").oninput = () => editing.subject = $("edSubject").value;
+      $("edPreview").oninput = () => editing.preview_text = $("edPreview").value;
+      $("edProgram").onchange = () => { editing.audience_program = $("edProgram").value; updateAudienceUI(); };
+      document.getElementsByName("aud").forEach((r) => r.onchange = () => {
+        editing.audience_type = document.querySelector('input[name="aud"]:checked').value;
+        $("pickWrap").style.display = editing.audience_type === "handpick" ? "block" : "none";
+        updateAudienceUI();
+      });
+      $("pickSearch").oninput = renderPickList;
+      renderPickList();
+      updateAudienceUI();
+
+      $("edSaveDraft").onclick = () => saveCampaign({ toast: true });
+      $("edTest").onclick = sendTest;
+      $("edSendNow").onclick = sendNow;
+      $("edScheduleBtn").onclick = scheduleSend;
     }
 
-    async function sendCampaign(test) {
-      const subject = $("campSubject").value.trim();
-      const bodyText = $("campBody").value.trim();
-      const status = $("campStatus");
-      status.className = "camp-status";
-      if (!subject) { status.className = "camp-status bad"; status.textContent = "Add a subject first."; return; }
-      if (!bodyText) { status.className = "camp-status bad"; status.textContent = "Write a message first."; return; }
-      const n = emailable().length;
-      if (!test && !confirm(`Send this announcement to ${n} client${n === 1 ? "" : "s"}? This can't be undone.`)) return;
+    function updateAudienceUI() {
+      const base = emailable();
+      $("scAll").textContent = base.length + " people";
+      $("scProg").textContent = base.filter((c) => offerByP[c.id] === editing.audience_program).length + " people";
+      $("scNo").textContent = base.filter((c) => !screenByP[c.id]).length + " people";
+      const set = new Set(editing.audience_ids || []);
+      $("scPick").textContent = base.filter((c) => set.has(c.id)).length + " selected";
+      $("audCount").innerHTML = `This campaign will send to <strong>${audienceCount(editing)}</strong> ${audienceCount(editing) === 1 ? "client" : "clients"}. Each gets their own copy — recipients never see each other. Unsubscribed clients are always skipped.`;
+    }
 
-      $("campTest").disabled = $("campSend").disabled = true;
-      status.className = "camp-status"; status.textContent = test ? "Sending test…" : "Sending…";
+    function renderPickList() {
+      const list = $("pickList"); if (!list) return;
+      const q = ($("pickSearch").value || "").trim().toLowerCase();
+      const set = new Set(editing.audience_ids || []);
+      const rows = emailable().filter((c) => !q || [c.first_name, c.last_name, c.email].join(" ").toLowerCase().includes(q));
+      list.innerHTML = rows.slice(0, 200).map((c) => `<label class="pick-row">
+        <input type="checkbox" data-pid="${c.id}" ${set.has(c.id) ? "checked" : ""}/>
+        <span>${esc(fullName(c))}</span><span class="muted" style="font-size:.8rem;">${esc(c.email)}</span></label>`).join("")
+        || '<p class="muted" style="padding:.4rem 0;">No matches.</p>';
+      list.querySelectorAll("[data-pid]").forEach((cb) => cb.onchange = () => {
+        const ids = new Set(editing.audience_ids || []);
+        cb.checked ? ids.add(cb.dataset.pid) : ids.delete(cb.dataset.pid);
+        editing.audience_ids = [...ids];
+        updateAudienceUI();
+      });
+    }
+
+    async function saveCampaign({ toast } = {}) {
+      const row = {
+        name: editing.name || "Untitled campaign", subject: editing.subject || "", preview_text: editing.preview_text || "",
+        content_html: editing.content_html || "", audience_type: editing.audience_type,
+        audience_program: editing.audience_type === "program" ? editing.audience_program : null,
+        audience_ids: editing.audience_type === "handpick" ? (editing.audience_ids || []) : [],
+        updated_at: new Date().toISOString(),
+      };
+      let res;
+      if (editing.id) res = await sb.from("campaigns").update(row).eq("id", editing.id).select().single();
+      else res = await sb.from("campaigns").insert({ ...row, status: "draft" }).select().single();
+      if (res.error) { setEdStatus("bad", "Could not save: " + res.error.message); return null; }
+      editing.id = res.data.id; editing.status = res.data.status;
+      if (toast) setEdStatus("ok", "Saved.");
+      return res.data;
+    }
+
+    function setEdStatus(kind, msg) { const s = $("edStatus"); if (!s) return; s.className = "camp-status " + kind; s.textContent = msg; }
+
+    async function callSend(payload) {
+      const { data: { session } } = await sb.auth.getSession();
+      const res = await fetch(`${SUPABASE_URL}/functions/v1/send-campaign`, {
+        method: "POST",
+        headers: { "content-type": "application/json", Authorization: `Bearer ${session.access_token}` },
+        body: JSON.stringify(payload),
+      });
+      const out = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(out.error || `Failed (${res.status})`);
+      return out;
+    }
+
+    async function sendTest() {
+      if (!editing.subject) return setEdStatus("bad", "Add a subject first.");
+      if (!(editing.content_html || "").trim()) return setEdStatus("bad", "Paste your email HTML first.");
+      setEdStatus("", "Sending test…");
       try {
-        const { data: { session } } = await sb.auth.getSession();
-        const res = await fetch(`${SUPABASE_URL}/functions/v1/send-campaign`, {
-          method: "POST",
-          headers: { "content-type": "application/json", Authorization: `Bearer ${session.access_token}` },
-          body: JSON.stringify({ subject, bodyText, audience: "all", test }),
-        });
-        const out = await res.json().catch(() => ({}));
-        if (!res.ok) throw new Error(out.error || `Send failed (${res.status})`);
-        status.className = "camp-status ok";
-        status.textContent = test
-          ? `Test sent to you. Check your inbox, then send for real when it looks right.`
-          : `Sent to ${out.sent} client${out.sent === 1 ? "" : "s"}.${out.failed ? ` ${out.failed} failed.` : ""}`;
-        if (!test) { $("campSubject").value = ""; $("campBody").value = ""; loadCampaignHistory(); }
-      } catch (err) {
-        status.className = "camp-status bad";
-        status.textContent = "Couldn't send: " + (err.message || err);
-      } finally {
-        $("campTest").disabled = $("campSend").disabled = false;
-      }
+        await callSend({ test: true, subject: editing.subject, contentHtml: editing.content_html, previewText: editing.preview_text });
+        setEdStatus("ok", "Test sent to you. Check your inbox.");
+      } catch (err) { setEdStatus("bad", "Couldn't send test: " + (err.message || err)); }
     }
 
-    async function loadCampaignHistory() {
-      const box = $("campHistory");
-      if (!box) return;
-      const { data, error } = await sb.from("campaigns").select("*").order("sent_at", { ascending: false });
-      if (error) { box.innerHTML = `<p class="muted">Couldn't load history: ${esc(error.message)}</p>`; return; }
-      if (!data || !data.length) { box.innerHTML = '<p class="muted">No announcements sent yet.</p>'; return; }
-      box.innerHTML = data.map((c) => {
-        const d = (c.sent_at || "").slice(0, 10);
-        return `<div class="hist-row"><span class="hs">${esc(c.subject)}</span>
-          <span class="hm">${esc(d)} · ${c.recipient_count} sent${c.sent_by ? " · " + esc(c.sent_by) : ""}</span></div>`;
-      }).join("");
+    async function sendNow() {
+      if (!editing.subject) return setEdStatus("bad", "Add a subject first.");
+      if (!(editing.content_html || "").trim()) return setEdStatus("bad", "Paste your email HTML first.");
+      const n = audienceCount(editing);
+      if (!n) return setEdStatus("bad", "This audience has no recipients.");
+      if (!confirm(`Send “${editing.name}” to ${n} client${n === 1 ? "" : "s"} now? This can't be undone.`)) return;
+      $("edSendNow").disabled = true; setEdStatus("", "Saving…");
+      try {
+        const saved = await saveCampaign({}); if (!saved) throw new Error("Save failed");
+        setEdStatus("", "Sending…");
+        const out = await callSend({ campaignId: editing.id });
+        setEdStatus("ok", `Sent to ${out.sent} client${out.sent === 1 ? "" : "s"}.${out.failed ? ` ${out.failed} failed.` : ""}`);
+        setTimeout(renderCampaigns, 1200);
+      } catch (err) { setEdStatus("bad", "Couldn't send: " + (err.message || err)); $("edSendNow").disabled = false; }
     }
+
+    async function scheduleSend() {
+      const val = $("edSchedule").value;
+      if (!val) return setEdStatus("bad", "Pick a date and time first.");
+      if (!editing.subject || !(editing.content_html || "").trim()) return setEdStatus("bad", "Add a subject and email HTML first.");
+      const when = new Date(val);
+      if (when.getTime() < Date.now()) return setEdStatus("bad", "Pick a time in the future.");
+      try {
+        await saveCampaign({});
+        const { error } = await sb.from("campaigns").update({ status: "scheduled", scheduled_at: when.toISOString() }).eq("id", editing.id);
+        if (error) throw error;
+        setEdStatus("ok", `Scheduled for ${when.toLocaleString()}.`);
+        setTimeout(renderCampaigns, 1200);
+      } catch (err) { setEdStatus("bad", "Couldn't schedule: " + (err.message || err)); }
+    }
+
     $("campBtn").onclick = renderCampaigns;
 
     function renderList() {
