@@ -201,6 +201,70 @@ export function adminClient(): SupabaseClient {
   return createClient(url, key, { auth: { persistSession: false } });
 }
 
+// ------------------------------------------------------------- campaigns ---
+
+/**
+ * The verified Resend address with a chosen display name. RESEND_FROM holds the
+ * verified sender (e.g. `Tiger Soul <hello@tigersoulretreats.com>`); we keep its
+ * email but swap the display name so announcements read "Tiger Soul Retreats".
+ */
+export function senderFrom(displayName: string): string {
+  const from = Deno.env.get("RESEND_FROM") ?? "";
+  const addr = (from.match(/<([^>]+)>/)?.[1] ?? from).trim();
+  return `${displayName} <${addr}>`;
+}
+
+/**
+ * Unsubscribe token: HMAC-SHA256 of the profile id, keyed by the service-role
+ * secret (already in the function env). Unguessable, needs no extra column.
+ */
+export async function unsubToken(profileId: string): Promise<string> {
+  const secret = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
+  const key = await crypto.subtle.importKey(
+    "raw", new TextEncoder().encode(secret),
+    { name: "HMAC", hash: "SHA-256" }, false, ["sign"],
+  );
+  const sig = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(profileId));
+  return [...new Uint8Array(sig)].map((b) => b.toString(16).padStart(2, "0")).join("").slice(0, 32);
+}
+
+export async function verifyUnsubToken(profileId: string, token: string): Promise<boolean> {
+  if (!profileId || !token) return false;
+  const expected = await unsubToken(profileId);
+  // Constant-time-ish compare.
+  if (expected.length !== token.length) return false;
+  let diff = 0;
+  for (let i = 0; i < expected.length; i++) diff |= expected.charCodeAt(i) ^ token.charCodeAt(i);
+  return diff === 0;
+}
+
+/** The public one-click unsubscribe URL for a given profile. */
+export async function unsubUrl(profileId: string): Promise<string> {
+  const base = (Deno.env.get("SUPABASE_URL") ?? "").replace(/\/$/, "");
+  const t = await unsubToken(profileId);
+  return `${base}/functions/v1/unsubscribe?u=${encodeURIComponent(profileId)}&t=${t}`;
+}
+
+/**
+ * A newsletter-style email: the branded shell plus a personalised greeting and
+ * a footer carrying the unsubscribe link. `bodyHtml` is the composed message.
+ */
+export function campaignShell(opts: {
+  subject: string; bodyHtml: string; greetingName?: string; unsubscribeUrl: string;
+}): string {
+  const greeting = opts.greetingName
+    ? paragraph(`Dear ${escapeHtml(opts.greetingName)},`)
+    : "";
+  const footer = `
+    <p style="margin:18px 0 0;font-family:Helvetica,Arial,sans-serif;font-size:11px;
+              line-height:1.6;color:rgba(21,21,15,.5);">
+      You're receiving this because you reached out to Tiger Soul Medicine Retreats.
+      <a href="${escapeHtml(opts.unsubscribeUrl)}" style="color:${GOLD};">Unsubscribe</a>
+      to stop receiving these.
+    </p>`;
+  return emailShell(opts.subject, greeting + opts.bodyHtml + footer);
+}
+
 /** Upsert the client's profile by email; returns the profile id (or null). */
 export async function upsertProfile(
   sb: SupabaseClient,

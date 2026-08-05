@@ -128,6 +128,19 @@
       padding:.65em 1.4em; border-radius:999px; font-family:var(--sans); font-size:.68rem; letter-spacing:.14em;
       text-transform:uppercase; cursor:pointer; }
     .del-client:hover{ background:#f7e9e4; }
+
+    /* Campaigns */
+    .camp-input{ width:100%; padding:.8em 1em; border:1px solid var(--line); border-radius:10px;
+      font-family:var(--sans); font-size:1rem; }
+    .camp-input:focus, textarea:focus{ outline:none; border-color:var(--gold-deep); box-shadow:0 0 0 3px rgba(163,129,63,.15); }
+    .camp-note{ font-size:.85rem; color:var(--ink-soft); margin:.2rem 0 0; }
+    .camp-actions{ display:flex; gap:.7rem; flex-wrap:wrap; align-items:center; margin-top:1rem; }
+    .camp-status{ font-size:.9rem; }
+    .camp-status.ok{ color:#3c5a3c; } .camp-status.bad{ color:#b4462f; }
+    .hist-row{ display:flex; justify-content:space-between; gap:1rem; align-items:baseline;
+      border-bottom:1px solid var(--line); padding:.7rem 0; }
+    .hist-row .hs{ font-family:var(--serif); font-size:1.1rem; color:var(--forest-800); }
+    .hist-row .hm{ font-size:.8rem; color:var(--ink-soft); white-space:nowrap; }
   </style>
 </head>
 <body>
@@ -153,7 +166,7 @@
   <div class="app" id="app">
     <div class="topbar">
       <span class="brand">Tiger Soul · Admin Portal</span>
-      <span class="who"><button class="btn btn--ghost" id="dashBtn">Dashboard</button><span id="whoEmail"></span><button class="btn btn--ghost" id="signoutBtn">Sign out</button></span>
+      <span class="who"><button class="btn btn--ghost" id="dashBtn">Dashboard</button><button class="btn btn--ghost" id="campBtn">Campaigns</button><span id="whoEmail"></span><button class="btn btn--ghost" id="signoutBtn">Sign out</button></span>
     </div>
     <div class="layout">
       <aside class="list" id="list">
@@ -336,6 +349,82 @@
       $("tileMissing").onclick  = () => showView("Missing information", missListHtml(D.missing));
     }
     $("dashBtn").onclick = renderDashboard;
+
+    // ---- Campaigns / announcements ----
+    const emailable = () => clients.filter((c) => c.email && !c.unsubscribed_at);
+    const unsubbedCount = () => clients.filter((c) => c.unsubscribed_at).length;
+
+    async function renderCampaigns() {
+      activeId = null; renderList();
+      const n = emailable().length, u = unsubbedCount();
+      $("detail").innerHTML = `
+        <h1 class="dash-head">Send an announcement</h1>
+        <div class="card">
+          <div class="lbl">Subject</div>
+          <input type="text" id="campSubject" class="camp-input" placeholder="Our 2026 retreats are open" />
+          <div class="lbl" style="margin-top:1rem;">Message</div>
+          <textarea id="campBody" style="min-height:220px;" placeholder="Write your announcement here.&#10;&#10;Leave a blank line between paragraphs. It'll be wrapped in the Tiger Soul email template, with a greeting and unsubscribe link added automatically."></textarea>
+          <p class="camp-note">Goes to <strong>${n}</strong> ${n === 1 ? "client" : "clients"} with an email on file${u ? ` · ${u} unsubscribed (skipped)` : ""}. Each gets their own copy — recipients never see each other.</p>
+          <div class="camp-actions">
+            <button class="btn btn--ghost" id="campTest">Send test to myself</button>
+            <button class="btn" id="campSend">Send to ${n} ${n === 1 ? "client" : "clients"}</button>
+            <span class="camp-status" id="campStatus"></span>
+          </div>
+        </div>
+        <h2 class="dash-h">Sent history</h2>
+        <div class="card" id="campHistory"><p class="muted">Loading…</p></div>`;
+      $("campTest").onclick = () => sendCampaign(true);
+      $("campSend").onclick = () => sendCampaign(false);
+      loadCampaignHistory();
+    }
+
+    async function sendCampaign(test) {
+      const subject = $("campSubject").value.trim();
+      const bodyText = $("campBody").value.trim();
+      const status = $("campStatus");
+      status.className = "camp-status";
+      if (!subject) { status.className = "camp-status bad"; status.textContent = "Add a subject first."; return; }
+      if (!bodyText) { status.className = "camp-status bad"; status.textContent = "Write a message first."; return; }
+      const n = emailable().length;
+      if (!test && !confirm(`Send this announcement to ${n} client${n === 1 ? "" : "s"}? This can't be undone.`)) return;
+
+      $("campTest").disabled = $("campSend").disabled = true;
+      status.className = "camp-status"; status.textContent = test ? "Sending test…" : "Sending…";
+      try {
+        const { data: { session } } = await sb.auth.getSession();
+        const res = await fetch(`${SUPABASE_URL}/functions/v1/send-campaign`, {
+          method: "POST",
+          headers: { "content-type": "application/json", Authorization: `Bearer ${session.access_token}` },
+          body: JSON.stringify({ subject, bodyText, audience: "all", test }),
+        });
+        const out = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(out.error || `Send failed (${res.status})`);
+        status.className = "camp-status ok";
+        status.textContent = test
+          ? `Test sent to you. Check your inbox, then send for real when it looks right.`
+          : `Sent to ${out.sent} client${out.sent === 1 ? "" : "s"}.${out.failed ? ` ${out.failed} failed.` : ""}`;
+        if (!test) { $("campSubject").value = ""; $("campBody").value = ""; loadCampaignHistory(); }
+      } catch (err) {
+        status.className = "camp-status bad";
+        status.textContent = "Couldn't send: " + (err.message || err);
+      } finally {
+        $("campTest").disabled = $("campSend").disabled = false;
+      }
+    }
+
+    async function loadCampaignHistory() {
+      const box = $("campHistory");
+      if (!box) return;
+      const { data, error } = await sb.from("campaigns").select("*").order("sent_at", { ascending: false });
+      if (error) { box.innerHTML = `<p class="muted">Couldn't load history: ${esc(error.message)}</p>`; return; }
+      if (!data || !data.length) { box.innerHTML = '<p class="muted">No announcements sent yet.</p>'; return; }
+      box.innerHTML = data.map((c) => {
+        const d = (c.sent_at || "").slice(0, 10);
+        return `<div class="hist-row"><span class="hs">${esc(c.subject)}</span>
+          <span class="hm">${esc(d)} · ${c.recipient_count} sent${c.sent_by ? " · " + esc(c.sent_by) : ""}</span></div>`;
+      }).join("");
+    }
+    $("campBtn").onclick = renderCampaigns;
 
     function renderList() {
       const q = $("search").value.trim().toLowerCase();
