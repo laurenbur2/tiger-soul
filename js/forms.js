@@ -46,7 +46,12 @@
   function firstMissing(form, requiredFields) {
     for (var i = 0; i < requiredFields.length; i++) {
       var field = form.elements[requiredFields[i]];
-      if (field && !String(field.value || "").trim()) return field;
+      if (field && !String(field.value || "").trim()) {
+        /* A radio group comes back as a RadioNodeList: it has a `.value`
+           (empty until one is checked) but nothing to focus or scroll to,
+           so hand back its first button instead. */
+        return typeof field.focus === "function" ? field : field[0];
+      }
     }
     return null;
   }
@@ -155,7 +160,7 @@
     formId: "screeningForm",
     endpoint: "health-screening",
     redirect: "/thank-you-screening/",
-    required: ["offering", "country", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15", "q16", "q17", "q18", "q19", "q20", "q21", "q22", "q23", "q24", "q25", "q26", "q27", "q28", "q29", "q30", "q31", "q32", "q33", "q34", "q35", "q36", "q37", "q38", "q39", "q40", "q41", "q42", "q43", "q44", "q45", "q46", "q47"],
+    required: ["offering", "country", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15", "q16", "q17", "q18", "q19", "q20", "q21", "q22", "q23", "q24", "q25", "q26", "q27", "q28", "q29", "q30", "q31", "q32", "q33", "q34", "q35", "q36", "q37", "q38", "q39", "q40", "q41", "q42", "q43", "q44", "q45", "q46", "q47", "q48"],
     busyLabel: "Submitting…"
   });
 })();

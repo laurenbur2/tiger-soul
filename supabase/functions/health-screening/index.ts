@@ -8,7 +8,7 @@
 // NOTIFY_TO pointed at an inbox only the facilitators can read.
 //
 // The question wording lives HERE, not in the request. The browser sends only
-// answers keyed q5…q47, so a forged request can't rewrite the questions in the
+// answers keyed q5…q48, so a forged request can't rewrite the questions in the
 // email it produces.
 //
 // Deploy: supabase functions deploy health-screening --project-ref werkohszkcytdvljafha --no-verify-jwt
@@ -78,10 +78,12 @@ const QUESTIONS: Record<string, string> = {
   q45: "Please share about what is calling you to ceremony at this time.",
   q46: "What resources do you have in your life to support you?",
   q47: "Is there anything else that you wish to share? Do you have any further questions?",
+  q48: "Would you like private accommodations?",
 };
 
 const SECTIONS: Section[] = [
   { title: "Offering", keys: ["offering"] },
+  { title: "Accommodations", keys: ["q48"] },
   { title: "About You", keys: ["q5", "q6", "q7", "q8", "q9", "q10", "q11"] },
   { title: "Your Experience", keys: ["q12", "q13", "q14"] },
   { title: "Medications & Supplements", keys: ["q15", "q16", "q17"] },

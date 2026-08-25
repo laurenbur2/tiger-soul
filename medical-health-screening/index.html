@@ -98,6 +98,9 @@
     .hs-field label{
       display:block; font-size:.92rem; line-height:1.6; color:var(--ink); margin-bottom:.55rem;
     }
+    .hs-field .hs-label{
+      display:block; font-size:.92rem; line-height:1.6; color:var(--ink); margin-bottom:.75rem;
+    }
     .req{ color:var(--gold-deep); margin-left:.2em; }
 
     .hs-field input, .hs-field textarea, .hs-field select{
@@ -118,6 +121,23 @@
       box-shadow:0 1px 0 0 var(--gold-deep);
     }
     .hs-field input::placeholder, .hs-field textarea::placeholder{ color:rgba(21,21,15,.3); }
+
+    /* Yes / no answers — a pair of pill choices rather than a bare radio,
+       so the one required non-text question doesn't read as a stray dot. */
+    .hs-choice{ display:flex; flex-wrap:wrap; gap:.7rem; }
+    .hs-choice label{
+      display:inline-flex; align-items:center; gap:.5rem; margin:0;
+      padding:.55rem 1.15rem; cursor:pointer;
+      border:1px solid rgba(21,21,15,.22); border-radius:999px;
+      font-size:.92rem; color:var(--ink);
+      transition:border-color .3s var(--ease), background-color .3s var(--ease), color .3s var(--ease);
+    }
+    .hs-choice input{ width:auto; accent-color:var(--gold-deep); margin:0; }
+    .hs-choice label:hover{ border-color:var(--gold-deep); }
+    .hs-choice input:focus-visible{ outline:2px solid var(--gold-deep); outline-offset:3px; }
+    .hs-choice label:has(input:checked){
+      border-color:var(--gold-deep); background:rgba(198,167,105,.14); color:var(--gold-deep);
+    }
 
     .hs-submit{ text-align:center; margin-top:clamp(2.4rem,4.5vw,3.4rem);
       padding-top:clamp(1.8rem,3vw,2.4rem); border-top:1px solid rgba(21,21,15,.1); }
@@ -236,6 +256,18 @@
               <option value="The Liberation Program">The Liberation Program</option>
               <option value="Other">Other</option>
             </select>
+          </div>
+        </fieldset>
+
+        <fieldset class="hs-set">
+          <legend class="hs-legend">Accommodations</legend>
+          <p class="hs-blurb">Some offerings can be arranged with a private room. Let us know your preference and we'll tell you what's available and what it costs.</p>
+          <div class="hs-field">
+            <span class="hs-label">Would you like private accommodations?<span class="req" aria-hidden="true">*</span></span>
+            <div class="hs-choice">
+              <label><input type="radio" name="q48" value="Yes" /> Yes</label>
+              <label><input type="radio" name="q48" value="No" /> No</label>
+            </div>
           </div>
         </fieldset>
 
