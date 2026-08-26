@@ -256,6 +256,27 @@
     const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
     let clients = [], activeId = null, waiverSet = new Set(), screenByP = {}, offerByP = {};
     let sessions = [], enrolls = [], progTablesReady = true;
+    // Where the "back" link goes. Opening a profile doesn't change it, so you
+    // land back on the program (or list) you were reading, not the dashboard.
+    let lastView = { kind: "dash" };
+    const backLabel = (v) => v.kind === "program" ? v.name : v.kind === "view" ? v.title : "Dashboard";
+    // #program/<name> in the URL keeps you on a program across reloads.
+    function routeFromHash() {
+      const m = /^#program\/(.+)$/.exec(location.hash || "");
+      if (!m) return false;
+      const name = decodeURIComponent(m[1]);
+      if (lastView.kind === "program" && lastView.name === name) return true;
+      showProgram(name);
+      return true;
+    }
+    window.addEventListener("hashchange", () => {
+      if (!routeFromHash() && lastView.kind === "program") renderDashboard();
+    });
+    function goBack(v) {
+      if (v.kind === "program") return showProgram(v.name);
+      if (v.kind === "view") return showView(v.title, v.html);
+      return renderDashboard();
+    }
     const PROGRAMS = ["The Liberation Program", "Bufo Practitioner Training", "Private Medicine Retreat", "Private Ceremony"];
     const fullName = (c) => ((c.first_name || "") + " " + (c.last_name || "")).trim() || (c.email || "—");
     const WAIVER_DOC = `<div style="font-size:.92rem;line-height:1.65;color:var(--ink-soft);">
@@ -345,6 +366,7 @@
       enrolls = pe.data || [];
       renderList();
       renderDashboard();
+      routeFromHash();
       const wanted = new URLSearchParams(location.search).get("email");
       if (wanted) {
         const hit = clients.find((c) => (c.email || "").toLowerCase() === wanted.toLowerCase());
@@ -424,7 +446,9 @@
 
     // ---- One program: its dates and everyone in it ---------------------------
     async function showProgram(name) {
-      activeId = null; renderList();
+      activeId = null; lastView = { kind: "program", name }; renderList();
+      const hash = "#program/" + encodeURIComponent(name);
+      if (location.hash !== hash) location.hash = hash;
       $("detail").innerHTML = `
         <span class="back" id="backDash">&larr; Dashboard</span>
         <h1 class="dash-head" style="margin-bottom:.2rem;">${esc(name)}</h1>
@@ -635,14 +659,15 @@
     }
 
     function showView(title, bodyHtml) {
-      activeId = null; renderList();
+      activeId = null; lastView = { kind: "view", title, html: bodyHtml }; renderList();
       $("detail").innerHTML = `<span class="back" id="backDash">&larr; Dashboard</span><h1 class="dash-head">${esc(title)}</h1>${bodyHtml}`;
       $("backDash").onclick = renderDashboard;
       wireDetail();
     }
 
     function renderDashboard() {
-      activeId = null; renderList();
+      activeId = null; lastView = { kind: "dash" }; renderList();
+      if (location.hash) history.replaceState(null, "", location.pathname + location.search);
       const D = computeDash();
       const tile = (id, num, lbl, warn) => `<div class="tile ${warn && num ? "warn" : ""}" id="${id}"><div class="tnum">${num}</div><div class="tlbl">${lbl}</div></div>`;
       $("detail").innerHTML = `
@@ -681,7 +706,8 @@
     const audienceSummary = (a) => `${AUD_LABELS[a.audience_type] || "All clients"}${a.audience_type === "program" && a.audience_program ? " · " + a.audience_program : ""} · ${audienceCount(a)} recipients`;
 
     async function renderCampaigns() {
-      activeId = null; renderList();
+      activeId = null; lastView = { kind: "dash" }; renderList();
+      if (location.hash) history.replaceState(null, "", location.pathname + location.search);
       $("detail").innerHTML = `
         <div class="dash-head-row">
           <h1 class="dash-head">Campaigns</h1>
@@ -939,6 +965,7 @@
 
     async function openProfile(id) {
       activeId = id; renderList();
+      const from = lastView;
       const c = clients.find((x) => x.id === id);
       const [{ data: waivers }, { data: screenings }] = await Promise.all([
         sb.from("waivers").select("*").eq("profile_id", id).order("created_at", { ascending: false }),
@@ -1014,7 +1041,7 @@
         </div>` : "";
 
       $("detail").innerHTML = `
-        <span class="back" id="backDash">&larr; Dashboard</span>
+        <span class="back" id="backDash">&larr; ${esc(backLabel(from))}</span>
         <h2 class="p-name">${esc(((c.first_name||"")+" "+(c.last_name||"")).trim() || "—")}</h2>
         <p class="p-meta"><a href="mailto:${esc(c.email)}">${esc(c.email||"")}</a>${c.phone ? " · " + esc(c.phone) : ""}${c.country ? " · " + esc(c.country) : ""}
           &nbsp;·&nbsp; added ${esc((c.created_at||"").slice(0,10))}</p>
@@ -1030,7 +1057,7 @@
         <div class="card">${screeningHtml}</div>
         <button class="del-client" id="delClient">Delete this client and all records</button>`;
 
-      $("backDash").onclick = renderDashboard;
+      $("backDash").onclick = () => goBack(from);
       $("detail").querySelectorAll("[data-goprog]").forEach((b) => b.onclick = () => showProgram(b.dataset.goprog));
       $("detail").querySelectorAll("[data-removeprog]").forEach((b) => b.onclick = async () => {
         if (!confirm(`Take ${fullName(c)} off ${b.dataset.removeprog}? Their waiver and intake stay on file, and you can add them again any time.`)) return;
