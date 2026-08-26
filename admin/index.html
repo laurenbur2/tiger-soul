@@ -470,7 +470,8 @@
         <div id="progHead"></div>
         ${progTablesReady ? "" : '<p class="muted">Dates and enrollment details need the <code>program_sessions</code> and <code>program_enrollments</code> tables. Run <code>supabase/programs.sql</code> in Supabase, then reload.</p>'}
         <div class="card" id="sessCard" style="display:none;"><h3>Edit dates</h3><div id="sessBox"></div></div>
-        <h2 class="dash-h">People <span class="muted" style="font-size:.9rem;" id="rosterCount"></span></h2>
+        <h2 class="dash-h" style="margin-bottom:.2rem;">People <span class="muted" style="font-size:.9rem;" id="rosterCount"></span></h2>
+        <p class="muted" style="font-size:.85rem;margin:0 0 .9rem;">Private rooms first, then shared, then anyone still missing details. <span class="flash" id="rosterFlash"></span></p>
         <div id="rosterBox"><p class="muted">Loading…</p></div>
         <div class="card" id="addBox"></div>`;
       $("backDash").onclick = renderDashboard;
@@ -536,8 +537,19 @@
       };
     }
 
+    const ACC_RANK = { private: 0, shared: 1 };
+    const missingCount = (e) => ["accommodation", "payment_plan", "payment_status", "payment_link"]
+      .filter((f) => !e[f]).length;
+    function sortRoster(people, name) {
+      return people.slice().sort((a, b) => {
+        const ea = enrollFor(a.id, name) || {}, eb = enrollFor(b.id, name) || {};
+        const ra = ACC_RANK[ea.accommodation] ?? 2, rb = ACC_RANK[eb.accommodation] ?? 2;
+        return ra - rb || missingCount(ea) - missingCount(eb) || fullName(a).localeCompare(fullName(b));
+      });
+    }
+
     async function renderRoster(name) {
-      const people = rosterFor(name);
+      const people = sortRoster(rosterFor(name), name);
       $("rosterCount").textContent = people.length ? `· ${people.length} ${people.length === 1 ? "person" : "people"}` : "";
 
       // What they answered about accommodation on their intake, as a starting hint.
@@ -577,6 +589,7 @@
             <div style="display:flex;gap:.4rem;flex-wrap:wrap;">
               <span class="badge ${waiverSet.has(c.id) ? "badge--ok" : "badge--no"}">${waiverSet.has(c.id) ? "Waiver signed" : "No waiver"}</span>
               <span class="badge ${screenByP[c.id] ? "badge--ok" : "badge--no"}">${screenByP[c.id] ? "Intake done" : "No intake"}</span>
+              ${!e.accommodation || !e.payment_plan || !e.payment_status ? '<span class="badge badge--no">Needs details</span>' : ""}
             </div>
           </div>
           <div class="ro-grid">
@@ -620,8 +633,9 @@
         row.querySelectorAll("[data-f]").forEach((inp) => inp.onchange = async () => {
           const err = await saveEnroll(pid, name, { [inp.dataset.f]: inp.value || null });
           if (err) return flash("Could not save: " + err.message, true);
-          if (inp.dataset.f === "payment_link") return renderRoster(name);  // refresh the Open/Copy buttons
-          flash("Saved.");
+          await renderRoster(name);
+          const rf = $("rosterFlash");
+          if (rf) { rf.textContent = "Saved."; setTimeout(() => rf.textContent = "", 2000); }
         });
         row.querySelectorAll("[data-copy]").forEach((b) => b.onclick = async () => {
           try { await navigator.clipboard.writeText(b.dataset.copy); flash("Link copied."); }
