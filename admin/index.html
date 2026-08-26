@@ -122,16 +122,42 @@
     .prog-dates span{ display:block; }
     .prog-head-dates{ font-family:var(--serif); font-size:1.25rem; color:var(--gold-deep); margin:0 0 .6rem; line-height:1.5; }
     .prog-open{ font-size:.66rem; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-deep); margin-top:.8rem; display:block; }
-    .ro{ background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:.9rem 1.1rem; margin-bottom:.7rem; }
-    .ro-top{ display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
-    .ro-name{ font-family:var(--serif); font-size:1.2rem; color:var(--forest-800); cursor:pointer; }
-    .ro-name:hover{ color:var(--gold-deep); }
-    .ro-mail{ font-size:.82rem; color:var(--ink-soft); margin-top:.1rem; }
-    .ro-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:.7rem; margin-top:.9rem; }
-    @media (max-width:1020px){ .ro-grid{ grid-template-columns:repeat(2,1fr); } }
-    @media (max-width:560px){ .ro-grid{ grid-template-columns:1fr; } }
-    .ro-foot{ display:flex; align-items:flex-end; gap:.7rem; flex-wrap:wrap; margin-top:.8rem; }
-    .ro-foot .btn, .ro-foot .icon-btn{ padding:.55em 1.1em; font-size:.68rem; }
+    .rtable{ background:var(--paper); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+    .rscroll{ overflow-x:auto; }
+    .rhead, .rrow{ display:grid; grid-template-columns:1.7fr .8fr 1.7fr .95fr 1.3fr 28px; gap:.5rem;
+      align-items:center; min-width:880px; }
+    .rhead{ padding:.55rem .9rem; background:var(--cream); border-bottom:1px solid var(--line); }
+    .rhead span{ font-size:.6rem; letter-spacing:.16em; text-transform:uppercase; color:var(--gold-deep); }
+    .rrow{ padding:.4rem .9rem; border-bottom:1px solid var(--line); border-left:3px solid transparent; }
+    .rrow:last-child{ border-bottom:none; }
+    .rrow:hover{ background:#fdfbf5; }
+    .rrow.s-paid{ border-left-color:#5d8a5d; }
+    .rrow.s-paying, .rrow.s-deposit{ border-left-color:var(--gold); }
+    .rrow.s-unpaid{ border-left-color:#d9a04a; }
+    .rp{ display:flex; flex-direction:column; line-height:1.3; min-width:0; }
+    .rn{ font-family:var(--serif); font-size:1.05rem; color:var(--forest-800); cursor:pointer;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .rn:hover{ color:var(--gold-deep); }
+    .re{ font-size:.72rem; color:var(--ink-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .dot{ display:inline-block; width:7px; height:7px; border-radius:50%; margin-left:.3rem; vertical-align:middle; }
+    .dot--ok{ background:#5d8a5d; } .dot--no{ background:#e6d3ae; }
+    .cell{ width:100%; border:1px solid transparent; background:transparent; border-radius:7px;
+      padding:.35em .5em; font-family:var(--sans); font-size:.85rem; color:var(--ink); }
+    .cell::placeholder{ color:#bcb4a4; }
+    .rrow:hover .cell{ border-color:var(--line); }
+    .cell:focus{ outline:none; border-color:var(--gold-deep); box-shadow:0 0 0 3px rgba(163,129,63,.15); }
+    .cell.c-empty{ background:#fbeee9; }
+    .cell.c-filled{ background:#ecf3e8; }
+    select.cell{ appearance:none; cursor:pointer; }
+    .pill{ font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; border-radius:999px; text-align:center; }
+    .pill.p-paid{ background:#e2efdd; color:#3c5a3c; }
+    .pill.p-paying, .pill.p-deposit{ background:#f3ead6; color:#8a6d2b; }
+    .pill.p-unpaid{ background:#f6e4d8; color:#a8541f; }
+    .pill.p-none{ background:#fbeee9; color:#a8541f; }
+    .rlink{ display:flex; align-items:center; gap:.25rem; min-width:0; }
+    .rlink a{ text-decoration:none; font-size:.95rem; }
+    .rx{ background:none; border:none; color:#c8c0b0; cursor:pointer; font-size:1.15rem; line-height:1; padding:0; }
+    .rx:hover{ color:#c2492f; }
     .fld{ display:flex; flex-direction:column; gap:.28rem; }
     .fld label{ font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-deep); }
     .fld input, .fld select{ width:100%; padding:.55em .7em; border:1px solid var(--line); border-radius:9px;
@@ -548,13 +574,15 @@
       });
     }
 
+    const accHintCache = {};
     async function renderRoster(name) {
       const people = sortRoster(rosterFor(name), name);
       $("rosterCount").textContent = people.length ? `· ${people.length} ${people.length === 1 ? "person" : "people"}` : "";
 
       // What they answered about accommodation on their intake, as a starting hint.
-      const accHint = {};
-      if (people.length) {
+      const accHint = accHintCache[name] || (accHintCache[name] = {});
+      if (people.length && !accHint._loaded) {
+        accHint._loaded = true;
         const { data } = await sb.from("screenings").select("profile_id, answers, created_at")
           .in("profile_id", people.map((c) => c.id)).order("created_at", { ascending: true });
         (data || []).forEach((r) => {
@@ -564,7 +592,11 @@
       }
 
       $("rosterBox").innerHTML = people.length
-        ? people.map((c) => rosterRowHtml(c, name, accHint[c.id])).join("")
+        ? `<div class="rtable"><div class="rscroll">
+             <div class="rhead"><span>Person</span><span>Room</span><span>Payment plan</span>
+               <span>Status</span><span>Payment link</span><span></span></div>
+             ${people.map((c) => rosterRowHtml(c, name, accHint[c.id])).join("")}
+           </div></div>`
         : '<p class="muted">No one in this program yet.</p>';
       wireRoster(name);
       renderAddBox(name, people);
@@ -572,39 +604,31 @@
 
     function rosterRowHtml(c, name, hint) {
       const e = enrollFor(c.id, name) || {};
+      const st = e.payment_status || "none";
       const opt = (v, label, cur) => `<option value="${esc(v)}" ${cur === v ? "selected" : ""}>${esc(label)}</option>`;
-      const accOpts = `<option value="" ${!e.accommodation ? "selected" : ""}>— Not set —</option>` +
-        opt("shared", "Shared", e.accommodation) + opt("private", "Private", e.accommodation);
-      const payOpts = `<option value="" ${!e.payment_status ? "selected" : ""}>— Not set —</option>` +
+      const fill = (v) => v ? "c-filled" : "c-empty";
+      const accOpts = `<option value="" ${!e.accommodation ? "selected" : ""}>Room?</option>` +
+        opt("private", "Private", e.accommodation) + opt("shared", "Shared", e.accommodation);
+      const payOpts = `<option value="" ${!e.payment_status ? "selected" : ""}>Not set</option>` +
         Object.keys(PAY_LABELS).map((k) => opt(k, PAY_LABELS[k], e.payment_status)).join("");
-      const hintHtml = !e.accommodation && hint ? ` <span class="hint">intake said ${esc(hint)}</span>` : "";
-      const fromIntake = offerByP[c.id] === name;
+      const dot = (ok, yes, no) => `<span class="dot dot--${ok ? "ok" : "no"}" title="${ok ? yes : no}"></span>`;
       return `
-        <div class="ro" data-pid="${c.id}">
-          <div class="ro-top">
-            <div>
-              <span class="ro-name" data-id="${c.id}">${esc(fullName(c))}</span>
-              <div class="ro-mail">${esc(c.email || "")}${c.phone ? " · " + esc(c.phone) : ""}</div>
-            </div>
-            <div style="display:flex;gap:.4rem;flex-wrap:wrap;">
-              <span class="badge ${waiverSet.has(c.id) ? "badge--ok" : "badge--no"}">${waiverSet.has(c.id) ? "Waiver signed" : "No waiver"}</span>
-              <span class="badge ${screenByP[c.id] ? "badge--ok" : "badge--no"}">${screenByP[c.id] ? "Intake done" : "No intake"}</span>
-              ${!e.accommodation || !e.payment_plan || !e.payment_status ? '<span class="badge badge--no">Needs details</span>' : ""}
-            </div>
+        <div class="rrow s-${st}" data-pid="${c.id}">
+          <div class="rp">
+            <span class="rn" data-id="${c.id}">${esc(fullName(c))}${dot(waiverSet.has(c.id), "Waiver signed", "No waiver")}${dot(screenByP[c.id], "Intake done", "No intake")}</span>
+            <span class="re">${esc(c.email || "")}</span>
           </div>
-          <div class="ro-grid">
-            <div class="fld"><label>Accommodation${hintHtml}</label><select data-f="accommodation">${accOpts}</select></div>
-            <div class="fld"><label>Payment plan</label><input data-f="payment_plan" value="${esc(e.payment_plan || "")}" placeholder="e.g. 3 × $1,500 monthly" /></div>
-            <div class="fld"><label>Payment link</label><input data-f="payment_link" value="${esc(e.payment_link || "")}" placeholder="https://buy.stripe.com/…" /></div>
+          <select class="cell ${fill(e.accommodation)}" data-f="accommodation"
+            title="Accommodation${hint ? " · intake said " + esc(hint) : ""}">${accOpts}</select>
+          <input class="cell ${fill(e.payment_plan)}" data-f="payment_plan"
+            value="${esc(e.payment_plan || "")}" placeholder="Payment plan" title="${esc(e.payment_plan || "")}" />
+          <select class="cell pill p-${st}" data-f="payment_status">${payOpts}</select>
+          <div class="rlink">
+            <input class="cell ${fill(e.payment_link)}" data-f="payment_link"
+              value="${esc(e.payment_link || "")}" placeholder="Payment link" />
+            ${e.payment_link ? `<a href="${esc(e.payment_link)}" target="_blank" rel="noopener" title="Open payment link">&#8599;</a>` : ""}
           </div>
-          <div class="ro-foot">
-            <div class="fld" style="max-width:200px;"><label>Payment status</label><select data-f="payment_status">${payOpts}</select></div>
-            ${e.payment_link ? `<a class="btn btn--ghost" href="${esc(e.payment_link)}" target="_blank" rel="noopener">Open link</a>
-              <button class="icon-btn" data-copy="${esc(e.payment_link)}">Copy link</button>` : ""}
-            <button class="icon-btn danger" data-remove="${c.id}">Remove from program</button>
-            ${fromIntake ? '<span class="flash" style="color:var(--ink-soft);">In this program from their intake form</span>' : ""}
-            <span class="flash" data-flash></span>
-          </div>
+          <button class="rx" data-remove="${c.id}" title="Remove from ${esc(name)}">&times;</button>
         </div>`;
     }
 
@@ -626,20 +650,21 @@
     }
 
     function wireRoster(name) {
-      $("rosterBox").querySelectorAll(".ro").forEach((row) => {
+      $("rosterBox").querySelectorAll(".rrow").forEach((row) => {
         const pid = row.dataset.pid;
-        const flashEl = row.querySelector("[data-flash]");
-        const flash = (msg, bad) => { flashEl.className = "flash" + (bad ? " bad" : ""); flashEl.textContent = msg; if (!bad) setTimeout(() => flashEl.textContent = "", 2000); };
+        const flash = (msg, bad) => {
+          const el = $("rosterFlash");
+          if (!el) return;
+          el.className = "flash" + (bad ? " bad" : "");
+          el.textContent = msg;
+          if (!bad) setTimeout(() => el.textContent = "", 2000);
+        };
         row.querySelectorAll("[data-f]").forEach((inp) => inp.onchange = async () => {
           const err = await saveEnroll(pid, name, { [inp.dataset.f]: inp.value || null });
           if (err) return flash("Could not save: " + err.message, true);
           await renderRoster(name);
           const rf = $("rosterFlash");
           if (rf) { rf.textContent = "Saved."; setTimeout(() => rf.textContent = "", 2000); }
-        });
-        row.querySelectorAll("[data-copy]").forEach((b) => b.onclick = async () => {
-          try { await navigator.clipboard.writeText(b.dataset.copy); flash("Link copied."); }
-          catch (_e) { flash("Couldn't copy — select the link and copy it.", true); }
         });
         row.querySelectorAll("[data-remove]").forEach((b) => b.onclick = async () => {
           const who = fullName(clients.find((c) => c.id === pid) || {});
