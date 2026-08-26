@@ -1016,9 +1016,23 @@
           <dt>Payment link</dt><dd>${e.payment_link ? `<a href="${esc(e.payment_link)}" target="_blank" rel="noopener">${esc(e.payment_link)}</a>` : "—"}</dd>
           <dt>Status</dt><dd>${e.status === "removed" ? "No longer attending" : "Attending"}</dd>
         </dl>
-        <div class="rec-actions"><button class="btn" data-goprog="${esc(nm)}">Open ${esc(nm)}</button></div>`;
+        <div class="rec-actions">
+          <button class="btn" data-goprog="${esc(nm)}">Open ${esc(nm)}</button>
+          ${e.status === "removed"
+            ? `<button class="btn" data-putbackprog="${esc(nm)}">Put back on this program</button>`
+            : `<button class="btn btn--danger" data-removeprog="${esc(nm)}">Remove from this program</button>`}
+        </div>`;
       }).join("<hr style='border:none;border-top:1px solid var(--line);margin:1.4rem 0;'>")
         : '<p class="muted">Not in a program yet.</p>';
+      const addable = PROGRAMS.filter((nm) => !progNames.includes(nm));
+      const addProgHtml = addable.length ? `
+        <div style="display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;margin-top:1.2rem;padding-top:1.1rem;border-top:1px solid var(--line);">
+          <select id="profAddProg" class="camp-input" style="max-width:320px;">
+            ${addable.map((nm) => `<option value="${esc(nm)}">${esc(nm)}</option>`).join("")}
+          </select>
+          <button class="btn" id="profAddBtn">Add to this program</button>
+          <span class="flash" id="profAddFlash"></span>
+        </div>` : "";
 
       $("detail").innerHTML = `
         <span class="back" id="backDash">&larr; Dashboard</span>
@@ -1032,13 +1046,29 @@
           <div class="notes-row"><button class="btn" id="saveNotes">Save notes</button><span class="saved" id="notesSaved"></span></div>
         </div>
 
-        <div class="card"><h3>Program</h3>${enrollHtml}</div>
+        <div class="card"><h3>Program</h3>${enrollHtml}${addProgHtml}</div>
         <div class="card">${waiverHtml}</div>
         <div class="card">${screeningHtml}</div>
         <button class="del-client" id="delClient">Delete this client and all records</button>`;
 
       $("backDash").onclick = renderDashboard;
       $("detail").querySelectorAll("[data-goprog]").forEach((b) => b.onclick = () => showProgram(b.dataset.goprog));
+      $("detail").querySelectorAll("[data-removeprog]").forEach((b) => b.onclick = async () => {
+        if (!confirm(`Take ${fullName(c)} off ${b.dataset.removeprog}? Their waiver and intake stay on file, and you can put them back.`)) return;
+        const err = await saveEnroll(id, b.dataset.removeprog, { status: "removed" });
+        if (err) { alert("Could not remove: " + err.message); return; }
+        openProfile(id);
+      });
+      $("detail").querySelectorAll("[data-putbackprog]").forEach((b) => b.onclick = async () => {
+        const err = await saveEnroll(id, b.dataset.putbackprog, { status: "enrolled" });
+        if (err) { alert("Could not add them back: " + err.message); return; }
+        openProfile(id);
+      });
+      if ($("profAddBtn")) $("profAddBtn").onclick = async () => {
+        const err = await saveEnroll(id, $("profAddProg").value, { status: "enrolled" });
+        if (err) { const f = $("profAddFlash"); f.className = "flash bad"; f.textContent = "Could not add: " + err.message; return; }
+        openProfile(id);
+      };
       $("saveNotes").onclick = async () => {
         const notes = $("notes").value;
         const { error } = await sb.from("profiles").update({ notes }).eq("id", id);
