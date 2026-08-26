@@ -25,6 +25,7 @@ create table if not exists public.program_enrollments (
   payment_plan   text,                -- free text, e.g. "3 × $1,500 monthly"
   payment_link   text,                -- Stripe / payment page URL
   payment_status text check (payment_status in ('unpaid','deposit','paying','paid')),
+  status         text not null default 'enrolled' check (status in ('enrolled','removed')),
   notes          text,
   created_at     timestamptz default now(),
   updated_at     timestamptz default now(),
@@ -34,6 +35,9 @@ create table if not exists public.program_enrollments (
 create index if not exists program_sessions_prog_idx on public.program_sessions(program);
 create index if not exists program_enrollments_prog_idx on public.program_enrollments(program);
 create index if not exists program_enrollments_profile_idx on public.program_enrollments(profile_id);
+
+-- Added later: lets an admin take someone off a program without losing their record.
+alter table public.program_enrollments add column if not exists status text not null default 'enrolled';
 
 -- ---- Admins only ------------------------------------------------------------
 alter table public.program_sessions    enable row level security;
