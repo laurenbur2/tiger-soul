@@ -389,12 +389,6 @@
       });
       return out.sort((a, b) => fullName(a).localeCompare(fullName(b)));
     }
-    // People taken off this program. Kept, not deleted, so they can go back on.
-    function removedFor(name) {
-      return enrolls.filter((e) => e.program === name && e.status === "removed")
-        .map((e) => clients.find((c) => c.id === e.profile_id)).filter(Boolean)
-        .sort((a, b) => fullName(a).localeCompare(fullName(b)));
-    }
 
     function computeDash() {
       const byProgram = {};
@@ -518,24 +512,11 @@
         });
       }
 
-      const gone = removedFor(name);
-      $("rosterBox").innerHTML = (people.length
+      $("rosterBox").innerHTML = people.length
         ? people.map((c) => rosterRowHtml(c, name, accHint[c.id])).join("")
-        : '<p class="muted">No one in this program yet.</p>')
-        + (gone.length ? `<details class="qa" style="margin-top:1rem;">
-            <summary>No longer attending (${gone.length})</summary>
-            <div class="miss-list" style="margin:.6rem 0 1rem;">${gone.map((c) => `
-              <div class="miss-row" style="cursor:default;">
-                <span class="nm" data-id="${c.id}" style="cursor:pointer;">${esc(fullName(c))}</span>
-                <button class="icon-btn" data-putback="${c.id}">Put back on the program</button>
-              </div>`).join("")}</div></details>` : "");
+        : '<p class="muted">No one in this program yet.</p>';
       wireRoster(name);
-      $("rosterBox").querySelectorAll("[data-putback]").forEach((b) => b.onclick = async () => {
-        await saveEnroll(b.dataset.putback, name, { status: "enrolled" });
-        renderRoster(name);
-      });
-      $("rosterBox").querySelectorAll("details [data-id]").forEach((el) => el.onclick = () => openProfile(el.dataset.id));
-      renderAddBox(name, people.concat(gone));
+      renderAddBox(name, people);
     }
 
     function rosterRowHtml(c, name, hint) {
@@ -609,7 +590,7 @@
         });
         row.querySelectorAll("[data-remove]").forEach((b) => b.onclick = async () => {
           const who = fullName(clients.find((c) => c.id === pid) || {});
-          if (!confirm(`Take ${who} off ${name}? Their waiver and intake stay on file, and you can put them back.`)) return;
+          if (!confirm(`Take ${who} off ${name}? Their waiver and intake stay on file, and you can add them again any time.`)) return;
           const err = await saveEnroll(pid, name, { status: "removed" });
           if (err) return flash("Could not remove: " + err.message, true);
           renderRoster(name);
@@ -1002,7 +983,8 @@
       }).join("<hr style='border:none;border-top:1px solid var(--line);margin:1.4rem 0;'>")
         : '<div class="rec-head"><h3>Medical &amp; health intake</h3><span class="badge badge--no">Not completed</span></div><p class="muted">No medical intake on file yet.</p>';
 
-      const progNames = [...new Set([offerByP[id], ...enrolls.filter((e) => e.profile_id === id).map((e) => e.program)].filter(Boolean))];
+      const progNames = [...new Set([offerByP[id], ...enrolls.filter((e) => e.profile_id === id).map((e) => e.program)].filter(Boolean))]
+        .filter((nm) => !isRemoved(id, nm));
       const enrollHtml = progNames.length ? progNames.map((nm) => {
         const e = enrollFor(id, nm) || {};
         const ss = sessionsFor(nm);
@@ -1014,13 +996,10 @@
           <dt>Payment plan</dt><dd>${esc(e.payment_plan || "—")}</dd>
           <dt>Payment status</dt><dd>${esc(PAY_LABELS[e.payment_status] || "—")}</dd>
           <dt>Payment link</dt><dd>${e.payment_link ? `<a href="${esc(e.payment_link)}" target="_blank" rel="noopener">${esc(e.payment_link)}</a>` : "—"}</dd>
-          <dt>Status</dt><dd>${e.status === "removed" ? "No longer attending" : "Attending"}</dd>
         </dl>
         <div class="rec-actions">
           <button class="btn" data-goprog="${esc(nm)}">Open ${esc(nm)}</button>
-          ${e.status === "removed"
-            ? `<button class="btn" data-putbackprog="${esc(nm)}">Put back on this program</button>`
-            : `<button class="btn btn--danger" data-removeprog="${esc(nm)}">Remove from this program</button>`}
+          <button class="btn btn--danger" data-removeprog="${esc(nm)}">Remove from this program</button>
         </div>`;
       }).join("<hr style='border:none;border-top:1px solid var(--line);margin:1.4rem 0;'>")
         : '<p class="muted">Not in a program yet.</p>';
@@ -1054,14 +1033,9 @@
       $("backDash").onclick = renderDashboard;
       $("detail").querySelectorAll("[data-goprog]").forEach((b) => b.onclick = () => showProgram(b.dataset.goprog));
       $("detail").querySelectorAll("[data-removeprog]").forEach((b) => b.onclick = async () => {
-        if (!confirm(`Take ${fullName(c)} off ${b.dataset.removeprog}? Their waiver and intake stay on file, and you can put them back.`)) return;
+        if (!confirm(`Take ${fullName(c)} off ${b.dataset.removeprog}? Their waiver and intake stay on file, and you can add them again any time.`)) return;
         const err = await saveEnroll(id, b.dataset.removeprog, { status: "removed" });
         if (err) { alert("Could not remove: " + err.message); return; }
-        openProfile(id);
-      });
-      $("detail").querySelectorAll("[data-putbackprog]").forEach((b) => b.onclick = async () => {
-        const err = await saveEnroll(id, b.dataset.putbackprog, { status: "enrolled" });
-        if (err) { alert("Could not add them back: " + err.message); return; }
         openProfile(id);
       });
       if ($("profAddBtn")) $("profAddBtn").onclick = async () => {
