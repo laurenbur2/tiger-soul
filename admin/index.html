@@ -115,6 +115,33 @@
     .chip{ border:1px solid var(--line); background:var(--cream); border-radius:999px; padding:.3em .8em; font-family:var(--sans);
       font-size:.82rem; color:var(--ink); cursor:pointer; }
     .chip:hover{ border-color:var(--gold-deep); }
+    /* Program roster */
+    .prog-card.click{ cursor:pointer; transition:border-color .2s ease, transform .2s ease; }
+    .prog-card.click:hover{ border-color:var(--gold-deep); transform:translateY(-2px); }
+    .prog-dates{ font-size:.86rem; color:var(--ink-soft); margin:.15rem 0 .7rem; line-height:1.6; }
+    .prog-dates span{ display:block; }
+    .prog-open{ font-size:.66rem; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-deep); margin-top:.8rem; display:block; }
+    .ro{ background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:.9rem 1.1rem; margin-bottom:.7rem; }
+    .ro-top{ display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+    .ro-name{ font-family:var(--serif); font-size:1.2rem; color:var(--forest-800); cursor:pointer; }
+    .ro-name:hover{ color:var(--gold-deep); }
+    .ro-mail{ font-size:.82rem; color:var(--ink-soft); margin-top:.1rem; }
+    .ro-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:.7rem; margin-top:.9rem; }
+    @media (max-width:1020px){ .ro-grid{ grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:560px){ .ro-grid{ grid-template-columns:1fr; } }
+    .ro-foot{ display:flex; align-items:flex-end; gap:.7rem; flex-wrap:wrap; margin-top:.8rem; }
+    .ro-foot .btn, .ro-foot .icon-btn{ padding:.55em 1.1em; font-size:.68rem; }
+    .fld{ display:flex; flex-direction:column; gap:.28rem; }
+    .fld label{ font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-deep); }
+    .fld input, .fld select{ width:100%; padding:.55em .7em; border:1px solid var(--line); border-radius:9px;
+      font-family:var(--sans); font-size:.88rem; background:#fff; color:var(--ink); }
+    .fld input:focus, .fld select:focus{ outline:none; border-color:var(--gold-deep); box-shadow:0 0 0 3px rgba(163,129,63,.15); }
+    .fld .hint{ text-transform:none; letter-spacing:0; color:var(--ink-soft); font-size:.68rem; }
+    .flash{ font-size:.74rem; color:#3c5a3c; padding-bottom:.5rem; }
+    .flash.bad{ color:#b4462f; }
+    .date-row{ display:grid; grid-template-columns:1fr 1fr 1fr 1fr auto; gap:.7rem; align-items:end;
+      padding:.8rem 0; border-bottom:1px solid var(--line); }
+    @media (max-width:900px){ .date-row{ grid-template-columns:1fr 1fr; } }
     .miss-list{ display:flex; flex-direction:column; gap:.5rem; }
     .miss-row{ display:flex; align-items:center; justify-content:space-between; gap:1rem; width:100%; text-align:left;
       background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:.75rem 1rem; cursor:pointer; }
@@ -227,6 +254,7 @@
     const $ = (id) => document.getElementById(id);
     const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
     let clients = [], activeId = null, waiverSet = new Set(), screenByP = {}, offerByP = {};
+    let sessions = [], enrolls = [], progTablesReady = true;
     const PROGRAMS = ["The Liberation Program", "Bufo Practitioner Training", "Private Medicine Retreat", "Private Ceremony"];
     const fullName = (c) => ((c.first_name || "") + " " + (c.last_name || "")).trim() || (c.email || "—");
     const WAIVER_DOC = `<div style="font-size:.92rem;line-height:1.65;color:var(--ink-soft);">
@@ -289,10 +317,12 @@
 
     async function loadAll() {
       $("detail").innerHTML = '<p class="empty">Loading…</p>';
-      const [p, w, s] = await Promise.all([
+      const [p, w, s, ps, pe] = await Promise.all([
         sb.from("profiles").select("*"),
         sb.from("waivers").select("profile_id"),
         sb.from("screenings").select("profile_id, offering, created_at"),
+        sb.from("program_sessions").select("*"),
+        sb.from("program_enrollments").select("*"),
       ]);
       if (p.error) {
         const msg = 'Could not load data: ' + esc(p.error.message);
@@ -307,6 +337,11 @@
         screenByP[r.profile_id] = true;
         if (r.offering) offerByP[r.profile_id] = r.offering; // latest wins (ordered asc)
       });
+      // Program dates + enrollment details live in their own tables (supabase/programs.sql).
+      // If they haven't been created yet the portal still works, minus this section.
+      progTablesReady = !ps.error && !pe.error;
+      sessions = sortSessions(ps.data || []);
+      enrolls = pe.data || [];
       renderList();
       renderDashboard();
       const wanted = new URLSearchParams(location.search).get("email");
@@ -316,10 +351,47 @@
       }
     }
 
+    // ---- Program dates, rosters, and enrollment details ----------------------
+    const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    const PAY_LABELS = { unpaid: "Not started", deposit: "Deposit paid", paying: "Paying", paid: "Paid in full" };
+    const ACC_LABELS = { shared: "Shared", private: "Private" };
+    const sortSessions = (rows) => rows.slice().sort((a, b) => String(a.starts_on || "9999").localeCompare(String(b.starts_on || "9999")));
+    const sessionsFor = (name) => sessions.filter((s) => s.program === name);
+    const enrollFor = (pid, name) => enrolls.find((e) => e.profile_id === pid && e.program === name);
+
+    function fmtDate(d) {
+      const str = String(d || "").slice(0, 10);
+      const [y, m, day] = str.split("-").map(Number);
+      return y && m && day ? `${MON[m - 1]} ${day}, ${y}` : "";
+    }
+    function fmtRange(a, b) {
+      a = String(a || "").slice(0, 10); b = String(b || "").slice(0, 10);
+      if (!a && !b) return "Dates not set";
+      if (!a) return fmtDate(b);
+      if (!b || b === a) return fmtDate(a);
+      const [ya, ma, da] = a.split("-"), [yb, mb, db] = b.split("-");
+      if (ya === yb && ma === mb) return `${MON[+ma - 1]} ${+da}–${+db}, ${ya}`;
+      if (ya === yb) return `${MON[+ma - 1]} ${+da} – ${MON[+mb - 1]} ${+db}, ${ya}`;
+      return `${fmtDate(a)} – ${fmtDate(b)}`;
+    }
+    const sessLabel = (s) => `${fmtRange(s.starts_on, s.ends_on)}${s.label ? " · " + s.label : ""}${s.location ? " · " + s.location : ""}`;
+
+    // Someone is in a program if their intake named it, or we added them by hand.
+    function rosterFor(name) {
+      const seen = new Set(), out = [];
+      clients.forEach((c) => { if (offerByP[c.id] === name) { seen.add(c.id); out.push(c); } });
+      enrolls.filter((e) => e.program === name).forEach((e) => {
+        if (seen.has(e.profile_id)) return;
+        const c = clients.find((x) => x.id === e.profile_id);
+        if (c) { seen.add(c.id); out.push(c); }
+      });
+      return out.sort((a, b) => fullName(a).localeCompare(fullName(b)));
+    }
+
     function computeDash() {
       const byProgram = {};
-      PROGRAMS.forEach((p) => byProgram[p] = []);
-      clients.forEach((c) => { const off = offerByP[c.id]; if (off) (byProgram[off] = byProgram[off] || []).push(c); });
+      PROGRAMS.forEach((p) => byProgram[p] = rosterFor(p));
+      clients.forEach((c) => { const off = offerByP[c.id]; if (off && !byProgram[off]) byProgram[off] = rosterFor(off); });
       const enrolled = clients.filter((c) => offerByP[c.id] && waiverSet.has(c.id));
       const missing = clients.filter((c) => !waiverSet.has(c.id) || !screenByP[c.id] || !c.phone);
       const programsWithPeople = Object.keys(byProgram).filter((k) => byProgram[k].length).length;
@@ -335,12 +407,205 @@
     function programCardsHtml(byProgram) {
       return Object.keys(byProgram).map((name) => {
         const people = byProgram[name];
+        const ss = sessionsFor(name);
+        const dates = ss.length
+          ? `<div class="prog-dates">${ss.map((s) => `<span>${esc(sessLabel(s))}</span>`).join("")}</div>`
+          : '<div class="prog-dates">No dates set yet</div>';
         const chips = people.length
           ? `<div class="chips">${people.map((pr) => `<button class="chip" data-id="${pr.id}">${esc(fullName(pr))}</button>`).join("")}</div>`
           : '<span class="muted">No one enrolled yet.</span>';
-        return `<div class="prog-card"><div class="prog-name">${esc(name)}</div>
-          <div class="prog-count">${people.length} ${people.length === 1 ? "person" : "people"}</div>${chips}</div>`;
+        return `<div class="prog-card click" data-prog="${esc(name)}"><div class="prog-name">${esc(name)}</div>
+          <div class="prog-count">${people.length} ${people.length === 1 ? "person" : "people"}</div>
+          ${dates}${chips}<span class="prog-open">Open roster &rarr;</span></div>`;
       }).join("");
+    }
+
+    // ---- One program: its dates and everyone in it ---------------------------
+    async function showProgram(name) {
+      activeId = null; renderList();
+      $("detail").innerHTML = `
+        <span class="back" id="backDash">&larr; Dashboard</span>
+        <h1 class="dash-head">${esc(name)}</h1>
+        ${progTablesReady ? "" : '<p class="muted">Dates and enrollment details need the <code>program_sessions</code> and <code>program_enrollments</code> tables. Run <code>supabase/programs.sql</code> in Supabase, then reload.</p>'}
+        <div class="card"><h3>Dates</h3><div id="sessBox"></div></div>
+        <h2 class="dash-h">People <span class="muted" style="font-size:.9rem;" id="rosterCount"></span></h2>
+        <div id="rosterBox"><p class="muted">Loading…</p></div>
+        <div class="card" id="addBox"></div>`;
+      $("backDash").onclick = renderDashboard;
+      renderSessions(name);
+      await renderRoster(name);
+    }
+
+    function renderSessions(name) {
+      const ss = sessionsFor(name);
+      const rows = ss.length ? ss.map((s) => `
+        <div class="date-row" data-sid="${s.id}">
+          <div class="fld"><label>Starts</label><input type="date" data-sf="starts_on" value="${esc((s.starts_on || "").slice(0, 10))}" /></div>
+          <div class="fld"><label>Ends</label><input type="date" data-sf="ends_on" value="${esc((s.ends_on || "").slice(0, 10))}" /></div>
+          <div class="fld"><label>Label</label><input data-sf="label" value="${esc(s.label || "")}" placeholder="e.g. Cohort 2" /></div>
+          <div class="fld"><label>Location</label><input data-sf="location" value="${esc(s.location || "")}" placeholder="Tulum, Mexico" /></div>
+          <button class="icon-btn danger" data-delsess="${s.id}">Remove</button>
+        </div>`).join("") : '<p class="muted">No dates yet. Add the first one below.</p>';
+      $("sessBox").innerHTML = rows +
+        `<div class="rec-actions"><button class="btn" id="addSess">+ Add dates</button><span class="flash" id="sessFlash"></span></div>`;
+
+      const flash = (msg, bad) => { const el = $("sessFlash"); el.className = "flash" + (bad ? " bad" : ""); el.textContent = msg; if (!bad) setTimeout(() => el.textContent = "", 2000); };
+      $("sessBox").querySelectorAll(".date-row").forEach((row) => {
+        row.querySelectorAll("[data-sf]").forEach((inp) => inp.onchange = async () => {
+          const patch = { [inp.dataset.sf]: inp.value || null };
+          const { error } = await sb.from("program_sessions").update(patch).eq("id", row.dataset.sid);
+          if (error) return flash("Could not save: " + error.message, true);
+          const s = sessions.find((x) => x.id === row.dataset.sid);
+          if (s) Object.assign(s, patch);
+          sessions = sortSessions(sessions);
+          flash("Saved.");
+          renderRoster(name);   // date dropdowns on the roster follow along
+        });
+      });
+      $("sessBox").querySelectorAll("[data-delsess]").forEach((b) => b.onclick = async () => {
+        if (!confirm("Remove these dates? Anyone assigned to them keeps their other details.")) return;
+        const { error } = await sb.from("program_sessions").delete().eq("id", b.dataset.delsess);
+        if (error) return flash("Could not remove: " + error.message, true);
+        sessions = sessions.filter((x) => x.id !== b.dataset.delsess);
+        enrolls.forEach((e) => { if (e.session_id === b.dataset.delsess) e.session_id = null; });
+        renderSessions(name); renderRoster(name);
+      });
+      $("addSess").onclick = async () => {
+        const { data, error } = await sb.from("program_sessions").insert({ program: name }).select().single();
+        if (error) return flash("Could not add: " + error.message, true);
+        sessions = sortSessions(sessions.concat(data));
+        renderSessions(name); renderRoster(name);
+      };
+    }
+
+    async function renderRoster(name) {
+      const people = rosterFor(name);
+      $("rosterCount").textContent = people.length ? `· ${people.length} ${people.length === 1 ? "person" : "people"}` : "";
+
+      // What they answered about accommodation on their intake, as a starting hint.
+      const accHint = {};
+      if (people.length) {
+        const { data } = await sb.from("screenings").select("profile_id, answers, created_at")
+          .in("profile_id", people.map((c) => c.id)).order("created_at", { ascending: true });
+        (data || []).forEach((r) => {
+          const a = (Array.isArray(r.answers) ? r.answers : []).find((x) => /private accommodation/i.test(x.question || ""));
+          if (a && a.answer) accHint[r.profile_id] = a.answer;
+        });
+      }
+
+      const ss = sessionsFor(name);
+      $("rosterBox").innerHTML = people.length
+        ? people.map((c) => rosterRowHtml(c, name, ss, accHint[c.id])).join("")
+        : '<p class="muted">No one in this program yet.</p>';
+      wireRoster(name);
+      renderAddBox(name, people);
+    }
+
+    function rosterRowHtml(c, name, ss, hint) {
+      const e = enrollFor(c.id, name) || {};
+      const opt = (v, label, cur) => `<option value="${esc(v)}" ${cur === v ? "selected" : ""}>${esc(label)}</option>`;
+      const sessOpts = `<option value="" ${!e.session_id ? "selected" : ""}>— No dates yet —</option>` +
+        ss.map((s) => opt(s.id, sessLabel(s), e.session_id)).join("");
+      const accOpts = `<option value="" ${!e.accommodation ? "selected" : ""}>— Not set —</option>` +
+        opt("shared", "Shared", e.accommodation) + opt("private", "Private", e.accommodation);
+      const payOpts = `<option value="" ${!e.payment_status ? "selected" : ""}>— Not set —</option>` +
+        Object.keys(PAY_LABELS).map((k) => opt(k, PAY_LABELS[k], e.payment_status)).join("");
+      const hintHtml = !e.accommodation && hint ? ` <span class="hint">intake said ${esc(hint)}</span>` : "";
+      const fromIntake = offerByP[c.id] === name;
+      return `
+        <div class="ro" data-pid="${c.id}">
+          <div class="ro-top">
+            <div>
+              <span class="ro-name" data-id="${c.id}">${esc(fullName(c))}</span>
+              <div class="ro-mail">${esc(c.email || "")}${c.phone ? " · " + esc(c.phone) : ""}</div>
+            </div>
+            <div style="display:flex;gap:.4rem;flex-wrap:wrap;">
+              <span class="badge ${waiverSet.has(c.id) ? "badge--ok" : "badge--no"}">${waiverSet.has(c.id) ? "Waiver signed" : "No waiver"}</span>
+              <span class="badge ${screenByP[c.id] ? "badge--ok" : "badge--no"}">${screenByP[c.id] ? "Intake done" : "No intake"}</span>
+            </div>
+          </div>
+          <div class="ro-grid">
+            <div class="fld"><label>Dates</label><select data-f="session_id">${sessOpts}</select></div>
+            <div class="fld"><label>Accommodation${hintHtml}</label><select data-f="accommodation">${accOpts}</select></div>
+            <div class="fld"><label>Payment plan</label><input data-f="payment_plan" value="${esc(e.payment_plan || "")}" placeholder="e.g. 3 × $1,500 monthly" /></div>
+            <div class="fld"><label>Payment link</label><input data-f="payment_link" value="${esc(e.payment_link || "")}" placeholder="https://buy.stripe.com/…" /></div>
+          </div>
+          <div class="ro-foot">
+            <div class="fld" style="max-width:200px;"><label>Payment status</label><select data-f="payment_status">${payOpts}</select></div>
+            ${e.payment_link ? `<a class="btn btn--ghost" href="${esc(e.payment_link)}" target="_blank" rel="noopener">Open link</a>
+              <button class="icon-btn" data-copy="${esc(e.payment_link)}">Copy link</button>` : ""}
+            ${fromIntake ? '<span class="flash" style="color:var(--ink-soft);">In this program from their intake form</span>'
+              : `<button class="icon-btn danger" data-remove="${c.id}">Remove from program</button>`}
+            <span class="flash" data-flash></span>
+          </div>
+        </div>`;
+    }
+
+    // Write one field of someone's enrollment, creating the row the first time.
+    async function saveEnroll(pid, program, patch) {
+      const cur = enrollFor(pid, program);
+      if (cur) {
+        const { data, error } = await sb.from("program_enrollments")
+          .update({ ...patch, updated_at: new Date().toISOString() }).eq("id", cur.id).select().single();
+        if (error) return error;
+        Object.assign(cur, data);
+      } else {
+        const { data, error } = await sb.from("program_enrollments")
+          .insert({ profile_id: pid, program, ...patch }).select().single();
+        if (error) return error;
+        enrolls.push(data);
+      }
+      return null;
+    }
+
+    function wireRoster(name) {
+      $("rosterBox").querySelectorAll(".ro").forEach((row) => {
+        const pid = row.dataset.pid;
+        const flashEl = row.querySelector("[data-flash]");
+        const flash = (msg, bad) => { flashEl.className = "flash" + (bad ? " bad" : ""); flashEl.textContent = msg; if (!bad) setTimeout(() => flashEl.textContent = "", 2000); };
+        row.querySelectorAll("[data-f]").forEach((inp) => inp.onchange = async () => {
+          const err = await saveEnroll(pid, name, { [inp.dataset.f]: inp.value || null });
+          if (err) return flash("Could not save: " + err.message, true);
+          if (inp.dataset.f === "payment_link") return renderRoster(name);  // refresh the Open/Copy buttons
+          flash("Saved.");
+        });
+        row.querySelectorAll("[data-copy]").forEach((b) => b.onclick = async () => {
+          try { await navigator.clipboard.writeText(b.dataset.copy); flash("Link copied."); }
+          catch (_e) { flash("Couldn't copy — select the link and copy it.", true); }
+        });
+        row.querySelectorAll("[data-remove]").forEach((b) => b.onclick = async () => {
+          if (!confirm("Remove this person from the program? Their waiver and intake stay on file.")) return;
+          const cur = enrollFor(pid, name);
+          if (cur) {
+            const { error } = await sb.from("program_enrollments").delete().eq("id", cur.id);
+            if (error) return flash("Could not remove: " + error.message, true);
+            enrolls = enrolls.filter((x) => x.id !== cur.id);
+          }
+          renderRoster(name);
+        });
+        row.querySelectorAll("[data-id]").forEach((el) => el.onclick = () => openProfile(el.dataset.id));
+      });
+    }
+
+    function renderAddBox(name, people) {
+      const inRoster = new Set(people.map((c) => c.id));
+      const others = clients.filter((c) => !inRoster.has(c.id));
+      $("addBox").innerHTML = `
+        <h3>Add someone to this program</h3>
+        <div style="display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;">
+          <select id="addWho" class="camp-input" style="max-width:360px;">
+            ${others.map((c) => `<option value="${c.id}">${esc(fullName(c))}${c.email ? " — " + esc(c.email) : ""}</option>`).join("")}
+          </select>
+          <button class="btn" id="addWhoBtn" ${others.length ? "" : "disabled"}>Add</button>
+          <span class="flash" id="addFlash"></span>
+        </div>`;
+      $("addWhoBtn").onclick = async () => {
+        const pid = $("addWho").value;
+        if (!pid) return;
+        const err = await saveEnroll(pid, name, {});
+        if (err) { const f = $("addFlash"); f.className = "flash bad"; f.textContent = "Could not add: " + err.message; return; }
+        renderRoster(name);
+      };
     }
     function missListHtml(missing) {
       if (!missing.length) return '<p class="muted">Everyone\'s records are complete.</p>';
@@ -352,7 +617,10 @@
         return `<button class="miss-row" data-id="${c.id}"><span class="nm">${esc(fullName(c))}</span><span>${tags.join("")}</span></button>`;
       }).join("") + '</div>';
     }
-    function wireDetail() { $("detail").querySelectorAll("[data-id]").forEach((el) => el.onclick = () => openProfile(el.dataset.id)); }
+    function wireDetail() {
+      $("detail").querySelectorAll("[data-id]").forEach((el) => el.onclick = (e) => { e.stopPropagation(); openProfile(el.dataset.id); });
+      $("detail").querySelectorAll("[data-prog]").forEach((el) => el.onclick = () => showProgram(el.dataset.prog));
+    }
 
     function showView(title, bodyHtml) {
       activeId = null; renderList();
@@ -703,6 +971,23 @@
       }).join("<hr style='border:none;border-top:1px solid var(--line);margin:1.4rem 0;'>")
         : '<div class="rec-head"><h3>Medical &amp; health intake</h3><span class="badge badge--no">Not completed</span></div><p class="muted">No medical intake on file yet.</p>';
 
+      const progNames = [...new Set([offerByP[id], ...enrolls.filter((e) => e.profile_id === id).map((e) => e.program)].filter(Boolean))];
+      const enrollHtml = progNames.length ? progNames.map((nm) => {
+        const e = enrollFor(id, nm) || {};
+        const s = sessions.find((x) => x.id === e.session_id);
+        return `
+        <dl class="kv">
+          <dt>Program</dt><dd>${esc(nm)}</dd>
+          <dt>Dates</dt><dd>${s ? esc(sessLabel(s)) : "—"}</dd>
+          <dt>Accommodation</dt><dd>${esc(ACC_LABELS[e.accommodation] || "—")}</dd>
+          <dt>Payment plan</dt><dd>${esc(e.payment_plan || "—")}</dd>
+          <dt>Payment status</dt><dd>${esc(PAY_LABELS[e.payment_status] || "—")}</dd>
+          <dt>Payment link</dt><dd>${e.payment_link ? `<a href="${esc(e.payment_link)}" target="_blank" rel="noopener">${esc(e.payment_link)}</a>` : "—"}</dd>
+        </dl>
+        <div class="rec-actions"><button class="btn" data-goprog="${esc(nm)}">Open ${esc(nm)}</button></div>`;
+      }).join("<hr style='border:none;border-top:1px solid var(--line);margin:1.4rem 0;'>")
+        : '<p class="muted">Not in a program yet.</p>';
+
       $("detail").innerHTML = `
         <span class="back" id="backDash">&larr; Dashboard</span>
         <h2 class="p-name">${esc(((c.first_name||"")+" "+(c.last_name||"")).trim() || "—")}</h2>
@@ -715,11 +1000,13 @@
           <div class="notes-row"><button class="btn" id="saveNotes">Save notes</button><span class="saved" id="notesSaved"></span></div>
         </div>
 
+        <div class="card"><h3>Program</h3>${enrollHtml}</div>
         <div class="card">${waiverHtml}</div>
         <div class="card">${screeningHtml}</div>
         <button class="del-client" id="delClient">Delete this client and all records</button>`;
 
       $("backDash").onclick = renderDashboard;
+      $("detail").querySelectorAll("[data-goprog]").forEach((b) => b.onclick = () => showProgram(b.dataset.goprog));
       $("saveNotes").onclick = async () => {
         const notes = $("notes").value;
         const { error } = await sb.from("profiles").update({ notes }).eq("id", id);
