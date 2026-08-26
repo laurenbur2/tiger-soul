@@ -310,17 +310,32 @@
       $("whoEmail").textContent = email;
     }
 
+    let signedInAs = null, initRunning = false;
+
     async function init() {
-      const { data: { session } } = await sb.auth.getSession();
-      if (!session) return showGate("Admin Portal", "Private access for Tiger Soul facilitators.", false);
-      let isAdmin = false;
-      try { const { data } = await sb.rpc("is_admin"); isAdmin = !!data; } catch (_e) {}
-      if (!isAdmin) return showGate("No access", (session.user.email || "This account") + " isn't on the facilitator list. Ask an admin to add you.", true);
-      showApp(session.user.email);
-      await loadAll();
+      if (initRunning) return;
+      initRunning = true;
+      try {
+        const { data: { session } } = await sb.auth.getSession();
+        signedInAs = session && session.user ? session.user.id : null;
+        if (!session) return showGate("Admin Portal", "Private access for Tiger Soul facilitators.", false);
+        let isAdmin = false;
+        try { const { data } = await sb.rpc("is_admin"); isAdmin = !!data; } catch (_e) {}
+        if (!isAdmin) return showGate("No access", (session.user.email || "This account") + " isn't on the facilitator list. Ask an admin to add you.", true);
+        showApp(session.user.email);
+        await loadAll();
+      } finally { initRunning = false; }
     }
 
-    sb.auth.onAuthStateChange(() => init());
+    // Supabase re-fires this when the tab regains focus and when the token
+    // refreshes. Reloading there would throw away whatever page you were on,
+    // so only rebuild when the signed-in account actually changes.
+    sb.auth.onAuthStateChange((_event, session) => {
+      const uid = session && session.user ? session.user.id : null;
+      if (uid === signedInAs) return;
+      signedInAs = uid;
+      init();
+    });
 
     $("magicForm").onsubmit = async (e) => {
       e.preventDefault();
