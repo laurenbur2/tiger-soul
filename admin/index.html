@@ -120,13 +120,14 @@
     .prog-card.click:hover{ border-color:var(--gold-deep); transform:translateY(-2px); }
     .prog-dates{ font-size:.86rem; color:var(--ink-soft); margin:.15rem 0 .7rem; line-height:1.6; }
     .prog-dates span{ display:block; }
+    .prog-head-dates{ font-family:var(--serif); font-size:1.25rem; color:var(--gold-deep); margin:0 0 .6rem; line-height:1.5; }
     .prog-open{ font-size:.66rem; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-deep); margin-top:.8rem; display:block; }
     .ro{ background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:.9rem 1.1rem; margin-bottom:.7rem; }
     .ro-top{ display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
     .ro-name{ font-family:var(--serif); font-size:1.2rem; color:var(--forest-800); cursor:pointer; }
     .ro-name:hover{ color:var(--gold-deep); }
     .ro-mail{ font-size:.82rem; color:var(--ink-soft); margin-top:.1rem; }
-    .ro-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:.7rem; margin-top:.9rem; }
+    .ro-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:.7rem; margin-top:.9rem; }
     @media (max-width:1020px){ .ro-grid{ grid-template-columns:repeat(2,1fr); } }
     @media (max-width:560px){ .ro-grid{ grid-template-columns:1fr; } }
     .ro-foot{ display:flex; align-items:flex-end; gap:.7rem; flex-wrap:wrap; margin-top:.8rem; }
@@ -425,15 +426,33 @@
       activeId = null; renderList();
       $("detail").innerHTML = `
         <span class="back" id="backDash">&larr; Dashboard</span>
-        <h1 class="dash-head">${esc(name)}</h1>
+        <h1 class="dash-head" style="margin-bottom:.2rem;">${esc(name)}</h1>
+        <div id="progHead"></div>
         ${progTablesReady ? "" : '<p class="muted">Dates and enrollment details need the <code>program_sessions</code> and <code>program_enrollments</code> tables. Run <code>supabase/programs.sql</code> in Supabase, then reload.</p>'}
-        <div class="card"><h3>Dates</h3><div id="sessBox"></div></div>
+        <div class="card" id="sessCard" style="display:none;"><h3>Edit dates</h3><div id="sessBox"></div></div>
         <h2 class="dash-h">People <span class="muted" style="font-size:.9rem;" id="rosterCount"></span></h2>
         <div id="rosterBox"><p class="muted">Loading…</p></div>
         <div class="card" id="addBox"></div>`;
       $("backDash").onclick = renderDashboard;
+      renderProgHead(name);
       renderSessions(name);
       await renderRoster(name);
+    }
+
+    // The program's dates, sitting right under its title.
+    function renderProgHead(name) {
+      const ss = sessionsFor(name);
+      const editing = $("sessCard") && $("sessCard").style.display !== "none";
+      $("progHead").innerHTML = `
+        <p class="prog-head-dates">${ss.length ? ss.map((s) => esc(sessLabel(s))).join("<br>") : "No dates set yet"}</p>
+        <button class="icon-btn" id="editSess">${editing ? "Done" : ss.length ? "Edit dates" : "Add dates"}</button>`;
+      $("editSess").onclick = () => {
+        const card = $("sessCard");
+        const open = card.style.display !== "none";
+        card.style.display = open ? "none" : "";
+        $("editSess").textContent = open ? (sessionsFor(name).length ? "Edit dates" : "Add dates") : "Done";
+        if (!open) card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      };
     }
 
     function renderSessions(name) {
@@ -459,22 +478,21 @@
           if (s) Object.assign(s, patch);
           sessions = sortSessions(sessions);
           flash("Saved.");
-          renderRoster(name);   // date dropdowns on the roster follow along
+          renderProgHead(name);   // the line under the title follows along
         });
       });
       $("sessBox").querySelectorAll("[data-delsess]").forEach((b) => b.onclick = async () => {
-        if (!confirm("Remove these dates? Anyone assigned to them keeps their other details.")) return;
+        if (!confirm("Remove these dates from this program?")) return;
         const { error } = await sb.from("program_sessions").delete().eq("id", b.dataset.delsess);
         if (error) return flash("Could not remove: " + error.message, true);
         sessions = sessions.filter((x) => x.id !== b.dataset.delsess);
-        enrolls.forEach((e) => { if (e.session_id === b.dataset.delsess) e.session_id = null; });
-        renderSessions(name); renderRoster(name);
+        renderSessions(name); renderProgHead(name);
       });
       $("addSess").onclick = async () => {
         const { data, error } = await sb.from("program_sessions").insert({ program: name }).select().single();
         if (error) return flash("Could not add: " + error.message, true);
         sessions = sortSessions(sessions.concat(data));
-        renderSessions(name); renderRoster(name);
+        renderSessions(name); renderProgHead(name);
       };
     }
 
@@ -493,19 +511,16 @@
         });
       }
 
-      const ss = sessionsFor(name);
       $("rosterBox").innerHTML = people.length
-        ? people.map((c) => rosterRowHtml(c, name, ss, accHint[c.id])).join("")
+        ? people.map((c) => rosterRowHtml(c, name, accHint[c.id])).join("")
         : '<p class="muted">No one in this program yet.</p>';
       wireRoster(name);
       renderAddBox(name, people);
     }
 
-    function rosterRowHtml(c, name, ss, hint) {
+    function rosterRowHtml(c, name, hint) {
       const e = enrollFor(c.id, name) || {};
       const opt = (v, label, cur) => `<option value="${esc(v)}" ${cur === v ? "selected" : ""}>${esc(label)}</option>`;
-      const sessOpts = `<option value="" ${!e.session_id ? "selected" : ""}>— No dates yet —</option>` +
-        ss.map((s) => opt(s.id, sessLabel(s), e.session_id)).join("");
       const accOpts = `<option value="" ${!e.accommodation ? "selected" : ""}>— Not set —</option>` +
         opt("shared", "Shared", e.accommodation) + opt("private", "Private", e.accommodation);
       const payOpts = `<option value="" ${!e.payment_status ? "selected" : ""}>— Not set —</option>` +
@@ -525,7 +540,6 @@
             </div>
           </div>
           <div class="ro-grid">
-            <div class="fld"><label>Dates</label><select data-f="session_id">${sessOpts}</select></div>
             <div class="fld"><label>Accommodation${hintHtml}</label><select data-f="accommodation">${accOpts}</select></div>
             <div class="fld"><label>Payment plan</label><input data-f="payment_plan" value="${esc(e.payment_plan || "")}" placeholder="e.g. 3 × $1,500 monthly" /></div>
             <div class="fld"><label>Payment link</label><input data-f="payment_link" value="${esc(e.payment_link || "")}" placeholder="https://buy.stripe.com/…" /></div>
@@ -974,11 +988,11 @@
       const progNames = [...new Set([offerByP[id], ...enrolls.filter((e) => e.profile_id === id).map((e) => e.program)].filter(Boolean))];
       const enrollHtml = progNames.length ? progNames.map((nm) => {
         const e = enrollFor(id, nm) || {};
-        const s = sessions.find((x) => x.id === e.session_id);
+        const ss = sessionsFor(nm);
         return `
         <dl class="kv">
           <dt>Program</dt><dd>${esc(nm)}</dd>
-          <dt>Dates</dt><dd>${s ? esc(sessLabel(s)) : "—"}</dd>
+          <dt>Dates</dt><dd>${ss.length ? ss.map((s) => esc(sessLabel(s))).join("<br>") : "—"}</dd>
           <dt>Accommodation</dt><dd>${esc(ACC_LABELS[e.accommodation] || "—")}</dd>
           <dt>Payment plan</dt><dd>${esc(e.payment_plan || "—")}</dd>
           <dt>Payment status</dt><dd>${esc(PAY_LABELS[e.payment_status] || "—")}</dd>
