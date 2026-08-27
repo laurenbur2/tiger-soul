@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Login | Tiger Soul Academy</title>
+  <meta name="robots" content="noindex" />
+  <meta name="description" content="Sign in to your Tiger Soul Academy courses, coursework, and cohort materials." />
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32.png" />
+  <link rel="apple-touch-icon" href="../assets/img/favicon-180.png" />
+
+  <link rel="canonical" href="https://www.tigersoulacademy.com/login/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Tiger Soul Academy" />
+  <meta property="og:title" content="Student Login | Tiger Soul Academy" />
+  <meta property="og:description" content="Sign in to your Tiger Soul Academy courses, coursework, and cohort materials." />
+  <meta property="og:url" content="https://www.tigersoulacademy.com/login/" />
+  <meta property="og:image" content="https://www.tigersoulacademy.com/assets/img/hero.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200;0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Jost:wght@300;400;500&family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/academy.css" />
+</head>
+<body class="auth-body">
+
+  <main class="auth">
+    <div class="auth__media" aria-hidden="true">
+      <img src="../assets/img/atmosphere.jpg" alt="" />
+      <div class="auth__veil"></div>
+      <div class="auth__quote">
+        <p class="lead" style="color:var(--paper);font-style:italic">
+          Study first. Everything else follows from that.
+        </p>
+      </div>
+    </div>
+
+    <div class="auth__panel">
+      <div class="auth__inner">
+        <a class="auth__brand" href="../" aria-label="Tiger Soul Academy, home">
+          <img src="../assets/img/tiger-mark.png" alt="" />
+          <span class="nav__word">Tiger Soul</span>
+        </a>
+
+        <span class="label">Student Login</span>
+        <h1>Back to <span class="italic gold">your coursework.</span></h1>
+        <p class="auth__sub">Sign in with the email you enrolled with. Your modules, cohort
+          materials, and assessments are all in there.</p>
+
+        <form id="loginForm" novalidate>
+          <label class="field">
+            <span class="field__label">Email</span>
+            <input type="email" id="email" name="email" autocomplete="email" placeholder="you@example.com" required />
+          </label>
+          <label class="field" id="pwField">
+            <span class="field__label">Password</span>
+            <span class="field__row">
+              <input type="password" id="password" name="password" autocomplete="current-password" placeholder="Your password" />
+              <button type="button" class="field__toggle" id="pwToggle">Show</button>
+            </span>
+          </label>
+          <button type="submit" class="btn btn--solid auth__submit" id="authSubmit">Sign in</button>
+          <div class="auth__msg" id="authMsg" hidden></div>
+        </form>
+
+        <p class="auth__alt">
+          <span id="modeText">No password yet?</span>
+          <button type="button" id="modeBtn">Email me a sign in link</button>
+        </p>
+        <p class="auth__alt" style="margin-top:.6rem">
+          <button type="button" id="forgotBtn">Reset your password</button>
+        </p>
+
+        <a class="auth__back" href="../">Back to the Academy</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="../js/auth.js"></script>
+</body>
+</html>

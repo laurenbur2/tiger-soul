@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /login/
+Disallow: /portal/
+
+Sitemap: https://www.tigersoulacademy.com/sitemap.xml

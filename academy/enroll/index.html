@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enroll | Tiger Soul Academy</title>
+  <meta name="description" content="Apply to a Tiger Soul Academy training: online Foundations in 5-MeO-DMT, the 13-day Practitioner Training in Mexico, or Integration Studies for clinicians." />
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32.png" />
+  <link rel="apple-touch-icon" href="../assets/img/favicon-180.png" />
+
+  <link rel="canonical" href="https://www.tigersoulacademy.com/enroll/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Tiger Soul Academy" />
+  <meta property="og:title" content="Enroll | Tiger Soul Academy" />
+  <meta property="og:description" content="Apply to a Tiger Soul Academy training: online Foundations in 5-MeO-DMT, the 13-day Practitioner Training in Mexico, or Integration Studies for clinicians." />
+  <meta property="og:url" content="https://www.tigersoulacademy.com/enroll/" />
+  <meta property="og:image" content="https://www.tigersoulacademy.com/assets/img/hero.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200;0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Jost:wght@300;400;500&family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/academy.css" />
+  <style>
+    .enroll-form select, .enroll-form textarea {
+      width: 100%;
+      background: rgba(26,28,24,.03);
+      border: 1px solid var(--hair);
+      color: var(--graphite);
+      font-family: var(--font-sans); font-weight: 300; font-size: 1rem;
+      padding: .85rem 1rem;
+      transition: border-color .3s var(--ease);
+    }
+    .enroll-form textarea { resize: vertical; line-height: 1.6; }
+    .enroll-form .field input {
+      background: rgba(26,28,24,.03);
+      border: 1px solid var(--hair);
+      color: var(--graphite);
+    }
+    .enroll-form .field input:focus,
+    .enroll-form select:focus,
+    .enroll-form textarea:focus { outline: none; border-color: var(--gold-deep); background: #fff; }
+    .enroll-form .field__label { color: var(--graphite-soft); }
+    .enroll-form .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+    .enroll-form .auth__msg { color: var(--graphite); background: rgba(198,167,105,.1); border-color: var(--hair); }
+    .enroll-form .auth__msg--err { color: #8a3f2c; background: rgba(217,141,122,.12); }
+    .enroll-form .auth__submit { color: var(--ink-950); }
+  </style>
+</head>
+<body>
+
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a class="nav__brand" href="../" aria-label="Tiger Soul Academy, home">
+        <img src="../assets/img/tiger-mark.png" alt="" />
+        <span class="nav__word">Tiger Soul</span>
+        <span class="nav__sub">Academy</span>
+      </a>
+      <button class="nav__toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav__panel">
+        <ul class="nav__links">
+          <li><a href="../">The Academy</a></li>
+          <li><a href="../trainings/">Trainings</a></li>
+          <li><a href="../library/">Library</a></li>
+          <li><a href="../faculty/">Faculty</a></li>
+          <li><a href="../enroll/" aria-current="page">Enroll</a></li>
+        </ul>
+        <a class="nav__cta" href="../login/">Student Login</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero hero--slim">
+    <div class="wrap">
+      <div class="hero__inner">
+        <span class="label" data-reveal>Enroll</span>
+        <h1 class="d-xl" data-reveal data-reveal-delay="1">Start with<br /><span class="italic gold">a conversation.</span></h1>
+        <p class="lead hero__sub" data-reveal data-reveal-delay="2">
+          Tell us which track you are interested in and where you are with all of this. Someone
+          reads every message. If this is not the right room for you, we will say so.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="split" style="align-items:start">
+        <form class="enroll-form" id="enrollForm" novalidate data-reveal>
+          <div class="grid grid--2" style="gap:0 1.2rem">
+            <label class="field">
+              <span class="field__label">First name</span>
+              <input type="text" name="firstName" id="firstName" autocomplete="given-name" required />
+            </label>
+            <label class="field">
+              <span class="field__label">Last name</span>
+              <input type="text" name="lastName" id="lastName" autocomplete="family-name" required />
+            </label>
+          </div>
+          <label class="field">
+            <span class="field__label">Email</span>
+            <input type="email" name="email" id="enrollEmail" autocomplete="email" required />
+          </label>
+          <label class="field">
+            <span class="field__label">Phone <span style="text-transform:none;letter-spacing:0">(optional)</span></span>
+            <input type="tel" name="phone" autocomplete="tel" />
+          </label>
+          <label class="field">
+            <span class="field__label">Which track</span>
+            <select name="offering" id="offering">
+              <option value="Foundations in 5-MeO-DMT">Foundations in 5-MeO-DMT (online)</option>
+              <option value="Practitioner Training">Practitioner Training (13 days, Mexico)</option>
+              <option value="Integration Studies">Integration Studies (10 weeks, live)</option>
+              <option value="Not sure yet">Not sure yet</option>
+            </select>
+          </label>
+          <label class="field">
+            <span class="field__label">Where you are with this</span>
+            <textarea name="message" id="enrollMessage" rows="6" required
+              placeholder="Your background, what you are hoping to study, and anything we should know."></textarea>
+          </label>
+          <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp" />
+          <button type="submit" class="btn btn--solid auth__submit" id="enrollSubmit">Send application</button>
+          <div class="auth__msg" id="enrollMsg" hidden></div>
+        </form>
+
+        <aside data-reveal data-reveal-delay="1">
+          <div class="notice" style="margin-bottom:1.6rem">
+            Already a student. <a href="../login/">Sign in to your courses</a>.
+          </div>
+          <h2 class="d-md" style="margin-bottom:1rem">What happens next</h2>
+          <div class="modules" style="margin-bottom:2rem">
+            <div class="module" style="grid-template-columns:3rem 1fr">
+              <span class="module__n">01</span>
+              <div><h3 class="d-sm">We read it</h3>
+                <p>Within a few days, by a person. Not an autoresponder sequence.</p></div>
+            </div>
+            <div class="module" style="grid-template-columns:3rem 1fr">
+              <span class="module__n">02</span>
+              <div><h3 class="d-sm">A call</h3>
+                <p>Thirty minutes, no pressure, mostly us asking questions.</p></div>
+            </div>
+            <div class="module" style="grid-template-columns:3rem 1fr">
+              <span class="module__n">03</span>
+              <div><h3 class="d-sm">Screening, where it applies</h3>
+                <p>The in-person intensive requires full medical and psychiatric screening before
+                  any payment is taken.</p></div>
+            </div>
+            <div class="module" style="grid-template-columns:3rem 1fr">
+              <span class="module__n">04</span>
+              <div><h3 class="d-sm">A clear answer</h3>
+                <p>Yes, no, or not right now. We give all three.</p></div>
+            </div>
+          </div>
+          <p class="muted" style="font-size:.93rem">
+            You can also write to
+            <a href="mailto:hello@tigersoulretreats.com" style="color:var(--gold-deep)">hello@tigersoulretreats.com</a>.
+          </p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <script src="../js/enroll.js"></script>
+
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot__grid">
+        <div>
+          <div class="foot__mark">
+            <img src="../assets/img/tiger-mark.png" alt="" />
+            <span class="foot__word">Tiger Soul<br />Academy</span>
+          </div>
+          <p class="muted" style="font-size:.92rem;max-width:34ch">
+            The education arm of Tiger Soul. Trainings, study, and an open library
+            on 5-MeO-DMT and Bufo alvarius.
+          </p>
+        </div>
+        <div class="foot__col">
+          <h4>Study</h4>
+          <ul>
+            <li><a href="../trainings/">Trainings</a></li>
+            <li><a href="../library/">The Library</a></li>
+            <li><a href="../faculty/">Faculty</a></li>
+            <li><a href="../enroll/">Enroll</a></li>
+          </ul>
+        </div>
+        <div class="foot__col">
+          <h4>Library</h4>
+          <ul>
+            <li><a href="../library/what-is-5-meo-dmt/">What is 5-MeO-DMT</a></li>
+            <li><a href="../library/bufo-alvarius/">Bufo alvarius</a></li>
+            <li><a href="../library/pharmacology/">Pharmacology</a></li>
+            <li><a href="../library/risk-and-screening/">Risk and screening</a></li>
+            <li><a href="../library/ethics-and-consent/">Ethics and consent</a></li>
+          </ul>
+        </div>
+        <div class="foot__col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="mailto:hello@tigersoulretreats.com">hello@tigersoulretreats.com</a></li>
+            <li><a href="../login/">Student login</a></li>
+            <li><a href="https://www.tigersoulretreats.com/" target="_blank" rel="noopener">Tiger Soul Retreats</a></li>
+            <li><a href="https://www.instagram.com/tigersoul.retreats/" target="_blank" rel="noopener">Instagram</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot__bot">
+        <span>&copy; 2026 Tiger Soul Academy. All rights reserved.</span>
+        <span>Education only. Nothing here is medical advice.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/academy.js"></script>
+</body>
+</html>

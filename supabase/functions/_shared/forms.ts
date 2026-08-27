@@ -12,6 +12,8 @@ const ALLOWED_ORIGINS = [
   "https://laurenbur2.github.io",
   "https://tigersoulretreats.com",
   "https://www.tigersoulretreats.com",
+  "https://tigersoulacademy.com",
+  "https://www.tigersoulacademy.com",
   // Local preview (see .claude/launch.json)
   "http://localhost:4321",
   "http://127.0.0.1:4321",

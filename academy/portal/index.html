@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Courses | Tiger Soul Academy</title>
+  <meta name="robots" content="noindex" />
+  <meta name="description" content="Your Tiger Soul Academy coursework." />
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32.png" />
+  <link rel="apple-touch-icon" href="../assets/img/favicon-180.png" />
+
+  <link rel="canonical" href="https://www.tigersoulacademy.com/portal/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Tiger Soul Academy" />
+  <meta property="og:title" content="Your Courses | Tiger Soul Academy" />
+  <meta property="og:description" content="Your Tiger Soul Academy coursework." />
+  <meta property="og:url" content="https://www.tigersoulacademy.com/portal/" />
+  <meta property="og:image" content="https://www.tigersoulacademy.com/assets/img/hero.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200;0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Jost:wght@300;400;500&family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/academy.css" />
+</head>
+<body>
+
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a class="nav__brand" href="../" aria-label="Tiger Soul Academy, home">
+        <img src="../assets/img/tiger-mark.png" alt="" />
+        <span class="nav__word">Tiger Soul</span>
+        <span class="nav__sub">Academy</span>
+      </a>
+      <button class="nav__toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav__panel">
+        <ul class="nav__links">
+          <li><a href="../">The Academy</a></li>
+          <li><a href="../trainings/">Trainings</a></li>
+          <li><a href="../library/">Library</a></li>
+          <li><a href="../faculty/">Faculty</a></li>
+          <li><a href="../enroll/">Enroll</a></li>
+        </ul>
+        <a class="nav__cta" href="../login/">Student Login</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero hero--slim">
+    <div class="wrap">
+      <div class="hero__inner">
+        <span class="label" data-reveal>Student</span>
+        <h1 class="d-lg" data-reveal data-reveal-delay="1">Welcome back<span id="studentName"></span>.</h1>
+        <p class="lead hero__sub" data-reveal data-reveal-delay="2">
+          Your coursework, cohort materials, and assessments.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div id="gate" class="notice" hidden>
+        You are not signed in. <a href="../login/">Sign in to your courses</a>.
+      </div>
+
+      <div id="courses" hidden>
+        <div class="shead">
+          <div class="shead__top">
+            <span class="label label--num" data-num="01">Enrolled</span>
+            <h2 class="d-md">Your tracks</h2>
+          </div>
+        </div>
+        <div class="modules" id="trackList">
+          <div class="module">
+            <span class="module__n">M 01</span>
+            <h3>Foundations in 5-MeO-DMT</h3>
+            <p>Course materials are being loaded into the portal cohort by cohort. If your module
+              is not here yet, it is coming, and your cohort lead will tell you when.</p>
+          </div>
+        </div>
+
+        <div style="margin-top:2.4rem;display:flex;gap:1rem;flex-wrap:wrap">
+          <a class="btn btn--line" href="../library/">The library</a>
+          <button class="btn btn--line" id="signOut">Sign out</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script>
+    (function () {
+      var cfg = {
+        url: "https://werkohszkcytdvljafha.supabase.co",
+        anonKey: "sb_publishable_YkTpPIzaCE-paCYapejC9w_G3iTt6g5"
+      };
+      var sb = window.supabase ? window.supabase.createClient(cfg.url, cfg.anonKey) : null;
+      var gate = document.getElementById("gate");
+      var courses = document.getElementById("courses");
+      var nameEl = document.getElementById("studentName");
+
+      function show(signedIn, email) {
+        gate.hidden = signedIn;
+        courses.hidden = !signedIn;
+        if (signedIn && email) nameEl.textContent = ", " + email.split("@")[0];
+      }
+
+      if (!sb) { show(false); return; }
+
+      sb.auth.getSession().then(function (r) {
+        var s = r.data && r.data.session;
+        show(!!s, s && s.user && s.user.email);
+      });
+
+      document.getElementById("signOut").addEventListener("click", function () {
+        sb.auth.signOut().then(function () { window.location.href = "../login/"; });
+      });
+    })();
+  </script>
+
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot__grid">
+        <div>
+          <div class="foot__mark">
+            <img src="../assets/img/tiger-mark.png" alt="" />
+            <span class="foot__word">Tiger Soul<br />Academy</span>
+          </div>
+          <p class="muted" style="font-size:.92rem;max-width:34ch">
+            The education arm of Tiger Soul. Trainings, study, and an open library
+            on 5-MeO-DMT and Bufo alvarius.
+          </p>
+        </div>
+        <div class="foot__col">
+          <h4>Study</h4>
+          <ul>
+            <li><a href="../trainings/">Trainings</a></li>
+            <li><a href="../library/">The Library</a></li>
+            <li><a href="../faculty/">Faculty</a></li>
+            <li><a href="../enroll/">Enroll</a></li>
+          </ul>
+        </div>
+        <div class="foot__col">
+          <h4>Library</h4>
+          <ul>
+            <li><a href="../library/what-is-5-meo-dmt/">What is 5-MeO-DMT</a></li>
+            <li><a href="../library/bufo-alvarius/">Bufo alvarius</a></li>
+            <li><a href="../library/pharmacology/">Pharmacology</a></li>
+            <li><a href="../library/risk-and-screening/">Risk and screening</a></li>
+            <li><a href="../library/ethics-and-consent/">Ethics and consent</a></li>
+          </ul>
+        </div>
+        <div class="foot__col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="mailto:hello@tigersoulretreats.com">hello@tigersoulretreats.com</a></li>
+            <li><a href="../login/">Student login</a></li>
+            <li><a href="https://www.tigersoulretreats.com/" target="_blank" rel="noopener">Tiger Soul Retreats</a></li>
+            <li><a href="https://www.instagram.com/tigersoul.retreats/" target="_blank" rel="noopener">Instagram</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot__bot">
+        <span>&copy; 2026 Tiger Soul Academy. All rights reserved.</span>
+        <span>Education only. Nothing here is medical advice.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/academy.js"></script>
+</body>
+</html>
