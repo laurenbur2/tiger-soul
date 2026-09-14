@@ -148,6 +148,10 @@ p:last-child { margin-bottom: 0; }
 .btn--line:hover { background: var(--graphite); border-color: var(--graphite); color: var(--paper); }
 .dark .btn--line { color: var(--champagne); border-color: var(--hair-dark); }
 .dark .btn--line:hover { background: var(--gold); border-color: var(--gold); color: var(--ink-950); }
+/* Heroes sit on a photo but carry no .dark class, so the outline button was
+   rendering dark on dark. It needs a stronger edge than the flat dark sections. */
+.hero .btn--line { color: var(--champagne); border-color: rgba(216, 196, 160, .45); }
+.hero .btn--line:hover { background: var(--gold); border-color: var(--gold); color: var(--ink-950); }
 
 .link-more {
   display: inline-flex;
@@ -307,7 +311,11 @@ body.menu-open .nav__toggle span:nth-child(3) { transform: translateY(-6px) rota
 }
 .hero__inner { position: relative; z-index: 2; max-width: 900px; }
 .hero h1 { margin-bottom: 1.4rem; }
-.hero__sub { max-width: 620px; margin-bottom: 2rem; }
+/* d-xl is sized for short page titles. A headline that states the whole offer
+   needs a smaller step, or it runs to three lines and swamps the hero. */
+.hero__inner--wide { max-width: 1020px; }
+.hero h1.d-xl--long { font-size: clamp(2rem, 4.4vw, 3.7rem); }
+.hero__sub { max-width: 620px; margin-bottom: 2rem; color: var(--champagne); }
 .hero__meta {
   display: flex; flex-wrap: wrap; gap: .8rem 1.6rem;
   font-size: .7rem; letter-spacing: .22em; text-transform: uppercase;
