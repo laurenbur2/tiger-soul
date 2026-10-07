@@ -4,6 +4,7 @@ compatibility_date = "2026-10-01"
 
 # Secrets (set with `npx wrangler secret put <NAME>`, never committed):
 #   RESEND_API_KEY
+#   UNSUB_SECRET    random; signs campaign unsubscribe links
 # Plain config:
 [vars]
 RESEND_FROM = "Tiger Soul <forms@tigersoulretreats.com>"
@@ -13,3 +14,14 @@ NOTIFY_TO = "hello@tigersoulretreats.com"
 # verified in Resend) until ancestralencounters.org is verified there too.
 AE_FROM = "Ancestral Encounters <forms@tigersoulretreats.com>"
 AE_TO = "encuentrosancestralesmx@gmail.com,lburandt2@gmail.com"
+
+# Admin portal database (schema.sql). Holds client records, including health
+# screenings, so it stays in Cloudflare and never in the git repo.
+[[d1_databases]]
+binding = "DB"
+database_name = "tiger-soul"
+database_id = "d4fc74e5-d32d-4649-a39f-62bef13e98ac"
+
+# Sends campaigns whose scheduled time has passed.
+[triggers]
+crons = ["*/5 * * * *"]

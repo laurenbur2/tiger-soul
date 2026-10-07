@@ -10,6 +10,7 @@ import {
   corsHeaders, emailShell, fieldRow, headerSafe, isAllowedOrigin, isEmail, json,
   notifyAddress, paragraph, readBody, sectionHeading, sendEmail, str, type Env,
 } from "./shared";
+import { insertRow, upsertProfile } from "./db";
 
 export async function handle(req: Request, env: Env): Promise<Response> {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders(req) });
@@ -62,6 +63,18 @@ export async function handle(req: Request, env: Env): Promise<Response> {
   } catch (err) {
     console.error("contact-form: notification failed", err);
     return json(req, 502, { error: "We couldn't send that just now. Please email us directly." });
+  }
+
+  // Keep a copy in the admin portal. Best-effort: the email above is already
+  // delivered, so a database hiccup shouldn't fail the visitor's submission.
+  try {
+    const profileId = await upsertProfile(env.DB, { email, firstName, lastName, phone });
+    await insertRow(env.DB, "contact_messages", {
+      profile_id: profileId, name: fullName, email: email.toLowerCase(), phone, topic: offering, message,
+      source: /tigersoulacademy/.test(req.headers.get("origin") ?? "") || message.startsWith("Academy application:") ? "academy" : "contact",
+    });
+  } catch (err) {
+    console.error("contact-form: store failed", err);
   }
 
   // Courtesy confirmation. If it fails the enquiry is already safely delivered,

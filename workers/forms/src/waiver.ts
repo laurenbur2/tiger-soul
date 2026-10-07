@@ -11,6 +11,7 @@ import {
   corsHeaders, emailShell, fieldRow, headerSafe, isAllowedOrigin, isEmail, json,
   notifyAddress, paragraph, readBody, sectionHeading, sendEmail, str, type Env,
 } from "./shared";
+import { insertRow, upsertProfile } from "./db";
 
 export async function handle(req: Request, env: Env): Promise<Response> {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders(req) });
@@ -91,6 +92,17 @@ export async function handle(req: Request, env: Env): Promise<Response> {
   } catch (err) {
     console.error("waiver: notification failed", err);
     return json(req, 502, { error: "We couldn't record that just now. Please try again." });
+  }
+
+  // Store in the admin portal (best-effort; the email above is the safety net).
+  try {
+    const profileId = await upsertProfile(env.DB, { email, firstName, lastName, phone, country });
+    await insertRow(env.DB, "waivers", {
+      profile_id: profileId, full_name: fullName, email: email.toLowerCase(), phone, signature,
+      date_signed: dateSigned, signed_at: signedAt || new Date().toISOString(),
+    });
+  } catch (err) {
+    console.error("waiver: store failed", err);
   }
 
   // Courtesy copy to the signer. If it fails, the waiver is already safely

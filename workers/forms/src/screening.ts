@@ -17,6 +17,7 @@ import {
   corsHeaders, emailShell, fieldRow, headerSafe, isAllowedOrigin, isEmail, json,
   notifyAddress, paragraph, readBody, sectionHeading, sendEmail, str, type Env,
 } from "./shared";
+import { insertRow, upsertProfile } from "./db";
 
 type Section = { title: string; keys: string[] };
 
@@ -129,6 +130,23 @@ export async function handle(req: Request, env: Env): Promise<Response> {
   } catch (err) {
     console.error("health-screening: notification failed", err);
     return json(req, 502, { error: "We couldn't send that just now. Please email us directly." });
+  }
+
+  // Store in the admin portal (best-effort; the email above is the safety net).
+  try {
+    const phone = str(body.q9, 60);
+    const country = str(body.country, 80);
+    const profileId = await upsertProfile(env.DB, { email, firstName, lastName, phone, country });
+    const answers = Object.entries(QUESTIONS).map(([key, question]) => ({
+      key,
+      question,
+      answer: str(body[key], 8000),
+    }));
+    await insertRow(env.DB, "screenings", {
+      profile_id: profileId, full_name: fullName, email: email.toLowerCase(), phone, offering, answers,
+    });
+  } catch (err) {
+    console.error("health-screening: store failed", err);
   }
 
   try {

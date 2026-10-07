@@ -1,0 +1,12 @@
+{
+  "name": "tiger-soul-forms",
+  "private": true,
+  "scripts": {
+    "deploy": "npx wrangler deploy",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261007.1",
+    "typescript": "^5.6.0"
+  }
+}

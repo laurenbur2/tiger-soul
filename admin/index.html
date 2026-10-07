@@ -239,9 +239,8 @@
       <div class="gate-banner"><img src="../assets/images/logo/logo-full-alpha.png" alt="Tiger Soul Retreats" /></div>
       <div class="gate-body">
         <h1 id="gateTitle">Admin Portal</h1>
-        <p id="gateMsg">The admin portal is offline while we move it to a new system. New screenings, waivers and inquiries still arrive by email at hello@.</p>
-        <!-- Login hidden until the portal moves off Supabase (account banned, Oct 2026). -->
-        <form id="magicForm" hidden>
+        <p id="gateMsg">Private access for Tiger Soul facilitators.</p>
+        <form id="magicForm">
           <input type="email" id="magicEmail" class="gate-input" placeholder="you@email.com" autocomplete="email" />
           <button class="btn" id="loginBtn" type="submit" style="width:100%;margin-top:.7rem;">Email me a login link</button>
         </form>
@@ -273,11 +272,10 @@
   </div>
 
   <script type="module">
-    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-
-    const SUPABASE_URL = "https://werkohszkcytdvljafha.supabase.co";
-    const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndlcmtvaHN6a2N5dGR2bGphZmhhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0MzU5NjAsImV4cCI6MjA5OTAxMTk2MH0.dj_2mcPGvUGATnF7QoH3V4Q1sLq1XxxPv9N2B-paGQA";
-    const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
+    // Data and sign-in go through the Cloudflare Worker (workers/forms) via
+    // tsdb.js, which keeps the supabase-js call shapes used below.
+    import { API, createClient } from "./tsdb.js?v=1";
+    const sb = createClient();
 
     const $ = (id) => document.getElementById(id);
     const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
@@ -322,15 +320,11 @@
       <p><strong>12. Legal acknowledgment.</strong> The participant understands these medicines are received as spiritual sacraments within the community's practice and is responsible for the laws that apply to them.</p>
     </div>`;
 
-    // Supabase account banned (Oct 2026): show this instead of the login until
-    // the portal moves to its new backend. Set to "" to restore the login.
-    const PORTAL_OFFLINE = "The admin portal is offline while we move it to a new system. New screenings, waivers and inquiries still arrive by email at hello@.";
-
     function showGate(title, msg, showSignout) {
       $("app").style.display = "none";
       $("gate").style.display = "flex";
       $("gateTitle").textContent = title;
-      $("gateMsg").textContent = PORTAL_OFFLINE || msg;
+      $("gateMsg").textContent = msg;
       $("magicForm").style.display = showSignout ? "none" : "";
       $("magicSent").style.display = "none";
       $("signoutBtnGate").style.display = showSignout ? "" : "none";
@@ -349,7 +343,12 @@
       try {
         const { data: { session } } = await sb.auth.getSession();
         signedInAs = session && session.user ? session.user.id : null;
-        if (!session) return showGate("Admin Portal", "Private access for Tiger Soul facilitators.", false);
+        if (!session) {
+          showGate("Admin Portal", "Private access for Tiger Soul facilitators.", false);
+          const loginErr = sb.auth.takeLoginError();
+          if (loginErr) $("gateErr").textContent = loginErr;
+          return;
+        }
         let isAdmin = false;
         try { const { data } = await sb.rpc("is_admin"); isAdmin = !!data; } catch (_e) {}
         if (!isAdmin) return showGate("No access", (session.user.email || "This account") + " isn't on the facilitator list. Ask an admin to add you.", true);
@@ -405,7 +404,7 @@
         screenByP[r.profile_id] = true;
         if (r.offering) offerByP[r.profile_id] = r.offering; // latest wins (ordered asc)
       });
-      // Program dates + enrollment details live in their own tables (supabase/programs.sql).
+      // Program dates + enrollment details live in their own tables (workers/forms/schema.sql).
       // If they haven't been created yet the portal still works, minus this section.
       progTablesReady = !ps.error && !pe.error;
       sessions = sortSessions(ps.data || []);
@@ -499,7 +498,7 @@
         <span class="back" id="backDash">&larr; Dashboard</span>
         <h1 class="dash-head" style="margin-bottom:.2rem;">${esc(name)}</h1>
         <div id="progHead"></div>
-        ${progTablesReady ? "" : '<p class="muted">Dates and enrollment details need the <code>program_sessions</code> and <code>program_enrollments</code> tables. Run <code>supabase/programs.sql</code> in Supabase, then reload.</p>'}
+        ${progTablesReady ? "" : '<p class="muted">Dates and enrollment details need the <code>program_sessions</code> and <code>program_enrollments</code> tables. Apply <code>workers/forms/schema.sql</code> to the D1 database, then reload.</p>'}
         <div class="card" id="sessCard" style="display:none;"><h3>Edit dates</h3><div id="sessBox"></div></div>
         <h2 class="dash-h" style="margin-bottom:.2rem;">People <span class="muted" style="font-size:.9rem;" id="rosterCount"></span></h2>
         <p class="muted" style="font-size:.85rem;margin:0 0 .9rem;">Private rooms first, then shared, then anyone still missing details. <span class="flash" id="rosterFlash"></span></p>
@@ -955,7 +954,7 @@
 
     async function callSend(payload) {
       const { data: { session } } = await sb.auth.getSession();
-      const res = await fetch(`${SUPABASE_URL}/functions/v1/send-campaign`, {
+      const res = await fetch(`${API}/api/send-campaign`, {
         method: "POST",
         headers: { "content-type": "application/json", Authorization: `Bearer ${session.access_token}` },
         body: JSON.stringify(payload),
