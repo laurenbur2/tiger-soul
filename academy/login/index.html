@@ -46,10 +46,12 @@
 
         <span class="label">Student Login</span>
         <h1>Back to <span class="italic gold">your coursework.</span></h1>
-        <p class="auth__sub">Sign in with the email you enrolled with. Your modules, cohort
-          materials, and assessments are all in there.</p>
+        <p class="auth__sub">Student login is briefly offline while we move to a new system.
+          Your enrollment is safe. If you need anything in the meantime, email
+          <a href="mailto:hello@tigersoulretreats.com">hello@tigersoulretreats.com</a>.</p>
 
-        <form id="loginForm" novalidate>
+        <!-- Login hidden until the portal moves off Supabase (account banned, Oct 2026). -->
+        <form id="loginForm" novalidate hidden>
           <label class="field">
             <span class="field__label">Email</span>
             <input type="email" id="email" name="email" autocomplete="email" placeholder="you@example.com" required />
@@ -65,11 +67,11 @@
           <div class="auth__msg" id="authMsg" hidden></div>
         </form>
 
-        <p class="auth__alt">
+        <p class="auth__alt" hidden>
           <span id="modeText">No password yet?</span>
           <button type="button" id="modeBtn">Email me a sign in link</button>
         </p>
-        <p class="auth__alt" style="margin-top:.6rem">
+        <p class="auth__alt" style="margin-top:.6rem" hidden>
           <button type="button" id="forgotBtn">Reset your password</button>
         </p>
 

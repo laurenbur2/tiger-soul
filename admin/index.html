@@ -239,8 +239,9 @@
       <div class="gate-banner"><img src="../assets/images/logo/logo-full-alpha.png" alt="Tiger Soul Retreats" /></div>
       <div class="gate-body">
         <h1 id="gateTitle">Admin Portal</h1>
-        <p id="gateMsg">Private access for Tiger Soul facilitators.</p>
-        <form id="magicForm">
+        <p id="gateMsg">The admin portal is offline while we move it to a new system. New screenings, waivers and inquiries still arrive by email at hello@.</p>
+        <!-- Login hidden until the portal moves off Supabase (account banned, Oct 2026). -->
+        <form id="magicForm" hidden>
           <input type="email" id="magicEmail" class="gate-input" placeholder="you@email.com" autocomplete="email" />
           <button class="btn" id="loginBtn" type="submit" style="width:100%;margin-top:.7rem;">Email me a login link</button>
         </form>
@@ -321,11 +322,15 @@
       <p><strong>12. Legal acknowledgment.</strong> The participant understands these medicines are received as spiritual sacraments within the community's practice and is responsible for the laws that apply to them.</p>
     </div>`;
 
+    // Supabase account banned (Oct 2026): show this instead of the login until
+    // the portal moves to its new backend. Set to "" to restore the login.
+    const PORTAL_OFFLINE = "The admin portal is offline while we move it to a new system. New screenings, waivers and inquiries still arrive by email at hello@.";
+
     function showGate(title, msg, showSignout) {
       $("app").style.display = "none";
       $("gate").style.display = "flex";
       $("gateTitle").textContent = title;
-      $("gateMsg").textContent = msg;
+      $("gateMsg").textContent = PORTAL_OFFLINE || msg;
       $("magicForm").style.display = showSignout ? "none" : "";
       $("magicSent").style.display = "none";
       $("signoutBtnGate").style.display = showSignout ? "" : "none";

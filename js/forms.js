@@ -1,16 +1,16 @@
 /* ============================================================
    TIGER SOUL — public form submission
 
-   Posts the contact form and the health screening to the Supabase
-   Edge Functions in supabase/functions/, which send the email through
-   Resend and reply { ok: true }. On success we send the visitor to a
+   Posts the contact form and the health screening to the forms Worker
+   in workers/forms/ (Cloudflare), which sends the email through Resend
+   and replies { ok: true }. On success we send the visitor to a
    thank-you page; on failure we show the error above the button and
    leave their answers in place.
    ============================================================ */
 (function () {
   "use strict";
 
-  var FUNCTIONS_BASE = "https://werkohszkcytdvljafha.supabase.co/functions/v1";
+  var FUNCTIONS_BASE = "https://tiger-soul-forms.casadanovavida.workers.dev";
 
   /* Collects every named control in the form into a plain object. */
   function collect(form) {

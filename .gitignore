@@ -34,3 +34,6 @@ _email-preview.html
 
 # Internal operational docs — never published
 _private/
+
+# Wrangler local state
+.wrangler/

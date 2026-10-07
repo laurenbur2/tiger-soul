@@ -3,7 +3,7 @@
 (function () {
   "use strict";
 
-  var ENDPOINT = "https://werkohszkcytdvljafha.supabase.co/functions/v1/contact-form";
+  var ENDPOINT = "https://tiger-soul-forms.casadanovavida.workers.dev/contact-form";
 
   var form = document.getElementById("enrollForm");
   if (!form) return;

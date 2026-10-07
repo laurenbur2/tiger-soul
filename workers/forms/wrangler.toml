@@ -1,0 +1,15 @@
+name = "tiger-soul-forms"
+main = "src/index.ts"
+compatibility_date = "2026-10-01"
+
+# Secrets (set with `npx wrangler secret put <NAME>`, never committed):
+#   RESEND_API_KEY
+# Plain config:
+[vars]
+RESEND_FROM = "Tiger Soul <forms@tigersoulretreats.com>"
+NOTIFY_TO = "hello@tigersoulretreats.com"
+
+# Ancestral Encounters contact form. Sends from the Tiger Soul domain (already
+# verified in Resend) until ancestralencounters.org is verified there too.
+AE_FROM = "Ancestral Encounters <forms@tigersoulretreats.com>"
+AE_TO = "encuentrosancestralesmx@gmail.com,lburandt2@gmail.com"
